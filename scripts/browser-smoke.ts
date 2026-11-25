@@ -224,7 +224,10 @@ async function main() {
             await new Promise((r) => setTimeout(r, 1500));
             const alert = document.querySelector('[data-tool-ui] [role="alert"]');
             if (alert) return 'error: ' + alert.textContent.trim();
-            const outputs = [...document.querySelectorAll('[data-tool-ui] textarea[readonly]')].map((t) => t.value);
+            const outputs = [
+              ...[...document.querySelectorAll('[data-tool-ui] textarea[readonly]')].map((t) => t.value),
+              ...[...document.querySelectorAll('[data-tool-ui] [data-tool-output]')].map((el) => el.textContent ?? ''),
+            ];
             return outputs.some((v) => v.trim().length > 0) ? 'ok' : 'empty-output';
           })()`,
         );

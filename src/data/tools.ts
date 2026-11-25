@@ -8,6 +8,16 @@ import { jsonToYaml } from './tool-content/json-to-yaml';
 import { urlDecode } from './tool-content/url-decode';
 import { urlEncode } from './tool-content/url-encode';
 import { yamlToJson } from './tool-content/yaml-to-json';
+import { chmodCalculator } from './tool-content/chmod-calculator';
+import { cronExpressionGenerator } from './tool-content/cron-expression-generator';
+import { hashGenerator } from './tool-content/hash-generator';
+import { jsonCompare } from './tool-content/json-compare';
+import { jwtDecoder } from './tool-content/jwt-decoder';
+import { regexTester } from './tool-content/regex-tester';
+import { sqlFormatter } from './tool-content/sql-formatter';
+import { subnetCalculator } from './tool-content/subnet-calculator';
+import { unixTimestampConverter } from './tool-content/unix-timestamp-converter';
+import { uuidGenerator } from './tool-content/uuid-generator';
 import type { Tool } from './types';
 
 /**
@@ -30,4 +40,14 @@ export const tools: Tool[] = [
   base64Decode,
   urlEncode,
   urlDecode,
+  jsonCompare,
+  jwtDecoder,
+  unixTimestampConverter,
+  uuidGenerator,
+  hashGenerator,
+  regexTester,
+  cronExpressionGenerator,
+  sqlFormatter,
+  chmodCalculator,
+  subnetCalculator,
 ];

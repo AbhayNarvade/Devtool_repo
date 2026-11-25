@@ -34,6 +34,16 @@ const TOOL_COMPONENTS: Record<string, ComponentType> = {
   'base64-decode': load(() => import('./base64-decode/Tool')),
   'url-encode': load(() => import('./url-encode/Tool')),
   'url-decode': load(() => import('./url-decode/Tool')),
+  'json-compare': load(() => import('./json-compare/Tool')),
+  'jwt-decoder': load(() => import('./jwt-decoder/Tool')),
+  'unix-timestamp-converter': load(() => import('./unix-timestamp-converter/Tool')),
+  'uuid-generator': load(() => import('./uuid-generator/Tool')),
+  'hash-generator': load(() => import('./hash-generator/Tool')),
+  'regex-tester': load(() => import('./regex-tester/Tool')),
+  'cron-expression-generator': load(() => import('./cron-expression-generator/Tool')),
+  'sql-formatter': load(() => import('./sql-formatter/Tool')),
+  'chmod-calculator': load(() => import('./chmod-calculator/Tool')),
+  'subnet-calculator': load(() => import('./subnet-calculator/Tool')),
 };
 
 export function ToolMount({ slug }: { slug: string }) {
