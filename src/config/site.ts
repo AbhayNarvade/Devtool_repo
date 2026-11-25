@@ -12,10 +12,10 @@ export const SITE_NAME = 'DevTool';
 export const DOMAIN = 'devtool.com';
 
 /** Public contact address shown on Contact, About and Privacy Policy pages. */
-export const CONTACT_EMAIL = '';
+export const CONTACT_EMAIL = 'abhaynaravday123@gmail.com';
 
 /** Person or brand that runs the site, shown on the About page. */
-export const OWNER_NAME = '';
+export const OWNER_NAME = 'Abhay Narvade';
 
 /** Short tagline used on the homepage and in the manifest. */
 export const SITE_TAGLINE = 'Free online tools that run in your browser';

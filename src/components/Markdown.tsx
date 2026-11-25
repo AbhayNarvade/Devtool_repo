@@ -23,6 +23,13 @@ function renderInline(nodes: InlineNode[], keyPrefix = 'i'): ReactNode[] {
             </Link>
           );
         }
+        if (!/^https?:/.test(node.href)) {
+          return (
+            <a key={key} href={node.href}>
+              {children}
+            </a>
+          );
+        }
         return (
           <a key={key} href={node.href} target="_blank" rel="noopener noreferrer">
             {children}
@@ -39,11 +46,9 @@ function renderBlock(block: BlockNode, i: number): ReactNode {
     case 'paragraph':
       return <p key={key}>{renderInline(block.children, key)}</p>;
     case 'heading':
-      return block.level === 3 ? (
-        <h3 key={key}>{renderInline(block.children, key)}</h3>
-      ) : (
-        <h4 key={key}>{renderInline(block.children, key)}</h4>
-      );
+      if (block.level === 2) return <h2 key={key}>{renderInline(block.children, key)}</h2>;
+      if (block.level === 3) return <h3 key={key}>{renderInline(block.children, key)}</h3>;
+      return <h4 key={key}>{renderInline(block.children, key)}</h4>;
     case 'list': {
       const items = block.items.map((item, j) => (
         <li key={`${key}-${j}`}>{renderInline(item, `${key}-${j}`)}</li>

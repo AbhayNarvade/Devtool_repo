@@ -2,7 +2,7 @@
  * A tiny, dependency-free Markdown-subset parser for registry content.
  * Parsing is pure (unit tested); rendering to React lives in src/components/Markdown.tsx.
  *
- * Supported blocks: paragraphs, "### " / "#### " headings, "- " lists, "1. " lists,
+ * Supported blocks: paragraphs, "## " / "### " / "#### " headings, "- " lists, "1. " lists,
  * fenced code blocks (```lang), and pipe tables.
  * Supported inline: `code`, **bold**, *italic*, [text](href).
  */
@@ -16,7 +16,7 @@ export type InlineNode =
 
 export type BlockNode =
   | { type: 'paragraph'; children: InlineNode[] }
-  | { type: 'heading'; level: 3 | 4; children: InlineNode[] }
+  | { type: 'heading'; level: 2 | 3 | 4; children: InlineNode[] }
   | { type: 'list'; ordered: boolean; items: InlineNode[][] }
   | { type: 'code'; lang: string; value: string }
   | { type: 'table'; header: InlineNode[][]; rows: InlineNode[][][] };
@@ -89,9 +89,9 @@ export function parseMarkdown(source: string): BlockNode[] {
     }
 
     // Headings
-    const heading = /^(#{3,4})\s+(.*)$/.exec(trimmed);
+    const heading = /^(#{2,4})\s+(.*)$/.exec(trimmed);
     if (heading) {
-      const level = (heading[1] ?? '###').length as 3 | 4;
+      const level = (heading[1] ?? '###').length as 2 | 3 | 4;
       blocks.push({ type: 'heading', level, children: parseInline(heading[2] ?? '') });
       i++;
       continue;
@@ -145,7 +145,7 @@ export function parseMarkdown(source: string): BlockNode[] {
       if (
         t === '' ||
         t.startsWith('```') ||
-        /^#{3,4}\s/.test(t) ||
+        /^#{2,4}\s/.test(t) ||
         t.startsWith('|') ||
         UL_RE.test(current) ||
         OL_RE.test(current)
