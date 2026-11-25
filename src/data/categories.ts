@@ -1,5 +1,5 @@
-import { SITE_NAME } from '@/config/site';
-import type { Category, CategorySlug } from './types';
+import { brandTitle } from '@/config/site';
+import type { Category } from './types';
 
 export const categories: Category[] = [
   {
@@ -7,7 +7,7 @@ export const categories: Category[] = [
     name: 'Developer Tools',
     navName: 'Developer',
     h1: 'Free Online Developer Tools',
-    metaTitle: `Free Developer Tools Online: JSON, Regex, JWT | ${SITE_NAME}`,
+    metaTitle: brandTitle('Free Developer Tools Online: JSON, Regex, JWT'),
     metaDescription:
       'Free online developer tools: format JSON, convert YAML and CSV, decode JWTs, test regex, build cron expressions and more. Runs in your browser, no upload.',
     intro:
@@ -65,7 +65,7 @@ That matters most for the data developers handle every day: API responses that c
     name: 'Image Tools',
     navName: 'Image',
     h1: 'Free Online Image Tools',
-    metaTitle: `Free Image Tools Online: Compress, Resize, Convert | ${SITE_NAME}`,
+    metaTitle: brandTitle('Free Image Tools Online: Compress, Resize, Convert'),
     metaDescription:
       'Free online image tools to compress, resize, crop and convert JPG, PNG and WebP. Batch processing in your browser, no upload, no sign-up and no watermark.',
     intro:
@@ -118,7 +118,7 @@ JPG (JPEG) uses lossy compression and is ideal for photographs, but it has no tr
     name: 'PDF Tools',
     navName: 'PDF',
     h1: 'Free Online PDF Tools',
-    metaTitle: `Free PDF Tools Online: Merge, Split, Compress PDF | ${SITE_NAME}`,
+    metaTitle: brandTitle('Free PDF Tools Online: Merge, Split, Compress PDF'),
     metaDescription:
       'Free online PDF tools to merge, split, compress and organize PDF files or turn images into a PDF. Works in your browser, no upload, no sign-up, no watermark.',
     intro:
@@ -173,7 +173,7 @@ Real PDF compression is hard to do well inside a browser. Our compressor works b
     name: 'CSS & Design Tools',
     navName: 'CSS & Design',
     h1: 'Free CSS and Design Tools',
-    metaTitle: `Free CSS Tools: Gradients, Shadows, Colors, QR | ${SITE_NAME}`,
+    metaTitle: brandTitle('Free CSS Tools: Gradients, Shadows, Colors, QR'),
     metaDescription:
       'Free CSS and design tools: gradient and box-shadow generators, color picker with contrast checker, palette generator and QR codes. Copy-ready CSS and Tailwind.',
     intro:
@@ -228,7 +228,7 @@ All of them run in the browser, are free and need no sign-up.`,
     name: 'Text Tools',
     navName: 'Text',
     h1: 'Free Online Text Tools',
-    metaTitle: `Free Text Tools: Word Counter, Password Generator | ${SITE_NAME}`,
+    metaTitle: brandTitle('Free Text Tools: Word Counter, Password Generator'),
     metaDescription:
       'Free online text tools: count words, characters and reading time, check keyword density, and generate strong random passwords. Private, runs in your browser.',
     intro:
@@ -275,5 +275,3 @@ Drafts, unpublished articles, essays and passwords are exactly the kind of text 
     ],
   },
 ];
-
-export const categoryOrder: CategorySlug[] = categories.map((c) => c.slug);

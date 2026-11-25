@@ -46,6 +46,19 @@ export function TextConverter({
   const [input, setInput] = useState('');
   const [result, setResult] = useState<ConvertResult | null>(null);
   const [showOpen, setShowOpen] = useState(false);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const [dragging, setDragging] = useState(false);
+
+  async function loadFile(file: File | undefined) {
+    if (!file) return;
+    try {
+      setInput(await file.text());
+      setFileError(null);
+      setShowOpen(false);
+    } catch {
+      setFileError(`"${file.name}" could not be read as text.`);
+    }
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -83,13 +96,33 @@ export function TextConverter({
         <div className="mb-5 flex flex-wrap items-end gap-x-6 gap-y-4">{options}</div>
       ) : null}
       <div className="grid gap-5 lg:grid-cols-2">
-        <div className="flex min-w-0 flex-col gap-3">
+        <div
+          className={`flex min-w-0 flex-col gap-3 rounded-lg ${dragging ? 'outline-2 outline-offset-4 outline-dashed outline-[var(--accent)]' : ''}`}
+          onDragOver={(e) => {
+            if (!inputAccept || !e.dataTransfer.types.includes('Files')) return;
+            e.preventDefault();
+            setDragging(true);
+          }}
+          onDragLeave={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setDragging(false);
+          }}
+          onDrop={(e) => {
+            if (!inputAccept || e.dataTransfer.files.length === 0) return;
+            e.preventDefault();
+            setDragging(false);
+            void loadFile(e.dataTransfer.files[0]);
+          }}
+        >
           <TextArea
             id={`${id}-in`}
             label={inputLabel}
             value={input}
             onChange={setInput}
-            placeholder={inputPlaceholder}
+            placeholder={
+              inputAccept
+                ? `${inputPlaceholder ?? ''}\n\nYou can also drop a file here.`.trim()
+                : inputPlaceholder
+            }
             invalid={result ? !result.ok : false}
             describedBy={result && !result.ok ? errorId : undefined}
           />
@@ -127,13 +160,10 @@ export function TextConverter({
               compact
               accept={inputAccept}
               label="Choose file"
-              onFiles={async ([file]) => {
-                if (!file) return;
-                setInput(await file.text());
-                setShowOpen(false);
-              }}
+              onFiles={([file]) => void loadFile(file)}
             />
           ) : null}
+          {fileError ? <ErrorAlert title="File could not be opened">{fileError}</ErrorAlert> : null}
         </div>
 
         <div className="flex min-w-0 flex-col gap-3">

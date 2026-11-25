@@ -1,4 +1,4 @@
-import { SITE_NAME } from '@/config/site';
+import { brandTitle } from '@/config/site';
 import type { Tool } from '../types';
 
 export const urlEncode: Tool = {
@@ -6,7 +6,7 @@ export const urlEncode: Tool = {
   category: 'developer-tools',
   name: 'URL Encoder',
   h1: 'URL Encode: Percent-Encode Text and URLs',
-  metaTitle: `URL Encode Online: Percent-Encoding Tool | ${SITE_NAME}`,
+  metaTitle: brandTitle('URL Encode Online: Percent-Encoding Tool'),
   metaDescription:
     'URL encode text for query strings or whole URLs. Choose component or full-URL encoding, spaces as %20 or +, line by line. Free, private, in your browser.',
   primaryKeyword: 'URL encode',

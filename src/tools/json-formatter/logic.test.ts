@@ -27,6 +27,12 @@ describe('formatJson', () => {
     });
     expect(r.ok && r.output).toBe('{"a":{"c":2,"d":1},"b":1,"z":[3,1]}');
     expect(sortKeysDeep([{ b: 1, a: 2 }])).toEqual([{ a: 2, b: 1 }]);
+    const proto = formatJson('{"b":1,"__proto__":{"x":1}}', {
+      ...opts,
+      mode: 'minify',
+      sortKeys: true,
+    });
+    expect(proto.ok && proto.output).toBe('{"__proto__":{"x":1},"b":1}');
   });
 
   it('reports errors with line and column', () => {
@@ -40,7 +46,7 @@ describe('formatJson', () => {
   });
 
   it('accepts a byte order mark', () => {
-    expect(parseJson('﻿{"a":1}').ok).toBe(true);
+    expect(parseJson('\uFEFF{"a":1}').ok).toBe(true);
   });
 
   it('warns about numbers that lose precision', () => {
@@ -48,6 +54,10 @@ describe('formatJson', () => {
       '12345678901234567890',
     ]);
     expect(findUnsafeNumbers('{"n": 9007199254740991}')).toEqual([]);
+    expect(findUnsafeNumbers('{"pi": 3.14159265358979323846, "e": 1e12345678901234567}')).toEqual(
+      [],
+    );
+    expect(findUnsafeNumbers('[-12345678901234567890]')).toEqual(['-12345678901234567890']);
     const r = formatJson('{"id": 12345678901234567890}', opts);
     expect(r.ok && r.warnings?.length).toBe(1);
   });

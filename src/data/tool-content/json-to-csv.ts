@@ -1,4 +1,4 @@
-import { SITE_NAME } from '@/config/site';
+import { brandTitle } from '@/config/site';
 import type { Tool } from '../types';
 
 export const jsonToCsv: Tool = {
@@ -6,7 +6,7 @@ export const jsonToCsv: Tool = {
   category: 'developer-tools',
   name: 'JSON to CSV Converter',
   h1: 'JSON to CSV Converter',
-  metaTitle: `JSON to CSV Converter: Flatten Nested JSON | ${SITE_NAME}`,
+  metaTitle: brandTitle('JSON to CSV Converter: Flatten Nested JSON'),
   metaDescription:
     'Convert JSON to CSV for Excel or Google Sheets. Flattens nested objects, merges columns and lets you pick the delimiter. Free and private, with no upload.',
   primaryKeyword: 'JSON to CSV',
@@ -70,6 +70,7 @@ The second record has no address or tags, so those cells are empty, and its \`em
 - **Leading zeros and long numbers.** Excel may display \`00123\` as \`123\` and long IDs in scientific notation when it opens a CSV. Use Data → From Text/CSV and set those columns to Text to keep them exactly.
 - **Special characters.** The file is saved as UTF-8. Recent versions of Excel and Google Sheets detect it automatically; in older Excel versions, use the import wizard and choose UTF-8 if accented letters look wrong.
 - **Very wide output.** Flattening a JSON array that contains long arrays creates one column per array index. If that produces too many columns, turn flattening off and keep those arrays as JSON text.
+- **Untrusted data and formulas.** Excel, LibreOffice and Google Sheets run any cell that starts with \`=\`, \`+\`, \`-\` or \`@\` as a formula, which attackers can abuse ("CSV injection"). If the JSON comes from users or another system you do not control, turn on **Escape spreadsheet formulas**: such cells get a leading apostrophe so they are shown as plain text. Real numbers like \`-5\` are not changed.
 - Need the reverse? Use the [CSV to JSON converter](/developer-tools/csv-to-json).`,
     },
   ],
@@ -79,6 +80,7 @@ The second record has no address or tags, so those cells are empty, and its \`em
     'Flattens nested objects and arrays into dot-notation columns, or keeps them as JSON text.',
     'Comma, semicolon, tab or pipe delimiter.',
     'RFC 4180 quoting for values that contain delimiters, quotes or line breaks.',
+    'Optional protection against spreadsheet formula (CSV) injection.',
     'Shows the number of rows and columns; download as .csv or .tsv.',
     'Private: data is converted in your browser and never uploaded.',
   ],

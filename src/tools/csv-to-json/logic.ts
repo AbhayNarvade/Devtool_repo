@@ -1,5 +1,6 @@
 import Papa from 'papaparse';
 import { fail, lineColumn, ok, type ConvertResult } from '@/lib/convert';
+import { setOwn } from '@/lib/object';
 
 export type CsvDelimiter = 'auto' | ',' | ';' | '\t' | '|';
 
@@ -30,14 +31,26 @@ export function typeCell(value: string): unknown {
 
 const NAMES: Record<string, string> = { ',': 'comma', ';': 'semicolon', '\t': 'tab', '|': 'pipe' };
 
+/** Trim header names and make duplicates unique: ["id", "name", "name"] -> ["id", "name", "name_1"]. */
+export function uniqueHeaders(raw: string[]): string[] {
+  const seen = new Map<string, number>();
+  return raw.map((h) => {
+    const name = h.trim();
+    const count = seen.get(name) ?? 0;
+    seen.set(name, count + 1);
+    return count ? `${name}_${count}` : name;
+  });
+}
+
 export function csvToJson(input: string, options: CsvToJsonOptions): ConvertResult {
-  const text = input.replace(/^﻿/, '');
-  const result = Papa.parse<unknown>(text, {
-    header: options.header,
+  const text = input.replace(/^\uFEFF/, '');
+  // Always parse rows as arrays: objects are built below with setOwn, so a column named
+  // "__proto__" is kept as data (Papa Parse's header mode would drop it).
+  const result = Papa.parse<string[]>(text, {
+    header: false,
     delimiter: options.delimiter === 'auto' ? '' : options.delimiter,
     delimitersToGuess: [',', ';', '\t', '|'],
     skipEmptyLines: 'greedy',
-    transformHeader: (h) => h.trim(),
   });
 
   const fatal = result.errors.find((e) => e.type === 'Quotes');
@@ -50,22 +63,35 @@ export function csvToJson(input: string, options: CsvToJsonOptions): ConvertResu
       pos,
     );
   }
-  let data = result.data;
-  if (options.dynamicTyping) {
-    data = data.map((row) => {
-      if (Array.isArray(row)) return row.map((v) => (typeof v === 'string' ? typeCell(v) : v));
-      const out: Record<string, unknown> = {};
-      for (const [k, v] of Object.entries(row as Record<string, unknown>))
-        out[k] = typeof v === 'string' ? typeCell(v) : v;
-      return out;
+
+  const convert = (cell: string): unknown => (options.dynamicTyping ? typeCell(cell) : cell);
+  const warnings: string[] = [];
+  let data: unknown[];
+
+  if (options.header) {
+    const [headerRow, ...rows] = result.data;
+    if (!headerRow || rows.length === 0)
+      return fail('Nothing to convert', 'No data rows were found below the header row.');
+    const headers = uniqueHeaders(headerRow);
+    data = rows.map((row, i) => {
+      if (row.length !== headers.length && warnings.length < 3) {
+        warnings.push(
+          `Row ${i + 2}: ${row.length < headers.length ? 'too few' : 'too many'} fields (expected ${headers.length}, found ${row.length}).`,
+        );
+      }
+      const obj: Record<string, unknown> = {};
+      headers.forEach((h, j) => {
+        if (j < row.length) setOwn(obj, h, convert(row[j] ?? ''));
+      });
+      if (row.length > headers.length)
+        setOwn(obj, '__extra', row.slice(headers.length).map(convert));
+      return obj;
     });
+  } else {
+    data = result.data.map((row) => row.map(convert));
   }
   if (data.length === 0) return fail('Nothing to convert', 'No rows were found in the input.');
 
-  const warnings = result.errors
-    .filter((e) => e.type === 'FieldMismatch')
-    .slice(0, 3)
-    .map((e) => `Row ${(e.row ?? 0) + (options.header ? 2 : 1)}: ${e.message}.`);
   const delim = result.meta.delimiter;
   const output = options.minify ? JSON.stringify(data) : JSON.stringify(data, null, 2);
   return ok(output, {

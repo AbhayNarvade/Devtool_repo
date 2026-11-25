@@ -78,8 +78,12 @@ class Cdp {
       });
     });
   }
-  on(listener: (method: string, params: Record<string, unknown>) => void) {
+  /** Subscribe to CDP events; returns an unsubscribe function. */
+  on(listener: (method: string, params: Record<string, unknown>) => void): () => void {
     this.listeners.push(listener);
+    return () => {
+      this.listeners = this.listeners.filter((l) => l !== listener);
+    };
   }
   close() {
     this.ws.close();
@@ -190,14 +194,15 @@ async function main() {
 
     for (const p of paths) {
       problems = [];
+      let unsubscribe = () => {};
       const loaded = new Promise<void>((resolve) => {
-        const handler = (method: string) => {
+        unsubscribe = page.on((method) => {
           if (method === 'Page.loadEventFired') resolve();
-        };
-        page.on(handler);
+        });
       });
       await page.send('Page.navigate', { url: `${BASE}${p}` });
       await Promise.race([loaded, sleep(10_000)]);
+      unsubscribe();
       await sleep(600);
 
       // No horizontal overflow on a 390px phone.

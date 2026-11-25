@@ -2,6 +2,7 @@ import { categories } from './categories';
 import { staticPages } from './pages';
 import { tools } from './tools';
 import type { Category, CategorySlug, Tool } from './types';
+import { latestDate } from '@/lib/date';
 import { categoryPath, toolPath } from '@/lib/routes';
 
 export { categories, staticPages, tools };
@@ -82,20 +83,23 @@ export interface IndexablePage {
   lastModified: string;
 }
 
-function latest(dates: string[]): string {
-  return dates.reduce((a, b) => (a > b ? a : b), '2026-11-25');
-}
-
 /** Every indexable URL on the site (used by the sitemap and the SEO checker). */
 export function indexablePages(): IndexablePage[] {
   const pages: IndexablePage[] = [
-    { path: '/', lastModified: latest(tools.map((t) => t.lastUpdated)) },
+    {
+      path: '/',
+      lastModified: latestDate([
+        ...tools.map((t) => t.lastUpdated),
+        ...categories.map((c) => c.lastUpdated),
+        ...staticPages.map((p) => p.lastUpdated),
+      ]),
+    },
   ];
   for (const c of activeCategories()) {
     const inCat = toolsInCategory(c.slug);
     pages.push({
       path: categoryPath(c.slug),
-      lastModified: latest([c.lastUpdated, ...inCat.map((t) => t.lastUpdated)]),
+      lastModified: latestDate([c.lastUpdated, ...inCat.map((t) => t.lastUpdated)]),
     });
   }
   for (const t of tools) pages.push({ path: urlOf(t), lastModified: t.lastUpdated });

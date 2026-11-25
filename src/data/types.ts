@@ -69,7 +69,7 @@ export interface Tool {
   name: string;
   /** One H1 per page; contains the primary keyword. */
   h1: string;
-  /** 50–60 chars, primary keyword first, ends with " | SITE_NAME" (rendered as an absolute title). */
+  /** Full <title>: build it with brandTitle("Primary keyword first…") so the " | SITE_NAME" suffix is added when it fits in 60 chars. */
   metaTitle: string;
   /** 140–160 chars, unique. */
   metaDescription: string;

@@ -4,6 +4,7 @@ import { CORE_SCHEMA, YAMLException, load, loadAll, mergeTag } from 'js-yaml';
 const SCHEMA = CORE_SCHEMA.withTags(mergeTag);
 import { fail, ok, type ConvertResult } from '@/lib/convert';
 import { indentValue, type Indent } from '@/lib/json';
+import { setOwn } from '@/lib/object';
 
 export interface YamlToJsonOptions {
   indent: Indent | 'minify';
@@ -17,7 +18,7 @@ function toJsonSafe(value: unknown, path = '$'): unknown {
     throw new Error(`Binary value at ${path} cannot be represented in JSON`);
   if (value instanceof Map) {
     const out: Record<string, unknown> = {};
-    for (const [k, v] of value) out[String(k)] = toJsonSafe(v, `${path}.${String(k)}`);
+    for (const [k, v] of value) setOwn(out, String(k), toJsonSafe(v, `${path}.${String(k)}`));
     return out;
   }
   if (value instanceof Set) return [...value].map((v, i) => toJsonSafe(v, `${path}[${i}]`));
@@ -27,7 +28,7 @@ function toJsonSafe(value: unknown, path = '$'): unknown {
   }
   if (value && typeof value === 'object') {
     const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(value)) out[k] = toJsonSafe(v, `${path}.${k}`);
+    for (const [k, v] of Object.entries(value)) setOwn(out, k, toJsonSafe(v, `${path}.${k}`));
     return out;
   }
   return value;

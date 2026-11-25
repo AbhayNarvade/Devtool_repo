@@ -12,6 +12,7 @@ import {
   ToolPanel,
 } from '@/components/tool/controls';
 import { FileDropzone } from '@/components/tool/FileDropzone';
+import { normalizeBase64 } from '@/lib/base64';
 import { formatBytes } from '@/lib/download';
 import { decodeBase64, suggestFilename } from './logic';
 
@@ -24,12 +25,8 @@ export default function Base64DecodeTool() {
 
   const imageUrl = useMemo(() => {
     if (!result?.ok || !result.file?.mime.startsWith('image/')) return null;
-    return `data:${result.file.mime};base64,${input
-      .trim()
-      .replace(/^data:[^,]*,/, '')
-      .replace(/\s+/g, '')
-      .replace(/-/g, '+')
-      .replace(/_/g, '/')}`;
+    // normalizeBase64 handles data: prefixes, whitespace, URL-safe characters and padding.
+    return `data:${result.file.mime};base64,${normalizeBase64(input).base64}`;
   }, [result, input]);
 
   return (

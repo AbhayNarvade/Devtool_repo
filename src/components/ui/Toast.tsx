@@ -28,12 +28,11 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     timer.current = setTimeout(() => setToast(null), 2600);
   }, []);
 
+  // Both pairs meet WCAG AA contrast in light and dark themes.
   const tone =
     toast?.kind === 'error'
-      ? 'bg-danger text-white'
-      : toast?.kind === 'info'
-        ? 'bg-fg text-bg'
-        : 'bg-fg text-bg';
+      ? 'border border-danger/40 bg-danger-soft text-danger'
+      : 'bg-fg text-bg';
 
   return (
     <ToastContext.Provider value={show}>

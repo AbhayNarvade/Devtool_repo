@@ -12,6 +12,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { parse, type HTMLElement } from 'node-html-parser';
+import { SEO_LIMITS, TITLE_SEPARATOR } from '../src/config/seo';
 import { SITE_NAME, SITE_URL, absoluteUrl } from '../src/config/site';
 import {
   categories,
@@ -27,7 +28,21 @@ import { categoryPath, ogKey, toolPath } from '../src/lib/routes';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'out');
 
-const MIN_WORDS = { tool: 700, category: 300, home: 400 } as const;
+const L = SEO_LIMITS;
+const range = (r: { min: number; max: number }): [number, number] => [r.min, r.max];
+const TITLE = range(L.title);
+const DESC = range(L.description);
+const TITLE_T = range(L.titleTarget);
+const DESC_T = range(L.descriptionTarget);
+const BRAND_SUFFIX = `${TITLE_SEPARATOR}${SITE_NAME}`;
+
+/** Titles are built with brandTitle(); warn when a long SITE_NAME forced the suffix to be dropped. */
+function checkBrand(owner: string, title: string) {
+  if (!title.endsWith(BRAND_SUFFIX))
+    warn(
+      `${owner}: title has no "${BRAND_SUFFIX}" suffix (it did not fit in ${L.title.max} chars): "${title}"`,
+    );
+}
 
 const errors: string[] = [];
 const warnings: string[] = [];
@@ -91,22 +106,24 @@ function registryChecks() {
     slugs.add(t.slug);
     if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(t.slug))
       err(`${owner}: slug must be lowercase and hyphenated`);
-    checkLength(owner, 'metaTitle', t.metaTitle, [30, 60], [50, 60]);
-    checkLength(owner, 'metaDescription', t.metaDescription, [120, 160], [140, 160]);
-    if (!t.metaTitle.endsWith(` | ${SITE_NAME}`))
-      err(`${owner}: metaTitle must end with " | ${SITE_NAME}"`);
-    if (t.faqs.length < 5) err(`${owner}: only ${t.faqs.length} FAQs (min 5)`);
-    if (t.faqs.length > 8) warn(`${owner}: ${t.faqs.length} FAQs (target 5–8)`);
-    if (t.relatedSlugs.length < 4)
-      err(`${owner}: only ${t.relatedSlugs.length} related tools (min 4)`);
-    if (t.relatedSlugs.length > 6)
-      warn(`${owner}: ${t.relatedSlugs.length} related tools (target 4–6)`);
+    checkLength(owner, 'metaTitle', t.metaTitle, TITLE, TITLE_T);
+    checkLength(owner, 'metaDescription', t.metaDescription, DESC, DESC_T);
+    checkBrand(owner, t.metaTitle);
+    if (t.faqs.length < L.faqs.min) err(`${owner}: only ${t.faqs.length} FAQs (min ${L.faqs.min})`);
+    if (t.faqs.length > L.faqs.max)
+      warn(`${owner}: ${t.faqs.length} FAQs (target ${L.faqs.min}–${L.faqs.max})`);
+    if (t.relatedSlugs.length < L.related.min)
+      err(`${owner}: only ${t.relatedSlugs.length} related tools (min ${L.related.min})`);
+    if (t.relatedSlugs.length > L.related.max)
+      warn(
+        `${owner}: ${t.relatedSlugs.length} related tools (target ${L.related.min}–${L.related.max})`,
+      );
     for (const r of t.relatedSlugs) {
       if (r === t.slug) err(`${owner}: relates to itself`);
       else if (!getToolBySlug(r)) err(`${owner}: related slug "${r}" does not exist`);
     }
-    if (t.howToSteps.length < 3 || t.howToSteps.length > 6)
-      err(`${owner}: howToSteps must have 3–6 steps`);
+    if (t.howToSteps.length < L.howToSteps.min || t.howToSteps.length > L.howToSteps.max)
+      err(`${owner}: howToSteps must have ${L.howToSteps.min}–${L.howToSteps.max} steps`);
     if (t.features.length < 3) err(`${owner}: needs at least 3 features`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(t.lastUpdated)) err(`${owner}: lastUpdated must be YYYY-MM-DD`);
     const kw = t.primaryKeyword.toLowerCase();
@@ -118,15 +135,18 @@ function registryChecks() {
       warn(`${owner}: no H2 contains the primary keyword "${t.primaryKeyword}"`);
   }
   for (const c of categories) {
-    checkLength(`category:${c.slug}`, 'metaTitle', c.metaTitle, [30, 60], [50, 60]);
-    checkLength(`category:${c.slug}`, 'metaDescription', c.metaDescription, [120, 160], [140, 160]);
+    checkLength(`category:${c.slug}`, 'metaTitle', c.metaTitle, TITLE, TITLE_T);
+    checkLength(`category:${c.slug}`, 'metaDescription', c.metaDescription, DESC, DESC_T);
+    checkBrand(`category:${c.slug}`, c.metaTitle);
   }
   for (const p of staticPages) {
-    checkLength(`page:${p.path}`, 'metaTitle', p.metaTitle, [30, 60], [30, 60]);
-    checkLength(`page:${p.path}`, 'metaDescription', p.metaDescription, [120, 160], [140, 160]);
+    checkLength(`page:${p.path}`, 'metaTitle', p.metaTitle, TITLE, TITLE);
+    checkLength(`page:${p.path}`, 'metaDescription', p.metaDescription, DESC, DESC_T);
+    checkBrand(`page:${p.path}`, p.metaTitle);
   }
-  checkLength('home', 'metaTitle', home.metaTitle, [30, 60], [50, 60]);
-  checkLength('home', 'metaDescription', home.metaDescription, [120, 160], [140, 160]);
+  checkLength('home', 'metaTitle', home.metaTitle, TITLE, TITLE_T);
+  checkLength('home', 'metaDescription', home.metaDescription, DESC, DESC_T);
+  checkBrand('home', home.metaTitle);
 
   // One OG image per indexable page (source and exported copy).
   for (const page of indexablePages()) {
@@ -268,13 +288,15 @@ function htmlChecks() {
     // Title & description
     const title = doc.querySelector('title')?.textContent.trim() ?? '';
     if (!title) err(`${where}: <title> missing`);
-    else if (kind !== '404' && (title.length < 30 || title.length > 60))
-      err(`${where}: <title> is ${title.length} chars (30–60): "${title}"`);
+    else if (kind !== '404' && (title.length < L.title.min || title.length > L.title.max))
+      err(`${where}: <title> is ${title.length} chars (${L.title.min}–${L.title.max}): "${title}"`);
     const desc =
       doc.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() ?? '';
     if (!desc) err(`${where}: meta description missing`);
-    else if (kind !== '404' && (desc.length < 120 || desc.length > 160))
-      err(`${where}: meta description is ${desc.length} chars (120–160)`);
+    else if (kind !== '404' && (desc.length < L.description.min || desc.length > L.description.max))
+      err(
+        `${where}: meta description is ${desc.length} chars (${L.description.min}–${L.description.max})`,
+      );
 
     // Robots / canonical
     const robots = doc.querySelector('meta[name="robots"]')?.getAttribute('content') ?? '';
@@ -391,12 +413,8 @@ function htmlChecks() {
     if (!main) err(`${where}: <main> missing`);
     else {
       const words = countWords(visibleText(main));
-      if (kind === 'tool' && words < MIN_WORDS.tool)
-        err(`${where}: ${words} words of content (min ${MIN_WORDS.tool})`);
-      if (kind === 'category' && words < MIN_WORDS.category)
-        err(`${where}: ${words} words (min ${MIN_WORDS.category})`);
-      if (kind === 'home' && words < MIN_WORDS.home)
-        err(`${where}: ${words} words (min ${MIN_WORDS.home})`);
+      const min = kind === 'tool' || kind === 'category' || kind === 'home' ? L.words[kind] : 0;
+      if (words < min) err(`${where}: ${words} words of content (min ${min})`);
     }
   }
 
@@ -434,7 +452,8 @@ function htmlChecks() {
     if (pageKind(p) === '404') continue;
     const d = depth.get(p);
     if (d === undefined) err(`${p} is not reachable from the homepage (orphan page)`);
-    else if (d > 3) err(`${p} is ${d} clicks from the homepage (max 3)`);
+    else if (d > L.maxClickDepth)
+      err(`${p} is ${d} clicks from the homepage (max ${L.maxClickDepth})`);
   }
 
   // Every active category and tool must have a page

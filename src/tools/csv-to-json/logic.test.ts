@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { flattenObject, jsonToCsv } from '../json-to-csv/logic';
+import { escapeFormula, flattenObject, jsonToCsv } from '../json-to-csv/logic';
 import { csvToJson, typeCell } from './logic';
 
 describe('flattenObject', () => {
@@ -45,6 +45,18 @@ describe('jsonToCsv', () => {
     const prims = jsonToCsv('[1,"two",null]', { delimiter: ',', flatten: true });
     expect(prims.ok && prims.output).toBe('value\r\n1\r\ntwo\r\n');
   });
+  it('optionally escapes spreadsheet formulas but not numbers', () => {
+    expect(escapeFormula('=HYPERLINK("http://x")')).toBe('\'=HYPERLINK("http://x")');
+    expect(escapeFormula('@SUM(A1)')).toBe("'@SUM(A1)");
+    expect(escapeFormula('-5')).toBe('-5');
+    expect(escapeFormula('+1.5e3')).toBe('+1.5e3');
+    expect(escapeFormula('-rm')).toBe("'-rm");
+    const json = '[{"a":"=1+1","b":-2}]';
+    const off = jsonToCsv(json, { delimiter: ',', flatten: true });
+    expect(off.ok && off.output).toBe('a,b\r\n=1+1,-2');
+    const on = jsonToCsv(json, { delimiter: ',', flatten: true, escapeFormulas: true });
+    expect(on.ok && on.output).toBe("a,b\r\n'=1+1,-2");
+  });
   it('rejects an empty array', () => {
     expect(jsonToCsv('[]', { delimiter: ',', flatten: true }).ok).toBe(false);
   });
@@ -74,13 +86,20 @@ describe('csvToJson', () => {
     expect(r.ok && r.output).toBe('[{"zip":"01234","id":"12345678901234567890","n":-50}]');
   });
   it('keeps strings when typing is off and strips BOM', () => {
-    const r = csvToJson('﻿zip,n\n01234,5', { ...base, dynamicTyping: false });
+    const r = csvToJson('\uFEFFzip,n\n01234,5', { ...base, dynamicTyping: false });
     expect(r.ok && r.output).toBe('[{"zip":"01234","n":"5"}]');
   });
   it('reports an unclosed quote with its line', () => {
     const r = csvToJson('a,b\n1,"x\n2,3', base);
     expect(r.ok).toBe(false);
     if (!r.ok) expect(r.error.line).toBe(2);
+  });
+  it('keeps __proto__ keys and renames duplicate headers', () => {
+    const r = csvToJson('__proto__,a,a\n1,2,3', base);
+    expect(r.ok && r.output).toBe('[{"__proto__":1,"a":2,"a_1":3}]');
+    expect(JSON.stringify(flattenObject(JSON.parse('{"__proto__":{"x":1}}')))).toBe(
+      '{"__proto__.x":1}',
+    );
   });
   it('warns about rows with missing fields', () => {
     const r = csvToJson('a,b\n1', base);

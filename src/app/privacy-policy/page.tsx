@@ -2,6 +2,7 @@ import { Markdown } from '@/components/Markdown';
 import { StaticPageLayout } from '@/components/StaticPageLayout';
 import { CONTACT_EMAIL, DOMAIN, FORMSPREE_ID, GA_ID, OWNER_NAME, SITE_NAME } from '@/config/site';
 import { getStaticPage } from '@/data/pages';
+import { formatDisplayDate } from '@/lib/date';
 import { buildMetadata } from '@/lib/seo';
 
 const page = getStaticPage('/privacy-policy');
@@ -12,7 +13,7 @@ export const metadata = buildMetadata({
   path: page.path,
 });
 
-const EFFECTIVE = 'November 25, 2026';
+const EFFECTIVE = formatDisplayDate(page.lastUpdated);
 
 const intro = `This Privacy Policy explains what information is and is not collected when you use ${SITE_NAME} (${DOMAIN}), which cookies are used, and the choices you have. ${SITE_NAME} is operated by ${OWNER_NAME}.
 

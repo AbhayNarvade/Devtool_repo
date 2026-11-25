@@ -12,7 +12,8 @@ export interface FormatOptions {
 /** Integers with 16+ digits cannot be represented exactly by JavaScript numbers. */
 export function findUnsafeNumbers(text: string): string[] {
   const withoutStrings = text.replace(/"(?:[^"\\]|\\.)*"/g, '""');
-  const found = withoutStrings.match(/-?\d{16,}(?![\d.eE])/g) ?? [];
+  // Whole integers only: not the fraction or exponent digits of a decimal like 3.14159265358979323846.
+  const found = withoutStrings.match(/(?<![\d.eE+-])-?\d{16,}(?![\d.eE])/g) ?? [];
   return found.filter((n) => !Number.isSafeInteger(Number(n)));
 }
 

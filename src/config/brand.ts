@@ -1,4 +1,4 @@
-import { BRAND_COLOR } from './site';
+import { BRAND_COLOR, THEME_COLOR_DARK } from './site';
 
 /**
  * Original logo mark: a rounded tile with an angle-bracket pair and a cursor block,
@@ -11,6 +11,18 @@ export const LOGO_PATHS = {
   left: 'M24 20 12 32l12 12',
   right: 'M40 20l12 12-12 12',
   cursor: { x: 28, y: 38, width: 8, height: 6, rx: 1.5 },
+} as const;
+
+/** Colours used by the generated Open Graph images (dark, on-brand card). */
+export const OG_THEME = {
+  background: THEME_COLOR_DARK,
+  glowPrimary: `${BRAND_COLOR}66`,
+  glowSecondary: '#0ea5e933',
+  title: '#ffffff',
+  eyebrow: '#a5b4fc',
+  subtitle: '#cbd5e1',
+  footer: '#94a3b8',
+  domain: '#e2e8f0',
 } as const;
 
 /** Standalone SVG string (for favicon.svg and image generation). */

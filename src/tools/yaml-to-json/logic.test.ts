@@ -78,6 +78,10 @@ describe('yamlToJson', () => {
     });
     expect(r.ok && r.output).toBe('{"base":{"a":1,"b":2},"prod":{"a":1,"b":3}}');
   });
+  it('keeps a __proto__ key as data', () => {
+    const r = yamlToJson('__proto__: 1\nb: 2', { indent: 'minify', multiDocument: false });
+    expect(r.ok && r.output).toBe('{"__proto__":1,"b":2}');
+  });
   it('keeps yes/no as strings (YAML 1.2 core schema)', () => {
     const r = yamlToJson('a: yes\nb: no\nc: on', { indent: 'minify', multiDocument: false });
     expect(r.ok && r.output).toBe('{"a":"yes","b":"no","c":"on"}');

@@ -36,10 +36,6 @@ const TOOL_COMPONENTS: Record<string, ComponentType> = {
   'url-decode': load(() => import('./url-decode/Tool')),
 };
 
-export function hasToolComponent(slug: string): boolean {
-  return slug in TOOL_COMPONENTS;
-}
-
 export function ToolMount({ slug }: { slug: string }) {
   const Tool = TOOL_COMPONENTS[slug];
   if (!Tool) return null;

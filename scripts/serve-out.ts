@@ -65,7 +65,14 @@ function resolveFile(urlPath: string): string | null {
 
 createServer((req, res) => {
   const url = new URL(req.url ?? '/', 'http://localhost');
-  const p = decodeURIComponent(url.pathname);
+  let p: string;
+  try {
+    p = decodeURIComponent(url.pathname);
+  } catch {
+    res.writeHead(400, { 'Content-Type': 'text/plain' });
+    res.end('Bad request');
+    return;
+  }
   if (p.length > 1 && p.endsWith('/')) {
     res.writeHead(308, { Location: p.replace(/\/+$/, '') + url.search });
     res.end();

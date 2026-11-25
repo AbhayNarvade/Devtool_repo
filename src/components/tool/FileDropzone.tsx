@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { UiIcon } from '../Icon';
 
 interface FileDropzoneProps {
@@ -39,14 +39,9 @@ export function FileDropzone({
   acceptPaste = false,
   compact = false,
 }: FileDropzoneProps) {
-  const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
   const [rejected, setRejected] = useState<string | null>(null);
-  const onFilesRef = useRef(onFiles);
-  useEffect(() => {
-    onFilesRef.current = onFiles;
-  }, [onFiles]);
 
   const handle = (list: FileList | File[] | null) => {
     if (!list) return;
@@ -58,8 +53,10 @@ export function FileDropzone({
         ? `${all.length - ok.length} file(s) skipped because the type is not supported.`
         : null,
     );
-    if (picked.length) onFilesRef.current(picked);
+    if (picked.length) onFiles(picked);
   };
+
+  // The document-level paste listener always calls the latest `handle` without re-subscribing.
   const handleRef = useRef(handle);
   useEffect(() => {
     handleRef.current = handle;
@@ -87,7 +84,10 @@ export function FileDropzone({
           e.preventDefault();
           setDragging(true);
         }}
-        onDragLeave={() => setDragging(false)}
+        onDragLeave={(e) => {
+          // Ignore leave events caused by moving over child elements (prevents flicker).
+          if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setDragging(false);
+        }}
         onDrop={(e) => {
           e.preventDefault();
           setDragging(false);
@@ -117,7 +117,6 @@ export function FileDropzone({
         </div>
         <input
           ref={inputRef}
-          id={inputId}
           type="file"
           accept={accept}
           multiple={multiple}

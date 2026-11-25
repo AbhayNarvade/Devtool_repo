@@ -14,12 +14,13 @@ const SAMPLE = `[
 export default function JsonToCsvTool() {
   const [delimiter, setDelimiter] = useState<Delimiter>(',');
   const [flatten, setFlatten] = useState(true);
+  const [escapeFormulas, setEscapeFormulas] = useState(false);
   const convert = useCallback(
     async (input: string) => {
       const { jsonToCsv } = await import('./logic');
-      return jsonToCsv(input, { delimiter, flatten });
+      return jsonToCsv(input, { delimiter, flatten, escapeFormulas });
     },
-    [delimiter, flatten],
+    [delimiter, flatten, escapeFormulas],
   );
   return (
     <TextConverter
@@ -50,6 +51,12 @@ export default function JsonToCsvTool() {
             description="customer.name, items.0 … (off: nested values as JSON text)"
             checked={flatten}
             onChange={setFlatten}
+          />
+          <Checkbox
+            label="Escape spreadsheet formulas"
+            description="Safer for data from untrusted sources"
+            checked={escapeFormulas}
+            onChange={setEscapeFormulas}
           />
         </>
       }

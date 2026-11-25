@@ -1,4 +1,4 @@
-import { SITE_NAME } from '@/config/site';
+import { brandTitle } from '@/config/site';
 import type { Tool } from '../types';
 
 export const jsonFormatter: Tool = {
@@ -6,7 +6,7 @@ export const jsonFormatter: Tool = {
   category: 'developer-tools',
   name: 'JSON Formatter',
   h1: 'JSON Formatter, Validator and Minifier',
-  metaTitle: `JSON Formatter & Validator Online (Free) | ${SITE_NAME}`,
+  metaTitle: brandTitle('JSON Formatter & Validator Online (Free)'),
   metaDescription:
     'Free JSON formatter and validator: beautify or minify JSON, sort keys and find errors by line and column. Runs in your browser, so your data is never uploaded.',
   primaryKeyword: 'JSON formatter',

@@ -1,4 +1,4 @@
-import { SITE_NAME } from '@/config/site';
+import { brandTitle } from '@/config/site';
 import type { Tool } from '../types';
 
 export const csvToJson: Tool = {
@@ -6,7 +6,7 @@ export const csvToJson: Tool = {
   category: 'developer-tools',
   name: 'CSV to JSON Converter',
   h1: 'CSV to JSON Converter',
-  metaTitle: `CSV to JSON Converter: Auto-Detect Delimiter | ${SITE_NAME}`,
+  metaTitle: brandTitle('CSV to JSON Converter: Auto-Detect Delimiter'),
   metaDescription:
     'Convert CSV to JSON with header rows, automatic delimiter detection and smart number typing that keeps leading zeros. Free, no upload, runs in your browser.',
   primaryKeyword: 'CSV to JSON',
@@ -72,7 +72,7 @@ Output:
     {
       heading: 'Troubleshooting CSV files',
       kind: 'tips',
-      body: `- **"Row 5: Too few fields"** means that row has fewer values than the header. The JSON is still produced, with missing fields omitted, but check the source for a missing delimiter or a stray line break.
+      body: `- **"Row 5: too few fields (expected 5, found 4)"** means that row has fewer values than the header. The JSON is still produced with the missing keys left out, but check the source for a missing delimiter or a stray line break. Extra values in a row that is too long are kept in an \`__extra\` array so nothing is lost.
 - **Everything ends up in one key**: the delimiter was not detected. Choose it manually; tab-separated files sometimes look like they use spaces.
 - **Unclosed quotes**: a value that opens a double quote without closing it swallows the rest of the file. The error message tells you on which row the quote started.
 - **Odd characters at the start of the first key** usually come from a byte order mark (BOM) added by Excel. The converter removes it automatically.

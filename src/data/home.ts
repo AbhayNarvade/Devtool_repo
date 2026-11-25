@@ -1,8 +1,8 @@
-import { SITE_NAME } from '@/config/site';
+import { SITE_NAME, brandTitle } from '@/config/site';
 import type { Faq } from './types';
 
 export const home = {
-  metaTitle: `Free Online Tools for Developers, Images & PDFs | ${SITE_NAME}`,
+  metaTitle: brandTitle('Free Online Tools for Developers, Images & PDFs'),
   metaDescription:
     'Free online tools that run in your browser: JSON formatter, image compressor, PDF merger, CSS generators and more. No sign-up, no upload, fast and private.',
   h1: 'Free online tools that run in your browser',

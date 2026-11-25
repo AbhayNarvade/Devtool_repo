@@ -1,4 +1,4 @@
-import { SITE_NAME } from '@/config/site';
+import { brandTitle } from '@/config/site';
 import type { Tool } from '../types';
 
 export const base64Encode: Tool = {
@@ -6,7 +6,7 @@ export const base64Encode: Tool = {
   category: 'developer-tools',
   name: 'Base64 Encoder',
   h1: 'Base64 Encode: Text and Files to Base64',
-  metaTitle: `Base64 Encode Online: Text & File to Base64 | ${SITE_NAME}`,
+  metaTitle: brandTitle('Base64 Encode Online: Text & File to Base64'),
   metaDescription:
     'Base64 encode text or any file online. UTF-8 safe, with URL-safe and data URL output for HTML and CSS. Free and private: files are never uploaded.',
   primaryKeyword: 'Base64 encode',

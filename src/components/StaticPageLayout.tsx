@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { StaticPage } from '@/data/types';
 import { breadcrumbLd, graph } from '@/lib/jsonld';
 import { absoluteUrl } from '@/config/site';
+import { formatDisplayDate } from '@/lib/date';
 import { Breadcrumbs } from './Breadcrumbs';
 import { JsonLd } from './JsonLd';
 
@@ -21,12 +22,6 @@ export function StaticPageLayout({ page, h1, intro, schemaType = 'WebPage', chil
     { name: page.name, path: page.path },
   ];
   const url = absoluteUrl(page.path);
-  const updated = new Date(`${page.lastUpdated}T00:00:00Z`).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'UTC',
-  });
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
       <JsonLd
@@ -50,7 +45,7 @@ export function StaticPageLayout({ page, h1, intro, schemaType = 'WebPage', chil
       {intro ? <div className="mt-4 text-lg text-fg-muted">{intro}</div> : null}
       <div className="prose-content mt-8">{children}</div>
       <p className="mt-12 border-t border-border pt-6 text-sm text-fg-muted">
-        Last updated: <time dateTime={page.lastUpdated}>{updated}</time>
+        Last updated: <time dateTime={page.lastUpdated}>{formatDisplayDate(page.lastUpdated)}</time>
       </p>
     </div>
   );

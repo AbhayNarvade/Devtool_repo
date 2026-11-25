@@ -1,4 +1,5 @@
 import { lineColumn } from './convert';
+import { setOwn } from './object';
 
 export interface JsonSyntaxIssue {
   message: string;
@@ -184,7 +185,7 @@ export type JsonParseResult = { ok: true; value: unknown } | { ok: false; issue:
 
 /** Parse JSON (BOM tolerated). On failure, returns a located, human-friendly issue. */
 export function parseJson(text: string): JsonParseResult {
-  const clean = text.replace(/^﻿/, '');
+  const clean = text.replace(/^\uFEFF/, '');
   try {
     return { ok: true, value: JSON.parse(clean) };
   } catch (e) {
@@ -204,7 +205,7 @@ export function sortKeysDeep(value: unknown): unknown {
   if (value && typeof value === 'object') {
     const out: Record<string, unknown> = {};
     for (const key of Object.keys(value).sort((a, b) => a.localeCompare(b, 'en'))) {
-      out[key] = sortKeysDeep((value as Record<string, unknown>)[key]);
+      setOwn(out, key, sortKeysDeep((value as Record<string, unknown>)[key]));
     }
     return out;
   }

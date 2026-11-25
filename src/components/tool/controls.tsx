@@ -66,7 +66,6 @@ interface TextAreaProps {
   mono?: boolean;
   hideLabel?: boolean;
   className?: string;
-  onDropText?: (text: string) => void;
   extra?: ReactNode;
 }
 

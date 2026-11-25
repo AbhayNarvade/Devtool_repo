@@ -20,7 +20,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/80">
-      <div className="relative mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6">
+      <div className="relative mx-auto flex max-w-7xl flex-wrap items-center gap-x-3 gap-y-2 px-4 sm:h-16 sm:flex-nowrap sm:px-6 max-sm:pt-3">
         <Link
           href="/"
           className="flex shrink-0 items-center gap-2 text-lg font-bold tracking-tight text-fg"
@@ -46,19 +46,19 @@ export function Header() {
           </nav>
         ) : null}
 
-        <div className="ml-auto flex items-center gap-1">
-          {index.length > 0 ? (
-            <SearchBox items={index} className="hidden w-56 sm:block xl:w-72" />
-          ) : null}
+        <div className="ml-auto flex items-center gap-1 sm:order-last sm:ml-0">
           <ThemeToggle />
           <MobileNav links={mobileLinks} />
         </div>
+
+        {/* One search box for all screen sizes: a full-width second row on phones, inline from sm up. */}
+        {index.length > 0 ? (
+          <SearchBox
+            items={index}
+            className="order-last w-full pb-2 sm:order-none sm:ml-auto sm:w-56 sm:pb-0 xl:w-72"
+          />
+        ) : null}
       </div>
-      {index.length > 0 ? (
-        <div className="border-t border-border px-4 py-2 sm:hidden">
-          <SearchBox items={index} label="Search tools (mobile)" />
-        </div>
-      ) : null}
     </header>
   );
 }

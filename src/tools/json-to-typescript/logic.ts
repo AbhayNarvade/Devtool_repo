@@ -61,7 +61,7 @@ export function jsonToTypeScriptFromValue(value: unknown, options: TsOptions): s
     return name;
   };
 
-  const objectBody = (objects: Record<string, unknown>[], hint: string): string => {
+  const objectBody = (objects: Record<string, unknown>[]): string => {
     const keys: string[] = [];
     const seen = new Set<string>();
     for (const o of objects)
@@ -78,7 +78,6 @@ export function jsonToTypeScriptFromValue(value: unknown, options: TsOptions): s
       const type = typeOf(values, k);
       return `  ${propertyName(k)}${optional ? '?' : ''}: ${type};`;
     });
-    void hint;
     return lines.length ? `{\n${lines.join('\n')}\n}` : '{}';
   };
 
@@ -87,7 +86,7 @@ export function jsonToTypeScriptFromValue(value: unknown, options: TsOptions): s
     hint: string,
     forcedName?: string,
   ): string => {
-    const body = objectBody(objects, hint);
+    const body = objectBody(objects);
     if (body === '{}') return 'Record<string, unknown>';
     if (forcedName) {
       decls.unshift({ name: forcedName, body });

@@ -12,7 +12,9 @@ interface NavLink {
 export function MobileNav({ links }: { links: NavLink[] }) {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
 
+  // Close on Escape (returning focus to the button) and on a click outside the menu.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -21,12 +23,19 @@ export function MobileNav({ links }: { links: NavLink[] }) {
         buttonRef.current?.focus();
       }
     };
+    const onPointer = (e: PointerEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
     document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+    document.addEventListener('pointerdown', onPointer);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onPointer);
+    };
   }, [open]);
 
   return (
-    <div className="lg:hidden">
+    <div ref={rootRef} className="lg:hidden">
       <button
         ref={buttonRef}
         type="button"

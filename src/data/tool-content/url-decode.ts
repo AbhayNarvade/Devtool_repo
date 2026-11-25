@@ -1,4 +1,4 @@
-import { SITE_NAME } from '@/config/site';
+import { brandTitle } from '@/config/site';
 import type { Tool } from '../types';
 
 export const urlDecode: Tool = {
@@ -6,7 +6,7 @@ export const urlDecode: Tool = {
   category: 'developer-tools',
   name: 'URL Decoder',
   h1: 'URL Decode: Convert Percent-Encoded Text',
-  metaTitle: `URL Decode Online: Decode %20 and Query Strings | ${SITE_NAME}`,
+  metaTitle: brandTitle('URL Decode Online: Decode %20 and Query Strings'),
   metaDescription:
     'URL decode percent-encoded links and query strings into readable text. Handles + as space, UTF-8 and double-encoded values with clear errors. Free, private.',
   primaryKeyword: 'URL decode',

@@ -8,6 +8,7 @@ import { ToolCard } from '@/components/ToolCard';
 import { AD_PLACEMENTS } from '@/config/ads';
 import { ADSENSE_CLIENT } from '@/config/site';
 import { getCategory, getTool, relatedTools, toCard, tools } from '@/data';
+import { formatDisplayDate } from '@/lib/date';
 import { breadcrumbLd, faqLd, graph, webApplicationLd } from '@/lib/jsonld';
 import { categoryPath, toolPath } from '@/lib/routes';
 import { buildMetadata } from '@/lib/seo';
@@ -28,15 +29,6 @@ export async function generateMetadata({ params }: PageProps<'/[category]/[tool]
     description: tool.metaDescription,
     path: toolPath(tool.category, tool.slug),
     ogAlt: `${tool.name}: ${tool.primaryKeyword}`,
-  });
-}
-
-function formatDate(iso: string) {
-  return new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'UTC',
   });
 }
 
@@ -79,7 +71,7 @@ export default async function ToolPage({ params }: PageProps<'/[category]/[tool]
             <ToolMount slug={tool.slug} />
           </section>
 
-          <AdPlacement name="toolBelowTool" className="mt-12" />
+          <AdPlacement name="toolBelowTool" className="mt-12 mb-10" />
 
           <div className="prose-content mt-12 max-w-3xl">
             <section>
@@ -143,7 +135,8 @@ export default async function ToolPage({ params }: PageProps<'/[category]/[tool]
           </section>
 
           <p className="mt-10 text-sm text-fg-muted">
-            Last updated: <time dateTime={tool.lastUpdated}>{formatDate(tool.lastUpdated)}</time>
+            Last updated:{' '}
+            <time dateTime={tool.lastUpdated}>{formatDisplayDate(tool.lastUpdated)}</time>
           </p>
         </article>
 

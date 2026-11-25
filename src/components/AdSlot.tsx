@@ -18,6 +18,7 @@ interface AdSlotProps {
   /** Reserved height in px so the ad never shifts layout. */
   minHeight?: number;
   desktopOnly?: boolean;
+  /** Spacing around the ad. Defaults to generous vertical margins that keep ads away from controls. */
   className?: string;
 }
 
@@ -62,14 +63,14 @@ export function AdSlot({
   format = 'auto',
   minHeight = 280,
   desktopOnly = false,
-  className = '',
+  className = 'my-10',
 }: AdSlotProps) {
   const pathname = usePathname();
   if (!ADSENSE_CLIENT || !slot) return null;
   return (
     <aside
       aria-label="Advertisement"
-      className={`${desktopOnly ? 'hidden xl:block' : 'block'} my-10 ${className}`}
+      className={`${desktopOnly ? 'hidden xl:block' : 'block'} ${className}`}
     >
       <p className="mb-1 text-center text-xs tracking-wide text-fg-muted uppercase">
         Advertisement

@@ -11,7 +11,7 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import satori from 'satori';
-import { LOGO_PATHS, LOGO_VIEWBOX, logoSvg } from '../src/config/brand';
+import { LOGO_PATHS, LOGO_VIEWBOX, OG_THEME, logoSvg } from '../src/config/brand';
 import {
   BRAND_COLOR,
   DOMAIN,
@@ -109,9 +109,9 @@ function ogLayout(entry: OgEntry): SatoriNode {
         flexDirection: 'column',
         justifyContent: 'space-between',
         padding: '60px 72px 56px',
-        backgroundColor: '#0b1120',
-        backgroundImage: `radial-gradient(circle at 100% 0%, ${BRAND_COLOR}66 0%, transparent 55%), radial-gradient(circle at 0% 100%, #0ea5e933 0%, transparent 50%)`,
-        color: '#ffffff',
+        backgroundColor: OG_THEME.background,
+        backgroundImage: `radial-gradient(circle at 100% 0%, ${OG_THEME.glowPrimary} 0%, transparent 55%), radial-gradient(circle at 0% 100%, ${OG_THEME.glowSecondary} 0%, transparent 50%)`,
+        color: OG_THEME.title,
         fontFamily: 'Inter',
       },
     },
@@ -130,7 +130,7 @@ function ogLayout(entry: OgEntry): SatoriNode {
           style: {
             fontSize: 28,
             fontWeight: 700,
-            color: '#a5b4fc',
+            color: OG_THEME.eyebrow,
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
           },
@@ -158,7 +158,7 @@ function ogLayout(entry: OgEntry): SatoriNode {
             marginTop: 24,
             fontSize: 28,
             fontWeight: 500,
-            color: '#cbd5e1',
+            color: OG_THEME.subtitle,
             maxWidth: 1000,
             lineHeight: 1.4,
           },
@@ -175,11 +175,11 @@ function ogLayout(entry: OgEntry): SatoriNode {
           alignItems: 'center',
           fontSize: 24,
           fontWeight: 500,
-          color: '#94a3b8',
+          color: OG_THEME.footer,
         },
       },
       h('div', {}, 'Free  ·  No sign-up  ·  Runs in your browser'),
-      h('div', { style: { color: '#e2e8f0', fontWeight: 700 } }, DOMAIN),
+      h('div', { style: { color: OG_THEME.domain, fontWeight: 700 } }, DOMAIN),
     ),
   );
 }

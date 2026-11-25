@@ -1,4 +1,4 @@
-import { SITE_NAME } from '@/config/site';
+import { brandTitle } from '@/config/site';
 import type { Tool } from '../types';
 
 export const yamlToJson: Tool = {
@@ -6,7 +6,7 @@ export const yamlToJson: Tool = {
   category: 'developer-tools',
   name: 'YAML to JSON Converter',
   h1: 'YAML to JSON Converter',
-  metaTitle: `YAML to JSON Converter: Validate & Convert YAML | ${SITE_NAME}`,
+  metaTitle: brandTitle('YAML to JSON Converter: Validate & Convert YAML'),
   metaDescription:
     'Convert YAML to JSON online with anchors, merge keys and multi-document support. Find YAML syntax errors by line. Free, no upload, runs in your browser.',
   primaryKeyword: 'YAML to JSON',

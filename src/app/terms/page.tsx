@@ -2,6 +2,7 @@ import { Markdown } from '@/components/Markdown';
 import { StaticPageLayout } from '@/components/StaticPageLayout';
 import { CONTACT_EMAIL, DOMAIN, OWNER_NAME, SITE_NAME } from '@/config/site';
 import { getStaticPage } from '@/data/pages';
+import { formatDisplayDate } from '@/lib/date';
 import { buildMetadata } from '@/lib/seo';
 
 const page = getStaticPage('/terms');
@@ -14,7 +15,7 @@ export const metadata = buildMetadata({
 
 const body = `These Terms of Use ("Terms") govern your use of ${SITE_NAME} at ${DOMAIN} (the "Site"), operated by ${OWNER_NAME}. By using the Site you agree to these Terms. If you do not agree, please do not use the Site.
 
-**Effective date: November 25, 2026.**
+**Effective date: ${formatDisplayDate(page.lastUpdated)}.**
 
 ## 1. The service
 

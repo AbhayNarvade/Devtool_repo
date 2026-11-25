@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { collectLinks, markdownToText, parseInline, parseMarkdown } from './markdown';
+import { inlineToText, parseInline, parseMarkdown } from './markdown';
 
 describe('parseInline', () => {
   it('parses code, bold, italic and links', () => {
@@ -65,10 +65,9 @@ describe('parseMarkdown', () => {
     expect(table?.type === 'table' && table.rows[0]?.[0]).toEqual([{ type: 'code', value: 'x' }]);
   });
 
-  it('extracts text and links', () => {
-    const md =
-      'See [the formatter](/developer-tools/json-formatter).\n\n- a [b](https://example.com)';
-    expect(markdownToText(md)).toBe('See the formatter.\n\na b');
-    expect(collectLinks(md)).toEqual(['/developer-tools/json-formatter', 'https://example.com']);
+  it('extracts plain text from inline nodes', () => {
+    expect(inlineToText(parseInline('See **the** [formatter](/x) and `code`.'))).toBe(
+      'See the formatter and code.',
+    );
   });
 });

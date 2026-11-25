@@ -1,4 +1,4 @@
-import { SITE_NAME } from '@/config/site';
+import { brandTitle } from '@/config/site';
 import type { Tool } from '../types';
 
 export const jsonToTypescript: Tool = {
@@ -6,7 +6,7 @@ export const jsonToTypescript: Tool = {
   category: 'developer-tools',
   name: 'JSON to TypeScript Converter',
   h1: 'JSON to TypeScript Interface Generator',
-  metaTitle: `JSON to TypeScript: Generate Interfaces Online | ${SITE_NAME}`,
+  metaTitle: brandTitle('JSON to TypeScript: Generate Interfaces Online'),
   metaDescription:
     'Convert JSON to TypeScript interfaces or types instantly. Detects optional fields, nested objects and union types. Free, private, no upload needed.',
   primaryKeyword: 'JSON to TypeScript',
