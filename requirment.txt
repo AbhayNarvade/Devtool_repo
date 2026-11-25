@@ -1,0 +1,276 @@
+Build prompt for Claude Code
+
+Before you paste this: fill in the 4 values in the "Project settings" block below. Then paste everything from "START OF PROMPT" to "END OF PROMPT" into Claude Code, run from an empty folder.
+
+START OF PROMPT
+
+You are building a production-ready, SEO-first website of free online tools that run 100% in the user's browser. It will be monetized with Google AdSense and hosted on Cloudflare Pages as a static site. Read this whole spec before writing any code.
+
+0. Rules for how you work
+Do not assume anything. If any part of this spec is unclear, conflicting or technically impossible, STOP and ask me before choosing. Do not silently drop or simplify a requirement.
+First, reply with a short build plan (folder structure, library list with versions, and the batch order from section 12). Wait for my "OK" before writing code.
+Build in the batches listed in section 12. After each batch: run npm run build, npm run test and npm run check:seo; fix every error; make a git commit; then tell me what was done and what is next.
+Never use placeholder text like "Lorem ipsum" or "Content coming soon". Every page must be complete when it is committed.
+Use the latest stable versions of all packages. Do not use deprecated APIs.
+Keep all site-wide values (name, domain, email, IDs) in one config file so I can change them in one place.
+1. Project settings
+SITE_NAME      = <YOUR SITE NAME, e.g. ToolzyNest>
+DOMAIN         = <YOUR DOMAIN, e.g. toolzynest.com>   (production URL: https://DOMAIN, no www)
+CONTACT_EMAIL  = <YOUR EMAIL>
+OWNER_NAME     = <YOUR NAME or brand name, shown on About page>
+LANGUAGE       = English (en), global audience
+
+AdSense publisher ID and Google Analytics ID are NOT known yet. Read them from environment variables (section 8). The site must build and work perfectly when they are empty.
+
+2. Tech stack (fixed, do not change without asking)
+Next.js (latest stable, App Router) + TypeScript (strict mode) + React
+Static export: output: 'export' in next.config, images: { unoptimized: true }, trailingSlash: false. The build output goes to /out.
+Tailwind CSS for styling. Light and dark mode (follows system setting, plus a toggle that remembers the choice in localStorage wrapped in try/catch).
+Fonts: next/font (self-hosted, display: swap). No Google Fonts <link> requests.
+No backend, no API routes, no server functions, no database, no login. Every tool runs fully in the browser. User files are NEVER uploaded anywhere.
+Testing: Vitest for unit tests of all pure logic.
+Linting: ESLint + Prettier.
+Node version: 22 (add .nvmrc and "engines" in package.json).
+3. Site structure and URLs
+
+All URLs are lowercase, hyphenated and keyword-based. No trailing slashes. No query strings for content.
+
+/                          Homepage
+/developer-tools           Category page
+/image-tools               Category page
+/pdf-tools                 Category page
+/css-tools                 Category page
+/text-tools                Category page
+/{category}/{tool-slug}    Each tool page (full list in section 4)
+/about
+/contact
+/privacy-policy
+/terms
+/sitemap.xml               Generated
+/robots.txt                Generated
+/ads.txt                   Static file in /public (section 8)
+404 page                   Custom, helpful, links to popular tools
+4. Complete tool list (every item is its own indexable page)
+
+Bidirectional tools get one page per direction (separate SEO pages that share one component, each with its own unique title, description, H1 and content).
+
+Developer tools — /developer-tools/...
+#	Slug	Tool	Implementation
+1	json-formatter	JSON formatter, validator and minifier (indent 2/4/tab, sort keys, show error line and column)	native JSON
+2	json-to-yaml	JSON → YAML	js-yaml
+3	yaml-to-json	YAML → JSON	js-yaml
+4	json-to-csv	JSON → CSV (flatten nested objects, choose delimiter)	papaparse
+5	csv-to-json	CSV → JSON (header row toggle, delimiter auto-detect)	papaparse
+6	json-to-typescript	JSON → TypeScript interfaces (root name input, optional fields)	write own generator or a small maintained lib; unit test it
+7	base64-encode	Base64 encode (text + file to Base64, UTF-8 safe)	native
+8	base64-decode	Base64 decode (text, and download as file)	native
+9	url-encode	URL encode (component vs full URL option)	native
+10	url-decode	URL decode	native
+11	jwt-decoder	JWT decoder (header, payload, exp/iat shown as readable dates, expired badge). Clearly state it does NOT verify signatures.	own base64url decode
+12	unix-timestamp-converter	Timestamp ↔ date (seconds and ms, local + UTC + ISO 8601, live current timestamp)	native Intl
+13	uuid-generator	UUID v4 and v7, bulk (1–1000), uppercase toggle, copy all, download .txt	crypto.randomUUID + own v7
+14	hash-generator	MD5, SHA-1, SHA-256, SHA-384, SHA-512 for text and files	crypto.subtle + small MD5 lib
+15	regex-tester	Regex tester: flags, live match highlighting, capture groups table, replace preview, cheat sheet. Run matching in a Web Worker with a timeout to survive catastrophic backtracking.	native RegExp
+16	cron-expression-generator	Cron builder + explainer: visual builder, human-readable description, next 10 run times, common presets	cronstrue + cron-parser
+17	sql-formatter	SQL formatter (dialect select, keyword case, indent)	sql-formatter
+18	chmod-calculator	chmod calculator (checkbox grid ↔ octal ↔ symbolic, shows the command)	own logic
+19	subnet-calculator	IPv4 subnet/CIDR calculator (network, broadcast, mask, wildcard, host range, host count)	own logic, fully unit tested
+Image tools — /image-tools/...
+#	Slug	Tool	Implementation
+20	compress-image	Compress JPG/PNG/WebP (quality slider, before/after size and % saved, batch, ZIP download)	browser-image-compression + jszip
+21	resize-image	Resize by pixels or %, keep aspect ratio, batch	Canvas / OffscreenCanvas
+22	image-converter	Convert between PNG, JPG, WebP (hub page linking to the 6 pages below)	Canvas
+23	png-to-jpg	PNG → JPG (background color for transparency)	Canvas
+24	jpg-to-png	JPG → PNG	Canvas
+25	png-to-webp	PNG → WebP	Canvas
+26	webp-to-png	WebP → PNG	Canvas
+27	jpg-to-webp	JPG → WebP	Canvas
+28	webp-to-jpg	WebP → JPG	Canvas
+29	crop-image	Crop with free and preset ratios (1:1, 16:9, 4:3, 9:16), rotate, flip	react-easy-crop + Canvas
+PDF tools — /pdf-tools/...
+#	Slug	Tool	Implementation
+30	merge-pdf	Merge multiple PDFs, drag to reorder files	pdf-lib
+31	split-pdf	Split by page ranges or every N pages, or extract selected pages; ZIP download	pdf-lib + jszip
+32	jpg-to-pdf	Images (JPG/PNG/WebP) → PDF: page size (A4/Letter/fit), orientation, margins, reorder	pdf-lib
+33	compress-pdf	Compress PDF by re-rendering pages as images at chosen quality. The UI and page content MUST honestly explain that text becomes non-selectable and that text-only PDFs may shrink very little. Show before/after size.	pdfjs-dist + pdf-lib
+34	organize-pdf	Rotate, reorder and delete pages with page thumbnails	pdfjs-dist (thumbnails) + pdf-lib
+CSS and design tools — /css-tools/...
+#	Slug	Tool	Implementation
+35	css-gradient-generator	Linear/radial/conic, multiple color stops, angle, live preview, copy CSS and Tailwind	own
+36	css-box-shadow-generator	Multiple layers, inset, live preview, copy CSS and Tailwind	own
+37	color-picker	Color picker + HEX/RGB/HSL/OKLCH converter + WCAG contrast checker	own
+38	color-palette-generator	Palettes: complementary, analogous, triadic, shades/tints; export CSS variables, Tailwind config, PNG	own
+39	qr-code-generator	QR for URL, text, Wi-Fi, email, phone; colors, size, error correction; download PNG and SVG	qrcode
+Text tools — /text-tools/...
+#	Slug	Tool	Implementation
+40	word-counter	Words, characters (with/without spaces), sentences, paragraphs, reading time, keyword density	own
+41	password-generator	Length, character sets, exclude similar characters, bulk, strength meter	crypto.getRandomValues only (never Math.random)
+Common tool behaviour (all tools)
+Works on mobile and desktop. Drag-and-drop + file picker + paste where it makes sense.
+"Load sample" button, "Clear" button, "Copy" button (with a toast), "Download" button where output is a file or text.
+Show clear, friendly error messages (e.g. invalid JSON with line/column).
+Heavy libraries (pdf-lib, pdfjs-dist, js-yaml, sql-formatter, jszip, etc.) are loaded with dynamic import() only when the tool is used, so they never slow down page load.
+CPU-heavy work (PDF, batch images, hashing large files, regex) runs in Web Workers so the UI never freezes.
+Show a visible "Your files never leave your device. Processing happens in your browser." note on every file tool.
+Fully keyboard accessible, visible focus states, labels on every input, ARIA where needed. Target WCAG 2.2 AA contrast.
+5. Single source of truth: the tool registry
+
+Create src/data/tools.ts with one typed entry per tool. Every page, the homepage, category pages, search, related links, sitemap and structured data are generated from it. Fields:
+
+ts
+{
+  slug, category,
+  name,                    // short display name
+  h1,                      // contains the primary keyword
+  metaTitle,               // 50–60 chars, primary keyword first, ends with " | SITE_NAME"
+  metaDescription,         // 140–160 chars, unique, includes keyword + benefit + "free, no upload" where true
+  primaryKeyword, secondaryKeywords[],
+  intro,                   // 1–2 sentence summary shown above the tool
+  howToSteps[],            // 3–6 steps
+  features[],
+  contentSections[],       // { heading, body } – the long-form content (see section 6)
+  faqs[],                  // 5–8 { question, answer }
+  relatedSlugs[],          // 4–6 related tools, must exist
+  schemaCategory,          // e.g. "DeveloperApplication", "MultimediaApplication", "UtilitiesApplication"
+  lastUpdated,             // ISO date
+  popular?: boolean        // shown on homepage and 404
+}
+6. Content requirements (critical for AdSense approval and ranking)
+
+Google rejects sites for "low value content". Every tool page must have real, useful, original text written for humans.
+
+Each tool page, in this order:
+
+Breadcrumbs (Home › Category › Tool)
+H1 (one per page) + 1–2 sentence intro
+The tool itself, visible above the fold
+"How to use [tool]" — numbered steps
+"What is [X]?" — a clear explanation of the concept (e.g. what JSON/YAML/JWT/cron is)
+Practical examples (real input → output examples in code blocks where relevant)
+Features list, including the privacy point
+Common errors / tips section where relevant
+FAQ (5–8 questions people actually search for)
+Related tools (4–6 internal links with descriptive anchor text)
+"Last updated" date
+
+Rules:
+
+At least 700 words of unique text per tool page (excluding the UI and nav). Hub/category pages at least 300 words.
+Content must be technically accurate. No made-up statistics, no fake reviews, no fake user counts, no fake ratings.
+Do not copy or closely paraphrase any other website.
+No keyword stuffing. Use the primary keyword naturally in: title, H1, first paragraph, one H2, meta description, image alt text.
+Correct heading hierarchy (H1 → H2 → H3, no skipped levels).
+Direction pages (e.g. json-to-yaml vs yaml-to-json) must have genuinely different text, not the same text with words swapped.
+
+Other pages:
+
+Homepage: H1 + short intro, client-side search box that filters tools, all categories with tool cards, a "Popular tools" section, a "Why use SITE_NAME" section (privacy, free, no sign-up, fast), and a short FAQ. At least 400 words.
+Category pages: H1, intro, a grid of the category's tools, explanatory text, FAQ.
+About: who runs the site (OWNER_NAME), why it exists, how the tools work (in-browser processing), contact link.
+Contact: a mailto: CONTACT_EMAIL link and a contact form that submits to Formspree using the env var NEXT_PUBLIC_FORMSPREE_ID. If the env var is empty, show only the email link.
+Privacy Policy: must explicitly cover: files are processed locally and never uploaded; Google AdSense and third-party vendors (including Google) use cookies to serve ads based on prior visits; Google's use of advertising cookies; how users can opt out of personalized ads (link to Google Ads Settings and aboutads.info); Google Analytics if enabled; localStorage use for theme; contact details; effective date. Include a link to "How Google uses information from sites or apps that use our services" (https://policies.google.com/technologies/partner-sites).
+Terms of Use: standard terms, tools provided "as is", no warranty, user responsible for their files.
+Footer on every page: links to all categories, About, Contact, Privacy Policy, Terms, copyright year.
+7. Technical SEO checklist (every item is required)
+
+Metadata (Next.js Metadata API)
+
+metadataBase set to https://DOMAIN.
+Title template %s | SITE_NAME; unique title and description on every page.
+Self-referencing canonical URL on every page (alternates.canonical), absolute, no trailing slash.
+robots: index, follow on all public pages; max-image-preview:large, max-snippet:-1.
+Open Graph (type, url, title, description, siteName, locale en_US, image 1200×630) and Twitter card summary_large_image on every page.
+Per-page OG images: generate one 1200×630 PNG per tool and category at build time (site name + tool name + category, on-brand). If Next's opengraph-image doesn't work with static export, use a prebuild Node script with satori + @resvg/resvg-js that writes to /public/og/. Do not skip this.
+<html lang="en">, viewport, theme-color for light and dark.
+Favicon set: favicon.ico, SVG icon, apple-touch-icon (180×180), icons 192 and 512, and site.webmanifest. Create a simple original logo mark (no copied brand assets).
+
+Structured data (JSON-LD, validated)
+
+Every page: Organization (name, url, logo) and WebSite (name, url). Do NOT add SearchAction (Google retired the sitelinks search box).
+Every tool page: WebApplication (name, url, description, applicationCategory, operatingSystem "Any", browserRequirements, offers price 0 USD) + BreadcrumbList + FAQPage built from the visible FAQs (the FAQ text in JSON-LD must exactly match what is visible on the page).
+Category pages: CollectionPage + BreadcrumbList + ItemList of tools.
+Do NOT add HowTo markup (deprecated by Google) or AggregateRating/Review (we have no genuine reviews).
+
+Crawling and indexing
+
+app/sitemap.ts (with export const dynamic = 'force-static') listing every indexable URL with lastModified from the registry. Exclude 404.
+app/robots.ts (also force-static): allow all, point to https://DOMAIN/sitemap.xml.
+404 page has noindex and must be served with a real 404 status (Cloudflare Pages does this with 404.html — verify the export produces it).
+All main content and links are present in the static HTML (server-rendered at build). Tool UIs may hydrate on the client, but headings, intro, how-to, content, FAQ and links must be in the initial HTML. Verify by inspecting files in /out.
+Every page reachable within 3 clicks from the homepage. No orphan pages. Breadcrumbs on all non-home pages.
+Use <a>/next/link for all internal links (no JS-only navigation).
+Every image has meaningful alt text, width and height.
+
+Performance (Core Web Vitals)
+
+Target Lighthouse (mobile) ≥ 95 for Performance, Accessibility, Best Practices and SEO on the homepage and on 3 sample tool pages. Report the scores to me.
+LCP < 2.5s, CLS < 0.1, INP < 200ms.
+Reserve fixed space for every ad slot (min-height) so ads never cause layout shift.
+Keep first-load JS small: no heavy library in the shared bundle; code-split per tool.
+public/_headers file for Cloudflare Pages: long immutable cache for /_next/static/*; X-Content-Type-Options: nosniff; Referrer-Policy: strict-origin-when-cross-origin; Permissions-Policy that disables camera/microphone/geolocation. Do NOT add a strict Content-Security-Policy (it would break AdSense); mention this choice in the README.
+
+Automated SEO guard: npm run check:seo Write a script that fails the build if any of these are wrong:
+
+Any duplicate metaTitle, metaDescription or h1
+metaTitle outside 30–60 chars or metaDescription outside 120–160 chars
+Fewer than 5 FAQs, or fewer than 4 related tools, or a related slug that doesn't exist
+Tool page body text under 700 words
+Missing OG image file for any page
+Any page in /out missing: <title>, meta description, canonical, exactly one <h1>, valid JSON-LD
+Any internal link pointing to a URL that doesn't exist in /out
+Any image without alt
+8. Ads and analytics
+
+Environment variables (add .env.example with all of them, empty):
+
+NEXT_PUBLIC_SITE_URL=https://DOMAIN
+NEXT_PUBLIC_ADSENSE_CLIENT=        # e.g. ca-pub-XXXXXXXXXXXXXXXX
+NEXT_PUBLIC_GA_ID=                 # e.g. G-XXXXXXXXXX (optional)
+NEXT_PUBLIC_FORMSPREE_ID=          # optional
+
+AdSense
+
+If NEXT_PUBLIC_ADSENSE_CLIENT is set: load the AdSense script once in the root layout (async, crossOrigin="anonymous", via next/script afterInteractive). If empty: load nothing and render no ad boxes.
+Create an <AdSlot slot="..." format="..." /> component with reserved min-height and a small "Advertisement" label. It must work with client-side navigation between pages.
+Ad placements per tool page (all configurable in one config file): one below the tool (never touching the tool's buttons), one in the middle of the content, one before the FAQ. One sidebar ad on desktop only. Homepage and category pages: max 2. No ads on About, Contact, Privacy, Terms or 404.
+Follow AdSense policy: never place ads where they could be mistaken for tool buttons or download links, keep clear spacing from clickable controls, no text encouraging clicks.
+public/ads.txt with the line google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0 and a comment telling me to replace the ID. Add a README note on exactly where to edit it.
+Do not build a custom cookie banner. Explain in DEPLOY.md that consent for EEA/UK/Switzerland visitors is set up in AdSense → Privacy & messaging (Google's certified CMP).
+
+Google Analytics 4 (optional): load only if NEXT_PUBLIC_GA_ID is set, after interaction-friendly loading, and track page views on client-side navigation.
+
+9. Design
+Clean, modern, fast, trustworthy. Neutral palette with one accent colour. Generous spacing, readable 16px+ body text.
+Sticky header: logo, category links, search. Mobile: hamburger menu.
+Tool cards with simple inline SVG icons (no icon font, no copied brand logos).
+Must look good from 320px wide phones up to large desktops.
+10. Project quality
+Clear folder structure: src/app, src/components, src/tools/<slug>/ (UI + logic + worker), src/lib, src/data, scripts/.
+Pure logic separated from UI so it can be unit tested.
+Unit tests for: all converters, JWT decode, timestamp conversion, UUID v7 format, hash outputs (known vectors), subnet calculator, chmod calculator, cron description/next runs, password generator rules, word counter, JSON→TypeScript.
+No console errors or warnings in the browser on any page.
+11. Documentation to create
+README.md — what the project is, how to run locally, how to add a new tool (step-by-step using the registry), scripts, env vars.
+DEPLOY.md — step-by-step for a beginner:
+Create a GitHub repo and push.
+Cloudflare Pages: connect the repo, framework preset, build command npm run build, output directory out, NODE_VERSION=22, env vars.
+Add the custom domain (apex) and redirect www → apex with a Cloudflare redirect rule. Force HTTPS.
+Turn on Cloudflare Web Analytics and Crawler Hints.
+Google Search Console: verify the domain via DNS, submit sitemap.xml, use URL Inspection on the homepage and top tools.
+Bing Webmaster Tools: import from Search Console, submit sitemap.
+AdSense: sign up, add site, add the publisher ID env var, update ads.txt, redeploy, request review, set up Privacy & messaging (CMP).
+LAUNCH-CHECKLIST.md — a tick-box list of everything to verify before and after launch (Rich Results Test on 3 pages, Lighthouse scores, mobile test, every tool tested with real files, ads.txt reachable, sitemap reachable, 404 returns 404, www redirect works).
+CONTENT-PLAN.md — a plan (not built yet) for Phase 3 long-tail pages: e.g. /cron/every-5-minutes, /regex/email-validation, /developer-tools/json-to-yaml style variants. Make sure the current architecture can add these later from data files without code changes to page templates.
+12. Build order (batches)
+Project setup, config, layout, header/footer, theme, registry types, SEO helpers (metadata, JSON-LD, OG generation), sitemap, robots, 404, check:seo script, AdSlot, analytics, _headers, ads.txt.
+Homepage, category pages, About, Contact, Privacy Policy, Terms.
+Developer tools 1–10.
+Developer tools 11–19.
+Image tools 20–29.
+PDF tools 30–34.
+CSS and text tools 35–41.
+Final pass: run every check, fix everything, Lighthouse report, write README, DEPLOY, LAUNCH-CHECKLIST, CONTENT-PLAN. Give me a final summary listing every page URL.
+
+Start now with the build plan from rule 2, then wait for my OK.
+
+END OF PROMPT

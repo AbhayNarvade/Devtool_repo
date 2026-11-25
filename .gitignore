@@ -1,0 +1,26 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+*.tsbuildinfo
+
+# generated at build time by scripts/generate-assets.ts
+/public/og/
+/public/favicon.ico
+/public/icon.svg
+/public/apple-touch-icon.png
+/public/icon-192.png
+/public/icon-512.png
+/public/site.webmanifest
+
+# env files (keep .env.example)
+.env
+.env*.local
+
+# misc
+.DS_Store
+npm-debug.log*
+/lighthouse/

@@ -1,0 +1,5 @@
+# ads.txt: authorizes Google AdSense to sell ads on this site.
+# TODO before requesting AdSense review: replace pub-XXXXXXXXXXXXXXXX below with YOUR publisher ID
+# (AdSense -> Account -> Account information -> Publisher ID, e.g. pub-1234567890123456).
+# Keep "pub-" (without the "ca-" prefix used in NEXT_PUBLIC_ADSENSE_CLIENT). See README "ads.txt".
+google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
