@@ -107,7 +107,8 @@ body {
     color: var(--fg);
     line-height: 1.75;
   }
-  .prose-content > * + * {
+  /* Vertical rhythm at every nesting level; :where keeps specificity low so headings override it. */
+  .prose-content :where(* + *) {
     margin-top: 1rem;
   }
   .prose-content h2 {

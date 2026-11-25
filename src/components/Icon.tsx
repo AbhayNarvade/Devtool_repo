@@ -99,6 +99,7 @@ const UI_PATHS = {
   arrowUp: 'M12 19V5M6 11l6-6 6 6',
   arrowDown: 'M12 5v14M6 13l6 6 6-6',
   eye: 'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
+  file: 'M6 3h8l5 5v13H6zM14 3v5h5',
 } as const;
 
 export type UiIconName = keyof typeof UI_PATHS;
