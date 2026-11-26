@@ -75,7 +75,7 @@ That matters most for the data developers handle every day: API responses that c
     contentSections: [
       {
         heading: 'Edit images without uploading them',
-        body: `Most online image editors upload your photo to a server, process it there and send back the result. That costs time, uses mobile data twice and means a copy of your image exists on someone else's computer. The image tools on this site work differently: the browser decodes the image, draws it onto an HTML canvas, applies the change and encodes a new file, all inside the tab you are looking at. Personal photos, screenshots with private information and client artwork stay on your device.
+        body: `Most online image editors upload your photo to a server, process it there and send back the result. That costs time, uses mobile data twice and means a copy of your image exists on someone else’s computer. The image tools on this site work differently: the browser decodes the image, draws it onto an HTML canvas, applies the change and encodes a new file, all inside the tab you are looking at. Personal photos, screenshots with private information and client artwork stay on your device.
 
 Local processing is also fast. There is no upload queue, so even a batch of large photos is limited only by the speed of your computer.`,
       },
@@ -130,7 +130,7 @@ JPG (JPEG) uses lossy compression and is ideal for photographs, but it has no tr
         heading: 'Private PDF editing in your browser',
         body: `PDFs often contain the most sensitive documents people handle: contracts, bank statements, medical letters, invoices and identity documents. Uploading them to an online service to merge two files or remove a page is a real privacy risk. The PDF tools on this site read your files with JavaScript and build the new document inside your browser tab, so the content never travels over the internet.
 
-The tools use pdf-lib to create and modify documents and Mozilla's PDF.js to render page previews. Heavy work runs in the background so the page stays responsive while large files are processed.`,
+The tools use pdf-lib to create and modify documents and Mozilla’s PDF.js to render page previews. Heavy work runs in the background so the page stays responsive while large files are processed.`,
       },
       {
         heading: 'What each PDF tool does',
@@ -183,15 +183,15 @@ Real PDF compression is hard to do well inside a browser. Our compressor works b
     contentSections: [
       {
         heading: 'Design visually, ship real code',
-        body: `Writing a multi-stop gradient or a layered box shadow by hand means guessing numbers, saving, reloading and adjusting again. The generators in this category show a live preview while you change angles, colours, offsets and blur, then give you the exact CSS to paste into your stylesheet. Where it is useful, they also produce Tailwind CSS classes using arbitrary values, so the output works in utility-first projects without editing your Tailwind configuration.
+        body: `Writing a multi-stop gradient or a layered box shadow by hand means guessing numbers, saving, reloading and adjusting again. The generators in this category show a live preview while you change angles, colors, offsets and blur, then give you the exact CSS to paste into your stylesheet. Where it is useful, they also produce Tailwind CSS classes using arbitrary values, so the output works in utility-first projects without editing your Tailwind configuration.
 
-### Colour that is accessible as well as attractive
+### Color that is accessible as well as attractive
 
-Good colour choices are not only a matter of taste. The Web Content Accessibility Guidelines (WCAG) define minimum contrast ratios between text and its background: 4.5:1 for normal text and 3:1 for large text at level AA. The colour picker calculates this ratio for any pair of colours, so you can check readability before a design reaches users. It also converts between HEX, RGB, HSL and OKLCH, the perceptually uniform colour space that modern CSS supports.`,
+Good color choices are not only a matter of taste. The Web Content Accessibility Guidelines (WCAG) define minimum contrast ratios between text and its background: 4.5:1 for normal text and 3:1 for large text at level AA. The color picker calculates this ratio for any pair of colors, so you can check readability before a design reaches users. It also converts between HEX, RGB, HSL and OKLCH, the perceptually uniform color space that modern CSS supports.`,
       },
       {
         heading: 'Tools in this category',
-        body: `- **CSS Gradient Generator** for linear, radial and conic gradients with any number of colour stops.
+        body: `- **CSS Gradient Generator** for linear, radial and conic gradients with any number of color stops.
 - **CSS Box Shadow Generator** for single or layered shadows, including inset shadows.
 - **Color Picker** with format conversion and a WCAG contrast checker.
 - **Color Palette Generator** for complementary, analogous and triadic schemes plus tints and shades, with export as CSS variables, a Tailwind config snippet or a PNG swatch image.

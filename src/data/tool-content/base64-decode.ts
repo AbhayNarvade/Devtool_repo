@@ -18,7 +18,7 @@ export const base64Decode: Tool = {
     'decode data url',
   ],
   intro:
-    'Decode Base64 back into readable text, or into the original file when the data is an image, PDF or other binary. Standard, URL-safe and data URL input all work without changes.',
+    'Base64 decode strings back into readable text, or into the original file when the data is an image, PDF or other binary. Standard, URL-safe and data URL input all work without changes.',
   cardDescription: 'Decode Base64 to text, or download it as a file.',
   icon: 'binary',
   handlesFiles: true,
@@ -38,7 +38,7 @@ export const base64Decode: Tool = {
 The result of decoding is always a sequence of **bytes**. Whether those bytes are readable depends on what was encoded in the first place:
 
 - If the original was **text**, the bytes are usually UTF-8, and this tool decodes them into characters. It checks that they are valid UTF-8, so accented letters and emoji appear correctly rather than as garbled symbols.
-- If the original was a **file**, the bytes are not text. The tool recognises common formats from their first bytes (the "magic number"), for example PNG images start with \`89 50 4E 47\` and PDFs with \`%PDF\`, and offers the right file extension for the download. Images are previewed directly on the page.
+- If the original was a **file**, the bytes are not text. The tool recognizes common formats from their first bytes (the "magic number"), for example PNG images start with \`89 50 4E 47\` and PDFs with \`%PDF\`, and offers the right file extension for the download. Images are previewed directly on the page.
 
 ### Input the decoder accepts
 
@@ -96,7 +96,7 @@ Decoding \`YXBwX3VzZXI=\` gives \`app_user\`. Remember that anyone with access t
     {
       question: 'Can I convert Base64 to an image?',
       answer:
-        'Yes. Paste the Base64 or data URL of the image; the decoder recognises the format, shows a preview and lets you download it as a PNG, JPEG, GIF or WebP file.',
+        'Yes. Paste the Base64 or data URL of the image; the decoder recognizes the format, shows a preview and lets you download it as a PNG, JPEG, GIF or WebP file.',
     },
     {
       question: 'Do I need to remove the data:image/png;base64, prefix?',

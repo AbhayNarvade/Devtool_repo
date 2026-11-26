@@ -12,7 +12,7 @@ export interface BatchOutput {
   name: string;
   width?: number;
   height?: number;
-  /** Short note shown under the result (e.g. "Original kept: already optimised"). */
+  /** Short note shown under the result (e.g. "Original kept: already optimized"). */
   note?: string;
 }
 

@@ -18,14 +18,14 @@ export const chmodCalculator: Tool = {
     'unix permissions',
   ],
   intro:
-    'Tick read, write and execute for owner, group and others to get the octal value, the symbolic string and a ready-to-run chmod command. Typing a value like 644 or rw-r--r-- updates everything else.',
+    'This chmod calculator turns read, write and execute permissions for owner, group and others into the octal value, the symbolic string and a ready-to-run command. Typing a value like 644 or rw-r--r-- updates everything else.',
   cardDescription: 'Convert rwx permissions to octal and chmod commands.',
   icon: 'lock',
   howToSteps: [
     'Tick the permissions you want in the grid, or start from a common preset such as 644 or 755.',
     'Alternatively, type an octal value (755) or a symbolic string (rwxr-xr-x) into the boxes.',
     'Add the setuid, setgid or sticky bit if you need it.',
-    'Enter your file or folder name to personalise the command.',
+    'Enter your file or folder name to personalize the command.',
     'Copy the numeric or symbolic chmod command.',
   ],
   contentSections: [
@@ -35,7 +35,7 @@ export const chmodCalculator: Tool = {
       body: `Every file and directory on Linux, macOS and other Unix-like systems has three sets of permissions:
 
 - **Owner (u)**: the user who owns the file;
-- **Group (g)**: members of the file's group;
+- **Group (g)**: members of the file’s group;
 - **Others (o)**: everyone else.
 
 Each set has three permissions: **read (r)**, **write (w)** and **execute (x)**. For files, execute means the file can be run as a program. For directories, read lets you list the contents, write lets you create and delete entries, and execute lets you enter the directory and access files inside it.
@@ -56,7 +56,7 @@ So \`755\` means owner \`rwx\` (7), group \`r-x\` (5) and others \`r-x\` (5), sh
 
 ### Special bits
 
-An optional fourth digit at the front sets special modes: **setuid (4)** runs an executable with the owner's privileges, **setgid (2)** runs it with the group's privileges or, on a directory, makes new files inherit the directory's group, and the **sticky bit (1)** on a directory means only a file's owner can delete it (as in \`/tmp\`, which is \`1777\`). In \`ls -l\` they appear as \`s\` or \`t\` in the execute position; a capital \`S\` or \`T\` means the special bit is set without execute.`,
+An optional fourth digit at the front sets special modes: **setuid (4)** runs an executable with the owner’s privileges, **setgid (2)** runs it with the group’s privileges or, on a directory, makes new files inherit the directory’s group, and the **sticky bit (1)** on a directory means only a file’s owner can delete it (as in \`/tmp\`, which is \`1777\`). In \`ls -l\` they appear as \`s\` or \`t\` in the execute position; a capital \`S\` or \`T\` means the special bit is set without execute.`,
     },
     {
       heading: 'Common chmod examples',
@@ -81,7 +81,7 @@ chmod -R g+w project/             # add group write, recursively
     {
       heading: 'Permission tips and mistakes to avoid',
       kind: 'tips',
-      body: `- **Avoid \`chmod 777\`.** It lets every user on the system change or replace the file. If something "only works with 777", the real fix is usually the file's owner or group (\`chown\`), not wider permissions.
+      body: `- **Avoid \`chmod 777\`.** It lets every user on the system change or replace the file. If something "only works with 777", the real fix is usually the file’s owner or group (\`chown\`), not wider permissions.
 - **SSH is strict.** OpenSSH refuses private keys that others can read; use \`600\` for keys and \`700\` for the \`~/.ssh\` directory.
 - **Directories need execute.** A directory with \`644\` cannot be entered. Use \`755\` (or \`750\`) for directories and \`644\` (or \`640\`) for files.
 - **Be careful with \`-R\`.** \`chmod -R 755\` makes every file executable too. To set directories and files differently, use \`find . -type d -exec chmod 755 {} +\` and \`find . -type f -exec chmod 644 {} +\`.

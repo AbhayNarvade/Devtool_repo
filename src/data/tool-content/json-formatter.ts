@@ -18,7 +18,7 @@ export const jsonFormatter: Tool = {
     'json lint',
   ],
   intro:
-    'Paste JSON to pretty-print it with 2 spaces, 4 spaces or tabs, minify it to a single line, or sort its keys. Invalid JSON is flagged with the exact line, column and reason.',
+    'Use this JSON formatter to pretty-print JSON with 2 spaces, 4 spaces or tabs, minify it to a single line, or sort its keys. Invalid JSON is flagged with the exact line, column and reason.',
   cardDescription: 'Beautify, validate and minify JSON with exact error positions.',
   icon: 'braces',
   popular: true,
@@ -37,7 +37,7 @@ export const jsonFormatter: Tool = {
 
 A JSON formatter (also called a JSON beautifier or pretty printer) parses that text and prints it again with consistent indentation, one property per line and nested objects indented under their parents. The data does not change, only the whitespace around it. A minifier does the opposite: it removes every space and line break that is not inside a string, producing the smallest valid representation.
 
-Because the text has to be parsed before it can be re-printed, a formatter is also a **JSON validator**. If parsing fails, the document is not valid JSON, and this tool reports exactly where and why. The error checker is written to follow the JSON grammar precisely, so the message is the same in every browser rather than depending on the browser's built-in error text.
+Because the text has to be parsed before it can be re-printed, a formatter is also a **JSON validator**. If parsing fails, the document is not valid JSON, and this tool reports exactly where and why. The error checker is written to follow the JSON grammar precisely, so the message is the same in every browser rather than depending on the browser’s built-in error text.
 
 ### JSON syntax rules in brief
 
@@ -72,7 +72,7 @@ becomes this with **Beautify** and 2-space indentation:
 }
 \`\`\`
 
-With **Sort keys A–Z** turned on, every object's keys are ordered alphabetically at every level (array order is never changed). This is useful before comparing two JSON files with a diff tool, because the same data then always produces the same text.
+With **Sort keys A–Z** turned on, every object’s keys are ordered alphabetically at every level (array order is never changed). This is useful before comparing two JSON files with a diff tool, because the same data then always produces the same text.
 
 **Minify** turns any of the above back into the first, single-line form. Minified JSON is what you want to paste into an environment variable, a cURL command or a test fixture.`,
     },
@@ -139,7 +139,8 @@ JavaScript stores numbers as 64-bit floating point values, so integers above 9,0
     'json-to-yaml',
     'json-to-csv',
     'json-to-typescript',
-    'yaml-to-json',
+    'json-compare',
+    'sql-formatter',
     'base64-decode',
   ],
   schemaCategory: 'DeveloperApplication',

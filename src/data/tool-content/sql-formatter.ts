@@ -18,7 +18,7 @@ export const sqlFormatter: Tool = {
     'mysql formatter',
   ],
   intro:
-    'Turn long, single-line SQL into clean, indented queries that are easy to read and review. Pick your database dialect, keyword case and indentation.',
+    'This SQL formatter turns long, single-line SQL into clean, indented queries that are easy to read and review. Pick your database dialect, keyword case and indentation.',
   cardDescription: 'Beautify SQL for MySQL, PostgreSQL, SQL Server and more.',
   icon: 'database',
   howToSteps: [

@@ -6,7 +6,7 @@ export interface RenderTask {
   to: ImageFormatKey;
   /** 0–1, used for JPG and WebP. */
   quality: number;
-  /** Fill colour behind transparent pixels (always applied for JPG, which has no transparency). */
+  /** Fill color behind transparent pixels (always applied for JPG, which has no transparency). */
   background?: string;
   /** Output size; defaults to the source size. */
   size?: Size;
@@ -74,7 +74,7 @@ export function drawScaled(
   return out;
 }
 
-/** Flatten transparency onto a solid colour (needed for JPG). */
+/** Flatten transparency onto a solid color (needed for JPG). */
 export function flatten(canvas: AnyCanvas, color: string): AnyCanvas {
   const out = createCanvas(canvas.width, canvas.height);
   const ctx = context(out);

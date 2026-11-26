@@ -18,7 +18,7 @@ export const resizeImage: Tool = {
     'batch resize images',
   ],
   intro:
-    'Change the width and height of photos and graphics by exact pixels or by percentage. Keep the original proportions or set an exact size, for one image or a whole batch.',
+    'Resize image files by exact pixels or by percentage. Keep the original proportions or set an exact size, for one picture or a whole batch.',
   cardDescription: 'Resize images by pixels or percent, in batches.',
   icon: 'resize',
   handlesFiles: true,
@@ -34,7 +34,7 @@ export const resizeImage: Tool = {
     {
       heading: 'What happens when you resize image files?',
       kind: 'concept',
-      body: `A digital image is a grid of pixels. Resizing creates a new grid of a different size and calculates the colour of each new pixel from the pixels around it in the original, a process called **resampling**.
+      body: `A digital image is a grid of pixels. Resizing creates a new grid of a different size and calculates the color of each new pixel from the pixels around it in the original, a process called **resampling**.
 
 **Downscaling** (making an image smaller) combines several original pixels into one. Done carefully, it keeps the picture sharp while removing detail the target size cannot show anyway. This resizer reduces large images in halving steps with high-quality smoothing, which avoids the jagged edges and shimmering patterns ("aliasing") that a single big reduction can cause.
 

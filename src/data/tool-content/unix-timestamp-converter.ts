@@ -18,7 +18,7 @@ export const unixTimestampConverter: Tool = {
     'unix time now',
   ],
   intro:
-    'Convert Unix timestamps in seconds or milliseconds to readable dates in UTC and your local time zone, or turn a date back into a timestamp. The current Unix time updates live.',
+    'This Unix timestamp converter turns epoch seconds or milliseconds into readable dates in UTC and your local time zone, and dates back into timestamps. The current Unix time updates live.',
   cardDescription: 'Convert epoch seconds or milliseconds to dates.',
   icon: 'clock',
   howToSteps: [
@@ -37,7 +37,7 @@ Timestamps are popular in software because they are a single number with no time
 
 ### Seconds or milliseconds?
 
-Unix tools, PHP, Python's \`time.time()\` and most APIs use **seconds**. JavaScript (\`Date.now()\`), Java (\`System.currentTimeMillis()\`) and many JSON APIs use **milliseconds**, which makes the number three digits longer. The converter's Auto mode uses a simple rule: values with 12 or more digits are milliseconds. A second-based timestamp only reaches 12 digits in the year 5138, so the rule is safe for real data.
+Unix tools, PHP, Python’s \`time.time()\` and most APIs use **seconds**. JavaScript (\`Date.now()\`), Java (\`System.currentTimeMillis()\`) and many JSON APIs use **milliseconds**, which makes the number three digits longer. The converter’s Auto mode uses a simple rule: values with 12 or more digits are milliseconds. A second-based timestamp only reaches 12 digits in the year 5138, so the rule is safe for real data.
 
 | Value | Unit | Date (UTC) |
 | --- | --- | --- |
@@ -75,7 +75,7 @@ On Linux and macOS, \`date +%s\` prints the current Unix time, and \`date -u -d 
     {
       heading: 'Common timestamp mistakes',
       kind: 'tips',
-      body: `- **A date in 1970**: you passed seconds to a function that expects milliseconds, such as JavaScript's \`new Date()\`. Multiply by 1000.
+      body: `- **A date in 1970**: you passed seconds to a function that expects milliseconds, such as JavaScript’s \`new Date()\`. Multiply by 1000.
 - **A date tens of thousands of years in the future**: the opposite mistake, milliseconds used as seconds.
 - **Off by a few hours**: the timestamp was created from a local time as if it were UTC, or the other way round. A timestamp is always UTC-based; time zones only apply when displaying it. Use the "Interpret as" switch to see the difference.
 - **Daylight saving gaps**: some local times do not exist (clocks jump forward) or exist twice (clocks go back). Converting such a local time is ambiguous; store and exchange times in UTC to avoid the problem.

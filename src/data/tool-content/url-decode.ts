@@ -18,7 +18,7 @@ export const urlDecode: Tool = {
     'urldecode',
   ],
   intro:
-    'Turn percent-encoded URLs and query strings such as caf%C3%A9 back into readable text. Plus signs, UTF-8 characters and double-encoded values are handled for you.',
+    'URL decode percent-encoded links and query strings such as caf%C3%A9 back into readable text. Plus signs, UTF-8 characters and double-encoded values are handled for you.',
   cardDescription: 'Decode %XX escapes in URLs and query strings.',
   icon: 'link',
   howToSteps: [
@@ -34,7 +34,7 @@ export const urlDecode: Tool = {
       kind: 'concept',
       body: `Browsers, servers and APIs percent-encode characters that are not allowed in URLs: a space becomes \`%20\`, an ampersand \`%26\`, and non-English characters become one escape per UTF-8 byte, so \`ü\` turns into \`%C3%BC\`. That keeps URLs valid, but makes them hard to read when you are debugging a redirect, reading server logs or inspecting tracking parameters.
 
-**URL decoding** reverses the process. Each \`%XX\` sequence is turned back into the byte it represents, and the bytes are read as UTF-8 text. This tool uses the browser's \`decodeURIComponent\`, so the result is exactly what a JavaScript application would see.
+**URL decoding** reverses the process. Each \`%XX\` sequence is turned back into the byte it represents, and the bytes are read as UTF-8 text. This tool uses the browser’s \`decodeURIComponent\`, so the result is exactly what a JavaScript application would see.
 
 ### The plus sign
 

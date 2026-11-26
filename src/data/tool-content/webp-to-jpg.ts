@@ -8,7 +8,7 @@ export const webpToJpg: Tool = {
   h1: 'WebP to JPG Converter',
   metaTitle: brandTitle('WebP to JPG Converter: Batch, Free, Private'),
   metaDescription:
-    'Convert WebP to JPG online for maximum compatibility with apps, email and printing. Set the quality and background colour, convert in batches. Free and private.',
+    'Convert WebP to JPG online for maximum compatibility with apps, email and printing. Set the quality and background color, convert in batches. Free and private.',
   primaryKeyword: 'WebP to JPG',
   secondaryKeywords: [
     'convert webp to jpg',
@@ -17,14 +17,14 @@ export const webpToJpg: Tool = {
     'save webp as jpg',
   ],
   intro:
-    'Turn WebP images into JPG files that work in every app, email client, photo printer and upload form. Choose the JPG quality and the colour for any transparent areas.',
+    'Convert WebP to JPG files that work in every app, email client, photo printer and upload form. Choose the JPG quality and the color for any transparent areas.',
   cardDescription: 'Convert WebP images to universally supported JPG.',
   icon: 'convert',
   handlesFiles: true,
   howToSteps: [
     'Choose, drop or paste one or more WebP images.',
     'Set the JPG quality; 85–90% keeps the image looking the same.',
-    'If the WebP has transparency, pick the background colour (white by default).',
+    'If the WebP has transparency, pick the background color (white by default).',
     'Download the JPG files one by one or as a ZIP.',
   ],
   contentSections: [
@@ -42,7 +42,7 @@ Compared with [WebP to PNG](/image-tools/webp-to-png), converting to JPG gives a
 
 ### Transparent WebP images
 
-WebP supports transparent backgrounds; JPG does not. Before encoding, every pixel is placed on a solid **background colour** that you choose. Pick white for documents and printing, or match the colour of the page or slide where the picture will appear so soft edges blend in naturally.`,
+WebP supports transparent backgrounds; JPG does not. Before encoding, every pixel is placed on a solid **background color** that you choose. Pick white for documents and printing, or match the color of the page or slide where the picture will appear so soft edges blend in naturally.`,
     },
     {
       heading: 'WebP to JPG examples',
@@ -50,7 +50,7 @@ WebP supports transparent backgrounds; JPG does not. Before encoding, every pixe
       body: `| WebP image | JPG result |
 | --- | --- |
 | Product photo from an online shop | JPG of similar size, ready to print or email |
-| Sticker or logo with transparency | JPG with your chosen background colour |
+| Sticker or logo with transparency | JPG with your chosen background color |
 | Animated WebP | JPG of the first frame |
 
 For printing, use quality 90% or more. For sharing on chat apps or by email, 80–85% keeps files small while still looking sharp on phones.`,
@@ -73,7 +73,7 @@ Renaming a \`.webp\` file to \`.jpg\` does **not** convert it: the data inside i
       kind: 'tips',
       body: `- **Use high quality for printing.** Printed images show compression artifacts more than screens do; 90–95% is a safe range.
 - **Animated WebP files** become a still image of the first frame.
-- **Check soft edges** on transparent images after choosing the background colour; shadows designed for a light background look odd on a dark one.
+- **Check soft edges** on transparent images after choosing the background color; shadows designed for a light background look odd on a dark one.
 - **No quality is gained** by converting: if the WebP was heavily compressed, the JPG will not be sharper.
 - **Works in Safari too**, because every browser can create JPG files.
 - **Several images from one page?** Drop them all at once and download a single ZIP with every JPG, named after the original files.
@@ -83,7 +83,7 @@ Renaming a \`.webp\` file to \`.jpg\` does **not** convert it: the data inside i
   features: [
     'Converts WebP images to JPG (JPEG).',
     'Adjustable JPG quality from 10% to 100%.',
-    'Background colour for transparent areas.',
+    'Background color for transparent areas.',
     'Batch conversion with ZIP download.',
     'Works in all current browsers, including Safari.',
     'Background-thread processing for large batches.',
@@ -98,7 +98,7 @@ Renaming a \`.webp\` file to \`.jpg\` does **not** convert it: the data inside i
     {
       question: 'What happens to transparency?',
       answer:
-        'JPG cannot store transparency, so transparent areas are filled with the background colour you choose.',
+        'JPG cannot store transparency, so transparent areas are filled with the background color you choose.',
     },
     {
       question: 'Which quality should I use?',

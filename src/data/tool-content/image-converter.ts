@@ -8,7 +8,7 @@ export const imageConverter: Tool = {
   h1: 'Image Converter: PNG, JPG and WebP',
   metaTitle: brandTitle('Image Converter: PNG, JPG and WebP Online'),
   metaDescription:
-    'Free image converter for PNG, JPG and WebP: convert one picture or a whole batch, set quality and background colour, and download a ZIP. Runs in your browser.',
+    'Free image converter for PNG, JPG and WebP: convert one picture or a whole batch, set quality and background color, and download a ZIP. Runs in your browser.',
   primaryKeyword: 'image converter',
   secondaryKeywords: [
     'convert image format',
@@ -17,14 +17,14 @@ export const imageConverter: Tool = {
     'batch image converter',
   ],
   intro:
-    'Convert images between PNG, JPG and WebP in any direction, one at a time or in batches. Choose the target format, adjust quality and pick a background for transparent areas.',
+    'This image converter changes pictures between PNG, JPG and WebP in any direction, one at a time or in batches. Choose the target format, adjust the quality and pick a background for transparent areas.',
   cardDescription: 'Convert between PNG, JPG and WebP in any direction.',
   icon: 'image',
   handlesFiles: true,
   howToSteps: [
     'Add PNG, JPG or WebP images by choosing, dropping or pasting them. Mixed formats are fine.',
     'Choose the format to convert to.',
-    'For JPG and WebP, set the quality. For JPG, choose the colour that replaces transparency.',
+    'For JPG and WebP, set the quality. For JPG, choose the color that replaces transparency.',
     'Check the converted sizes in the list.',
     'Download each image or all of them as a ZIP file.',
   ],
@@ -71,13 +71,13 @@ Converting never improves quality: turning a small, heavily compressed JPG into 
     {
       heading: 'Batch conversion and file names',
       kind: 'examples',
-      body: `You can drop a whole folder's worth of images at once, even in mixed formats. Each file keeps its original name with the new extension, so \`team-photo.png\` becomes \`team-photo.webp\`. When several files would end up with the same name, the ZIP download numbers them (\`logo.jpg\`, \`logo (2).jpg\`) so nothing is overwritten. Changing the target format or quality re-converts every image in the list automatically, which makes it easy to compare the sizes different settings produce before downloading.`,
+      body: `You can drop a whole folder’s worth of images at once, even in mixed formats. Each file keeps its original name with the new extension, so \`team-photo.png\` becomes \`team-photo.webp\`. When several files would end up with the same name, the ZIP download numbers them (\`logo.jpg\`, \`logo (2).jpg\`) so nothing is overwritten. Changing the target format or quality re-converts every image in the list automatically, which makes it easy to compare the sizes different settings produce before downloading.`,
     },
     {
       heading: 'Conversion tips',
       kind: 'tips',
       body: `- **Quality 85–90%** is a good default for JPG and WebP photos; lower it if you need smaller files.
-- **Transparency and JPG**: transparent pixels are filled with the background colour you choose. Pick a colour that matches the page or document where the image will appear.
+- **Transparency and JPG**: transparent pixels are filled with the background color you choose. Pick a color that matches the page or document where the image will appear.
 - **Animated images**: only the first frame of an animated WebP is converted, because the canvas works with still images.
 - **Safari** can display WebP but cannot create WebP files. Convert to WebP in Chrome, Edge or Firefox.
 - **Metadata** such as EXIF and GPS location is removed during conversion.
@@ -88,7 +88,7 @@ Converting never improves quality: turning a small, heavily compressed JPG into 
     'Convert between PNG, JPG and WebP in every direction.',
     'Batch conversion with mixed input formats.',
     'Adjustable quality for JPG and WebP output.',
-    'Background colour for transparent areas when converting to JPG.',
+    'Background color for transparent areas when converting to JPG.',
     'Runs in a background thread; ZIP download for batches.',
     'Clear message when a browser cannot create a format.',
     'Your files never leave your device: conversion happens in your browser.',
@@ -111,7 +111,7 @@ Converting never improves quality: turning a small, heavily compressed JPG into 
     {
       question: 'What happens to transparent backgrounds?',
       answer:
-        'PNG and WebP keep transparency. JPG cannot store it, so transparent areas are filled with the background colour you select.',
+        'PNG and WebP keep transparency. JPG cannot store it, so transparent areas are filled with the background color you select.',
     },
     {
       question: 'Why can’t I create WebP files in Safari?',

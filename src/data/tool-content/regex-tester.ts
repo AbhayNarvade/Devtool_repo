@@ -18,7 +18,7 @@ export const regexTester: Tool = {
     'test regex',
   ],
   intro:
-    'Write a regular expression and see every match highlighted as you type, with capture groups in a table and a live replace preview. Slow patterns are stopped automatically instead of freezing the page.',
+    'Use this regex tester to see every match of a regular expression highlighted as you type, with capture groups in a table and a live replace preview. Slow patterns are stopped automatically instead of freezing the page.',
   cardDescription: 'Test regular expressions with live highlighting.',
   icon: 'regex',
   popular: true,
@@ -35,7 +35,7 @@ export const regexTester: Tool = {
       kind: 'concept',
       body: `A regular expression (regex) is a compact pattern that describes text: "three digits, a hyphen, four digits" is \`\\d{3}-\\d{4}\`. Regexes are used to validate input, search logs, extract data and rewrite text in editors, command-line tools and almost every programming language.
 
-They are also easy to get subtly wrong. A regex tester lets you try a pattern against real sample text and see exactly what it matches before you put it in code. This tester uses your browser's own JavaScript engine (\`RegExp\`), so results are identical to what \`String.prototype.match\`, \`matchAll\` and \`replace\` do in JavaScript and TypeScript. Most syntax is shared with Python, Java, .NET and PCRE, but details such as lookbehind support and named-group syntax can differ between engines.
+They are also easy to get subtly wrong. A regex tester lets you try a pattern against real sample text and see exactly what it matches before you put it in code. This tester uses your browser’s own JavaScript engine (\`RegExp\`), so results are identical to what \`String.prototype.match\`, \`matchAll\` and \`replace\` do in JavaScript and TypeScript. Most syntax is shared with Python, Java, .NET and PCRE, but details such as lookbehind support and named-group syntax can differ between engines.
 
 ### Flags
 
@@ -58,7 +58,7 @@ Some patterns, such as \`(a+)+$\`, take exponential time on certain inputs. In m
       body: `| Goal | Pattern | Matches |
 | --- | --- | --- |
 | ISO date | \`\\d{4}-\\d{2}-\\d{2}\` | \`2026-11-25\` |
-| Hex colour | \`#(?:[0-9a-fA-F]{3}){1,2}\\b\` | \`#fff\`, \`#4f46e5\` |
+| Hex color | \`#(?:[0-9a-fA-F]{3}){1,2}\\b\` | \`#fff\`, \`#4f46e5\` |
 | Whole word "cat" | \`\\bcat\\b\` | "cat" but not "concatenate" |
 | Trailing spaces | \`\\s+$\` | spaces at the end of the text |
 | Quoted text | \`"([^"]*)"\` | the text inside double quotes |
@@ -99,7 +99,7 @@ Named groups make longer patterns readable: \`(?<year>\\d{4})-(?<month>\\d{2})\`
   ],
   faqs: [
     {
-      question: 'Which regex flavour does this tester use?',
+      question: 'Which regex flavor does this tester use?',
       answer:
         'It uses JavaScript regular expressions (ECMAScript) as implemented by your browser. Results match what JavaScript and TypeScript code will do.',
     },

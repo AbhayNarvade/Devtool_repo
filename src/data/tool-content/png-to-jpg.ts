@@ -8,7 +8,7 @@ export const pngToJpg: Tool = {
   h1: 'PNG to JPG Converter',
   metaTitle: brandTitle('PNG to JPG Converter: Batch, Free, Private'),
   metaDescription:
-    'Convert PNG to JPG online to make large images much smaller. Choose a background colour for transparency and set the quality. Free batch conversion, no upload.',
+    'Convert PNG to JPG online to make large images much smaller. Choose a background color for transparency and set the quality. Free batch conversion, no upload.',
   primaryKeyword: 'PNG to JPG',
   secondaryKeywords: [
     'convert png to jpg',
@@ -17,14 +17,14 @@ export const pngToJpg: Tool = {
     'change png to jpg',
   ],
   intro:
-    'Turn PNG images into JPG files that are far smaller and accepted everywhere. Transparent areas are filled with a colour you choose, and you control the JPG quality.',
-  cardDescription: 'Convert PNG to smaller JPG files with a background colour.',
+    'Convert PNG to JPG files that are far smaller and accepted everywhere. Transparent areas are filled with a color you choose, and you control the JPG quality.',
+  cardDescription: 'Convert PNG to smaller JPG files with a background color.',
   icon: 'convert',
   handlesFiles: true,
   popular: true,
   howToSteps: [
     'Choose, drop or paste one or more PNG images.',
-    'Pick the background colour that should replace transparent areas (white by default).',
+    'Pick the background color that should replace transparent areas (white by default).',
     'Set the JPG quality; 85–90% keeps photos looking identical.',
     'Check the new file sizes in the list.',
     'Download the JPG files one by one or as a ZIP.',
@@ -43,7 +43,7 @@ JPG achieves its small size with lossy compression: it stores fine detail approx
 
 ### What happens to transparency
 
-PNG supports transparent and semi-transparent pixels; JPG does not. During conversion every pixel is placed on top of a solid **background colour**. Fully transparent areas become that colour, and soft edges such as anti-aliased text or shadows blend into it smoothly. Choose white for documents and most websites, black for dark slides, or the exact colour of the page the image will sit on, so the edges look clean.`,
+PNG supports transparent and semi-transparent pixels; JPG does not. During conversion every pixel is placed on top of a solid **background color**. Fully transparent areas become that color, and soft edges such as anti-aliased text or shadows blend into it smoothly. Choose white for documents and most websites, black for dark slides, or the exact color of the page the image will sit on, so the edges look clean.`,
     },
     {
       heading: 'PNG to JPG examples',
@@ -52,35 +52,35 @@ PNG supports transparent and semi-transparent pixels; JPG does not. During conve
 | --- | --- | --- |
 | Photo exported from an editor | Yes | Large size reduction, no visible change at 85–90% |
 | Screenshot of a web page with photos | Usually | Text edges may soften slightly; use 90%+ |
-| Logo with transparent background | Only if needed | Transparency becomes the background colour |
+| Logo with transparent background | Only if needed | Transparency becomes the background color |
 | Diagram, chart or UI with sharp text | Usually not | JPG artifacts appear around lines and letters |
 
-If a site requires JPG but your image is a logo, pick the background colour that matches the site, convert at quality 95% or higher, and check the edges at full size.`,
+If a site requires JPG but your image is a logo, pick the background color that matches the site, convert at quality 95% or higher, and check the edges at full size.`,
     },
     {
-      heading: 'Choosing the background colour',
+      heading: 'Choosing the background color',
       kind: 'examples',
-      body: `The background colour only matters for pixels that are fully or partly transparent. Some common choices:
+      body: `The background color only matters for pixels that are fully or partly transparent. Some common choices:
 
 - \`#ffffff\` (white) for Word and Google Docs files, emails and most websites.
 - \`#000000\` (black) for dark presentation slides and video overlays.
-- The exact hex code of a coloured page or brand panel, so the image blends in without a visible box around it.
+- The exact hex code of a colored page or brand panel, so the image blends in without a visible box around it.
 
-You can pick the colour with the colour picker; changing it re-converts all images in the list straight away.`,
+You can pick the color with the color picker; changing it re-converts all images in the list straight away.`,
     },
     {
       heading: 'Tips for converting PNG to JPG',
       kind: 'tips',
       body: `- **Keep the PNG.** JPG is lossy; if you need to edit the image again, edit the PNG and convert again rather than editing the JPG.
 - **Check text and thin lines** at 100% zoom after converting. If you see fuzzy halos, raise the quality or keep the image as PNG.
-- **Semi-transparent shadows** blend into the background colour, so a shadow made for a white page looks wrong on a dark one.
+- **Semi-transparent shadows** blend into the background color, so a shadow made for a white page looks wrong on a dark one.
 - **Large batches** are processed in a background thread, one image at a time, and you can download them together as a ZIP.
 - **Going the other way?** See the [JPG to PNG converter](/image-tools/jpg-to-png). To shrink files further, try [PNG to WebP](/image-tools/png-to-webp), which also keeps transparency.`,
     },
   ],
   features: [
     'Converts PNG images to JPG (JPEG) in batches.',
-    'Background colour picker for transparent and semi-transparent pixels.',
+    'Background color picker for transparent and semi-transparent pixels.',
     'Adjustable JPG quality from 10% to 100%.',
     'Shows the size of every converted file.',
     'Background-thread processing with ZIP download.',
@@ -96,7 +96,7 @@ You can pick the colour with the colour picker; changing it re-converts all imag
     {
       question: 'What happens to the transparent background?',
       answer:
-        'JPG cannot store transparency, so transparent areas are filled with the background colour you choose. White is the default.',
+        'JPG cannot store transparency, so transparent areas are filled with the background color you choose. White is the default.',
     },
     {
       question: 'Which JPG quality should I choose?',

@@ -15,28 +15,28 @@ export const metadata = buildMetadata({
 
 const body = `## Who runs ${SITE_NAME}
 
-${SITE_NAME} is built and maintained by **${OWNER_NAME}**, a software developer who got tired of pasting work data into websites that upload it to unknown servers. Every tool on the site is designed, written and tested by ${OWNER_NAME}, and every page explains what the tool does, how to use it and what its limits are.
+${SITE_NAME} is built and maintained by **${OWNER_NAME}**. Every tool page explains what the tool does, how to use it and what its limits are, and the calculations behind the tools are checked against published reference values, such as the standard test vectors for hash functions, before they go live.
 
 ## Why this site exists
 
-Small utilities are part of everyday work: formatting a JSON response, decoding a token, shrinking a photo before emailing it, merging two PDFs, checking whether a colour has enough contrast. The web is full of tools for these jobs, but many of them upload your data, hide basic features behind an account, add watermarks or are slow because of heavy pages.
+Small utilities are part of everyday work: formatting a JSON response, decoding a token, shrinking a photo before emailing it, comparing two JSON files, checking whether a color has enough contrast. The web is full of tools for these jobs, but many of them upload your data, hide basic features behind an account, add watermarks or are slow because of heavy pages.
 
 ${SITE_NAME} aims to be the opposite:
 
 - **Private**: your files and text are processed on your own device.
 - **Free**: no paid tier, no daily limits and no watermarks.
 - **Simple**: no sign-up, no installation, no browser extension.
-- **Honest**: when a tool has a limitation, the page says so. For example, the PDF compressor explains that it turns pages into images.
+- **Honest**: when a tool has a limitation, the page says so. For example, the JWT decoder states clearly that it does not verify signatures.
 
 ## How the tools work
 
-Every tool is a web page that runs JavaScript in your browser. When you paste text or choose a file, the browser itself does the work: JSON is parsed by the browser's JSON engine, images are processed with the HTML canvas, PDFs are rebuilt with open-source PDF libraries that run inside the tab, and hashes are calculated with the Web Crypto API. Heavier jobs run in background threads called Web Workers so the page stays responsive.
+Every tool is a web page that runs JavaScript in your browser. When you paste text or choose a file, the browser itself does the work: JSON is parsed by the browser’s JSON engine, images are processed with the HTML canvas, and hashes are calculated with the Web Crypto API. Heavier jobs run in background threads called Web Workers so the page stays responsive.
 
-Because the processing is local, there is no server receiving your data. You can confirm this yourself: open your browser's developer tools, switch to the Network tab and use any tool. You will see the page and its code load, but your files are never sent anywhere.
+Because the processing is local, there is no server receiving your data. You can confirm this yourself: open your browser’s developer tools, switch to the Network tab and use any tool. You will see the page and its code load, but your files are never sent anywhere.
 
 ## How the site is funded
 
-${SITE_NAME} is free because it shows advertising from Google AdSense. Ads are clearly labelled, kept apart from the tool controls, and never have access to the content you process. The [Privacy Policy](/privacy-policy) explains which cookies are used and how to opt out of personalised ads.
+${SITE_NAME} is free because it shows advertising from Google AdSense. Ads are clearly labeled, kept apart from the tool controls, and never have access to the content you process. The [Privacy Policy](/privacy-policy) explains which cookies are used and how to opt out of personalized ads.
 
 ## Get in touch
 

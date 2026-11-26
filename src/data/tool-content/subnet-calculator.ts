@@ -18,7 +18,7 @@ export const subnetCalculator: Tool = {
     'wildcard mask',
   ],
   intro:
-    'Enter an IPv4 address with a CIDR prefix or subnet mask to see the network and broadcast addresses, usable host range, host count, wildcard mask and binary breakdown.',
+    'This IPv4 subnet calculator takes an address with a CIDR prefix or subnet mask and shows the network and broadcast addresses, usable host range, host count, wildcard mask and binary breakdown.',
   cardDescription: 'Calculate IPv4 network, broadcast and host ranges.',
   icon: 'network',
   howToSteps: [

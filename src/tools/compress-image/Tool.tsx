@@ -46,7 +46,7 @@ export default function CompressImageTool() {
         return {
           blob: file,
           name: file.name,
-          note: 'Already well optimised: the original was kept because re-encoding made it larger.',
+          note: 'Already well optimized: the original was kept because re-encoding made it larger.',
         };
       }
       if (result.type !== IMAGE_FORMATS[target].mime) {

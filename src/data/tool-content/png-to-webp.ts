@@ -17,7 +17,7 @@ export const pngToWebp: Tool = {
     'optimize png for web',
   ],
   intro:
-    'Make PNG images much lighter for the web by converting them to WebP, which keeps transparent backgrounds. Set the quality and convert one image or a whole folder’s worth.',
+    'Convert PNG to WebP to make images much lighter for the web while keeping transparent backgrounds. Set the quality and convert one image or a whole folder’s worth.',
   cardDescription: 'Convert PNG to lighter WebP and keep transparency.',
   icon: 'convert',
   handlesFiles: true,
@@ -104,7 +104,7 @@ A practical approach is to convert, then look at the result at 100% zoom next to
     {
       question: 'How much smaller will my images be?',
       answer:
-        'It depends on the image. Photographic PNGs usually shrink dramatically; simple graphics with few colours shrink less. The list shows the actual size of every converted file.',
+        'It depends on the image. Photographic PNGs usually shrink dramatically; simple graphics with few colors shrink less. The list shows the actual size of every converted file.',
     },
     {
       question: 'Can all browsers show WebP images?',

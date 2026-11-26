@@ -87,7 +87,7 @@ export function percentToPixelCrop(
   return { x, y, width, height };
 }
 
-/** Largest centred rectangle (in percent) with the given aspect ratio inside an image. */
+/** Largest centered rectangle (in percent) with the given aspect ratio inside an image. */
 export function centeredAspectCrop(aspect: number, image: Size, coverage = 90): PercentRect {
   const imageAspect = image.width / image.height;
   let width = coverage;

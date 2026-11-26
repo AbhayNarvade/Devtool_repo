@@ -17,7 +17,7 @@ export const yamlToJson: Tool = {
     'yaml parser online',
   ],
   intro:
-    'Convert YAML configuration into JSON, and find YAML syntax errors by line and column along the way. Anchors, aliases, merge keys and multi-document files are supported.',
+    'Convert YAML to JSON and find YAML syntax errors by line and column along the way. Anchors, aliases, merge keys and multi-document files are supported.',
   cardDescription: 'Parse YAML into JSON and catch indentation errors.',
   icon: 'convert',
   howToSteps: [
@@ -31,7 +31,7 @@ export const yamlToJson: Tool = {
     {
       heading: 'What is YAML, and why convert YAML to JSON?',
       kind: 'concept',
-      body: `YAML ("YAML Ain't Markup Language") is a human-friendly data format that uses indentation instead of brackets. It is the standard for configuration in Kubernetes, Docker Compose, GitHub Actions, Ansible, Home Assistant and many static site generators. YAML is pleasant to write, but its flexibility makes mistakes easy: a single wrong indent can move a key into a different section without any error.
+      body: `YAML ("YAML Ain’t Markup Language") is a human-friendly data format that uses indentation instead of brackets. It is the standard for configuration in Kubernetes, Docker Compose, GitHub Actions, Ansible, Home Assistant and many static site generators. YAML is pleasant to write, but its flexibility makes mistakes easy: a single wrong indent can move a key into a different section without any error.
 
 Converting YAML to JSON is the quickest way to see what a parser actually understands from your file. JSON has no ambiguity: every object is wrapped in braces and every string in quotes, so the structure is obvious at a glance. Developers also convert YAML to JSON to feed configuration into tools and APIs that only accept JSON, to validate a file before committing it, or to compare two configuration files.
 
@@ -106,7 +106,7 @@ Remember that the line number in an error points to where the parser **noticed**
     {
       question: 'Why does "yes" stay a string instead of becoming true?',
       answer:
-        'The converter follows YAML 1.2, where only true and false are booleans. Older YAML 1.1 parsers treated yes, no, on and off as booleans, which often caused bugs, so modern tools use the 1.2 behaviour.',
+        'The converter follows YAML 1.2, where only true and false are booleans. Older YAML 1.1 parsers treated yes, no, on and off as booleans, which often caused bugs, so modern tools use the 1.2 behavior.',
     },
     {
       question: 'Are comments kept in the JSON output?',

@@ -18,7 +18,7 @@ export const urlEncode: Tool = {
     'urlencode',
   ],
   intro:
-    'Percent-encode text so it can travel safely inside a URL. Encode a single query parameter value, or a whole URL while keeping its structure intact.',
+    'URL encode text so it can travel safely inside a link. Percent-encode a single query parameter value, or a whole URL while keeping its structure intact.',
   cardDescription: 'Percent-encode text for safe use in URLs.',
   icon: 'link',
   popular: true,
@@ -47,7 +47,7 @@ export const urlEncode: Tool = {
 
 ### Component vs full URL encoding
 
-The two modes correspond to JavaScript's two built-in functions:
+The two modes correspond to JavaScript’s two built-in functions:
 
 - **URL component** (\`encodeURIComponent\`) encodes everything except \`A–Z a–z 0–9 - _ . ! ~ * ' ( )\`. Use it for a single piece of a URL, such as a query parameter value, a path segment or a redirect target. This is the mode you need most of the time.
 - **Full URL** (\`encodeURI\`) leaves the characters that give a URL its structure (\`: / ? # & = +\` and others) untouched and only encodes spaces, non-ASCII characters and other unsafe characters. Use it to clean up a complete address that contains spaces or accented letters.`,

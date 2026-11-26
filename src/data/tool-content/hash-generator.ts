@@ -18,7 +18,7 @@ export const hashGenerator: Tool = {
     'verify checksum',
   ],
   intro:
-    'Calculate MD5, SHA-1, SHA-256, SHA-384 and SHA-512 hashes of text or any file, and check a download against its published checksum. Large files are hashed in a background thread.',
+    'This hash generator calculates MD5, SHA-1, SHA-256, SHA-384 and SHA-512 hashes of text or any file, and checks a download against its published checksum. Large files are hashed in a background thread.',
   cardDescription: 'MD5 and SHA hashes for text and files, with verification.',
   icon: 'hash',
   handlesFiles: true,
@@ -52,7 +52,7 @@ A hash generator calculates these fingerprints. Typical uses are:
 | SHA-384 | 384 bits (96 hex) | Secure (SHA-2 family) |
 | SHA-512 | 512 bits (128 hex) | Secure; often faster than SHA-256 on 64-bit CPUs |
 
-SHA hashes are calculated with the browser's Web Crypto API. MD5 is not part of Web Crypto, so it uses the small js-md5 library.`,
+SHA hashes are calculated with the browser’s Web Crypto API. MD5 is not part of Web Crypto, so it uses the small js-md5 library.`,
     },
     {
       heading: 'Hash examples (test vectors)',
@@ -121,7 +121,13 @@ To check a file on the command line instead, use \`sha256sum file.iso\` on Linux
         'Both are secure for current use. SHA-512 has a longer output and a larger security margin, while SHA-256 is the most widely used and supported.',
     },
   ],
-  relatedSlugs: ['base64-encode', 'uuid-generator', 'jwt-decoder', 'json-compare'],
+  relatedSlugs: [
+    'base64-encode',
+    'uuid-generator',
+    'jwt-decoder',
+    'subnet-calculator',
+    'json-compare',
+  ],
   schemaCategory: 'DeveloperApplication',
   lastUpdated: '2026-11-25',
 };

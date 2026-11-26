@@ -128,12 +128,23 @@ function registryChecks() {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(t.lastUpdated)) err(`${owner}: lastUpdated must be YYYY-MM-DD`);
     const kw = t.primaryKeyword.toLowerCase();
     if (!t.h1.toLowerCase().includes(kw))
-      warn(`${owner}: H1 does not contain primary keyword "${t.primaryKeyword}"`);
+      err(`${owner}: H1 does not contain primary keyword "${t.primaryKeyword}"`);
     if (!t.metaDescription.toLowerCase().includes(kw))
-      warn(`${owner}: metaDescription does not contain "${t.primaryKeyword}"`);
+      err(`${owner}: metaDescription does not contain "${t.primaryKeyword}"`);
     if (!t.contentSections.some((s) => s.heading.toLowerCase().includes(kw)))
-      warn(`${owner}: no H2 contains the primary keyword "${t.primaryKeyword}"`);
+      err(`${owner}: no H2 contains the primary keyword "${t.primaryKeyword}"`);
+    if (!t.intro.toLowerCase().includes(kw))
+      err(
+        `${owner}: intro (first paragraph) does not contain the primary keyword "${t.primaryKeyword}"`,
+      );
   }
+  // Internal linking: every tool should be recommended by at least two other tools.
+  const inbound = new Map(tools.map((t) => [t.slug, 0]));
+  for (const t of tools) for (const r of t.relatedSlugs) inbound.set(r, (inbound.get(r) ?? 0) + 1);
+  for (const [slug, n] of inbound)
+    if (n < 2)
+      err(`tool:${slug}: only ${n} other tool(s) link to it under "Related tools" (min 2)`);
+
   for (const c of categories) {
     checkLength(`category:${c.slug}`, 'metaTitle', c.metaTitle, TITLE, TITLE_T);
     checkLength(`category:${c.slug}`, 'metaDescription', c.metaDescription, DESC, DESC_T);

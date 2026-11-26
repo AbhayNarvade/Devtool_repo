@@ -375,7 +375,7 @@ export function ToolPanel({
   );
 }
 
-/** Labelled range slider showing its current value. */
+/** Labeled range slider showing its current value. */
 export function Slider({
   label,
   value,
@@ -422,7 +422,7 @@ export function Slider({
   );
 }
 
-/** Labelled colour picker with its hex value. */
+/** Labeled color picker with its hex value. */
 export function ColorInput({
   label,
   value,

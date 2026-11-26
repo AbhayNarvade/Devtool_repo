@@ -17,7 +17,7 @@ export const jsonToTypescript: Tool = {
     'typescript type generator',
   ],
   intro:
-    'Paste a sample API response or JSON file and get ready-to-use TypeScript interfaces. Nested objects get their own named types, and fields missing from some array items are marked optional.',
+    'Convert JSON to TypeScript interfaces: paste a sample API response or JSON file and get ready-to-use types. Nested objects get their own named types, and fields missing from some array items are marked optional.',
   cardDescription: 'Generate TypeScript interfaces from a JSON sample.',
   icon: 'code',
   howToSteps: [

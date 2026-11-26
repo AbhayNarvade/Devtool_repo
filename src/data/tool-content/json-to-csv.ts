@@ -18,7 +18,7 @@ export const jsonToCsv: Tool = {
     'json to tsv',
   ],
   intro:
-    'Turn a JSON array into a CSV table you can open in Excel, Google Sheets or LibreOffice. Nested objects are flattened into dot-notation columns and every field gets its own column.',
+    'Convert JSON to CSV that opens in Excel, Google Sheets or LibreOffice. Nested objects are flattened into dot-notation columns and every field gets its own column.',
   cardDescription: 'Turn JSON arrays into spreadsheet-ready CSV.',
   icon: 'table',
   popular: true,

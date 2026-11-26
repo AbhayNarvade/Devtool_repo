@@ -17,7 +17,7 @@ export const jsonToYaml: Tool = {
     'kubernetes yaml from json',
   ],
   intro:
-    'Turn JSON into clean, readable YAML for configuration files. Strings that YAML would misread, such as "yes" or "1.10", are quoted automatically so the data keeps its meaning.',
+    'Convert JSON to YAML for clean, readable configuration files. Strings that YAML would misread, such as "yes" or "1.10", are quoted automatically so the data keeps its meaning.',
   cardDescription: 'Convert JSON into clean YAML for config files.',
   icon: 'convert',
   howToSteps: [

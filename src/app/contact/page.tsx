@@ -17,7 +17,7 @@ const afterContact = `## What to include
 
 To help us respond quickly, please mention:
 
-- **For a bug report**: the tool's name or URL, your browser and device, what you expected to happen and what happened instead. If an error message appeared, copy its exact text.
+- **For a bug report**: the tool’s name or URL, your browser and device, what you expected to happen and what happened instead. If an error message appeared, copy its exact text.
 - **For a tool suggestion**: what you want to do and how you do it today. Requests that many people share are the most likely to be built next.
 - **For a correction**: the page and the sentence that is wrong, and a source if you have one.
 
@@ -25,7 +25,7 @@ Please do **not** send confidential files, passwords or tokens. The tools never 
 
 ## Response time
 
-${SITE_NAME} is run by one person, so replies can take a few days. Every message is read.`;
+Replies can take a few days, but every message is read.`;
 
 export default function ContactPage() {
   return (

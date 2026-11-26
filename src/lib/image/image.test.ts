@@ -101,7 +101,7 @@ describe('geometry helpers', () => {
       height: 10,
     });
   });
-  it('centres an aspect crop', () => {
+  it('centers an aspect crop', () => {
     const c = centeredAspectCrop(1, { width: 2000, height: 1000 }, 100);
     expect(c).toEqual({ x: 25, y: 0, width: 50, height: 100 });
     const w = centeredAspectCrop(16 / 9, { width: 1000, height: 1000 }, 100);

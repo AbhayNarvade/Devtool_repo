@@ -29,9 +29,9 @@ export const SITE_TAGLINE = 'Free online tools that run in your browser';
 
 /** Default description for pages that do not define their own. */
 export const SITE_DESCRIPTION =
-  'Free developer, image, PDF, CSS and text tools that run entirely in your browser. No sign-up, no uploads, fast and private.';
+  'Free developer and image tools that run entirely in your browser. No sign-up, no uploads, fast and private.';
 
-/** Accent colour (keep in sync with --color-accent-* in globals.css). */
+/** Accent color (keep in sync with --color-accent-* in globals.css). */
 export const BRAND_COLOR = '#4f46e5';
 export const THEME_COLOR_LIGHT = '#ffffff';
 export const THEME_COLOR_DARK = '#0b1120';

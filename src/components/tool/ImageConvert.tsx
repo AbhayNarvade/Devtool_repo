@@ -103,7 +103,7 @@ export function ImageConvert({ from, to }: ImageConvertProps) {
           </InfoNote>
         ) : target === 'jpg' ? (
           <InfoNote>
-            JPG has no transparency: transparent areas are filled with the background colour you
+            JPG has no transparency: transparent areas are filled with the background color you
             choose.
           </InfoNote>
         ) : null

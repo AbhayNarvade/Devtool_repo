@@ -17,7 +17,7 @@ export const webpToPng: Tool = {
     'save webp as png',
   ],
   intro:
-    'Saved an image from the web and got a .webp file your software will not open? Convert it to PNG, the lossless format every editor, office suite and upload form understands.',
+    'Saved an image from the web and got a .webp file your software will not open? Convert WebP to PNG, the lossless format every editor, office suite and upload form understands.',
   cardDescription: 'Convert WebP images to widely supported PNG.',
   icon: 'convert',
   handlesFiles: true,
@@ -68,7 +68,7 @@ That is why "Save image as" often produces a WebP file even on pages where you e
       kind: 'tips',
       body: `- **Animated WebP files** are converted as a single still image (the first frame), because PNG output from the canvas is not animated.
 - **Batch conversion**: drop several WebP files at once; the ZIP keeps their original names with a .png extension, numbered if two names clash.
-- **Respect image rights.** Converting an image you downloaded does not change who owns it; check the licence before reusing it.
+- **Respect image rights.** Converting an image you downloaded does not change who owns it; check the license before reusing it.
 - **Quality cannot improve.** If the WebP was heavily compressed, the PNG keeps those artifacts exactly.
 - **Large PNGs?** Shrink them with the [image resizer](/image-tools/resize-image) if you do not need the full resolution.
 - **Making WebP files** from PNG is the reverse job: see [PNG to WebP](/image-tools/png-to-webp).`,

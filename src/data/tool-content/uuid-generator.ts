@@ -12,7 +12,7 @@ export const uuidGenerator: Tool = {
   primaryKeyword: 'UUID generator',
   secondaryKeywords: ['uuid v4', 'uuid v7', 'guid generator', 'bulk uuid', 'random uuid'],
   intro:
-    'Generate random version 4 UUIDs or time-ordered version 7 UUIDs, one at a time or up to 1,000 in bulk. Every UUID is created with your browser’s cryptographically secure random generator.',
+    'This UUID generator creates random version 4 or time-ordered version 7 UUIDs, one at a time or up to 1,000 in bulk, using your browser’s cryptographically secure random generator.',
   cardDescription: 'Generate random v4 or time-ordered v7 UUIDs in bulk.',
   icon: 'fingerprint',
   popular: true,
@@ -38,7 +38,7 @@ The current specification is RFC 9562 (2024), which replaced RFC 4122. The digit
 
 ### UUID v4: random
 
-Version 4 UUIDs contain 122 random bits. This tool uses \`crypto.randomUUID()\`, the browser's cryptographically secure generator. The chance of a collision is negligible: you would need to generate about 2.7 quintillion v4 UUIDs before reaching a 50% probability of a single duplicate.
+Version 4 UUIDs contain 122 random bits. This tool uses \`crypto.randomUUID()\`, the browser’s cryptographically secure generator. The chance of a collision is negligible: you would need to generate about 2.7 quintillion v4 UUIDs before reaching a 50% probability of a single duplicate.
 
 ### UUID v7: time-ordered
 
@@ -71,7 +71,7 @@ SELECT gen_random_uuid(); -- PostgreSQL, v4 (PostgreSQL 18 adds uuidv7())
 - **Store UUIDs in a native UUID or 16-byte binary column** (PostgreSQL \`uuid\`, MySQL \`BINARY(16)\`) rather than as 36-character text. It halves the storage and speeds up indexes.
 - **Case does not matter.** RFC 9562 says UUIDs should be generated in lowercase but compared case-insensitively. Use uppercase only if another system requires it.
 - **Do not use UUIDs as secrets.** They are hard to guess, but they are not designed as security tokens; use a dedicated random token for password resets or API keys.
-- **Avoid v1 for new systems.** It embeds the generating computer's MAC address; v7 gives the same time ordering without that privacy issue.`,
+- **Avoid v1 for new systems.** It embeds the generating computer’s MAC address; v7 gives the same time ordering without that privacy issue.`,
     },
   ],
   features: [

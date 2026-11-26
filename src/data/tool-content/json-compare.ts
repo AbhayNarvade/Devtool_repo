@@ -4,7 +4,7 @@ import type { Tool } from '../types';
 export const jsonCompare: Tool = {
   slug: 'json-compare',
   category: 'developer-tools',
-  name: 'JSON Compare',
+  name: 'JSON Compare Tool',
   h1: 'JSON Compare: Find Differences Between Two JSON Files',
   metaTitle: brandTitle('JSON Compare: Diff Two JSON Documents Online'),
   metaDescription:
@@ -18,7 +18,7 @@ export const jsonCompare: Tool = {
     'compare two json',
   ],
   intro:
-    'Paste two JSON documents to see exactly what changed: added, removed and modified values are listed with their paths. Key order and formatting are ignored, so only real data differences show up.',
+    'Paste two documents into this JSON compare tool to see exactly what changed: added, removed and modified values are listed with their paths. Key order and formatting are ignored, so only real data differences show up.',
   cardDescription: 'Diff two JSON documents and see every change by path.',
   icon: 'braces',
   popular: true,
@@ -88,7 +88,7 @@ The reordered keys \`id\` and \`plan\` are not reported because nothing changed.
     'Semantic JSON diff that ignores key order, whitespace and formatting.',
     'Lists every added, removed, changed and type-changed value with its path.',
     'Optional unordered comparison of arrays, with correct handling of duplicates.',
-    'Summary counts and a colour-coded difference table.',
+    'Summary counts and a color-coded difference table.',
     'Copy or download a plain-text difference report.',
     'Clear syntax errors that say which side is invalid, with line and column.',
     'Private: both documents are compared in your browser and never uploaded.',

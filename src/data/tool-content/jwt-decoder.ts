@@ -18,7 +18,7 @@ export const jwtDecoder: Tool = {
     'jwt claims',
   ],
   intro:
-    'Paste a JSON Web Token to see its header, payload and expiry in readable form. Decoding happens in your browser, so the token never leaves your device. This tool does not verify signatures.',
+    'Use this JWT decoder to read a JSON Web Token’s header, payload and expiry in plain form. Decoding happens in your browser, so the token never leaves your device. Signatures are not verified.',
   cardDescription: 'Inspect JWT headers, claims and expiry dates.',
   icon: 'key',
   popular: true,
@@ -58,7 +58,7 @@ A JWT decoder reverses the Base64URL encoding and pretty-prints the JSON. This t
     {
       heading: 'Why this tool does not verify signatures',
       kind: 'concept',
-      body: `Verifying a signature proves that the token was issued by someone who holds the key and has not been modified. To verify, you need the HMAC secret or the issuer's public key. Pasting a production secret into a website, even a private one like this, is a bad habit, and a decoder cannot know which key is the right one anyway.
+      body: `Verifying a signature proves that the token was issued by someone who holds the key and has not been modified. To verify, you need the HMAC secret or the issuer’s public key. Pasting a production secret into a website, even a private one like this, is a bad habit, and a decoder cannot know which key is the right one anyway.
 
 So this tool deliberately **only decodes**. Treat everything it shows as unverified: anyone can craft a token with \`"role": "admin"\` in the payload. Your server must verify the signature with a maintained JWT library, check \`exp\`, \`nbf\`, \`iss\` and \`aud\`, and only accept the algorithms it expects. The tool warns you when a token uses \`"alg": "none"\`, which means it is unsigned and must be rejected.`,
     },
@@ -101,7 +101,7 @@ and the payload to:
     'Shows exp, iat and nbf as ISO 8601 UTC dates and in your local time zone.',
     'Expired, not-yet-valid and valid badges with the time remaining.',
     'Warnings for alg "none", millisecond timestamps and malformed time claims.',
-    'Recognises encrypted JWE tokens and strips a "Bearer " prefix automatically.',
+    'Recognizes encrypted JWE tokens and strips a "Bearer " prefix automatically.',
     'Clearly states that signatures are not verified.',
     'Private: tokens are decoded in your browser and never sent anywhere.',
   ],

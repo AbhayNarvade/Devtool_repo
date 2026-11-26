@@ -17,7 +17,7 @@ export const jpgToWebp: Tool = {
     'webp for website',
   ],
   intro:
-    'Convert JPG photos to WebP to cut their file size without visible loss, so your web pages, shop and blog load faster. Set the quality and convert whole batches at once.',
+    'Convert JPG to WebP to cut the file size of your photos without visible loss, so web pages, shops and blogs load faster. Set the quality and convert whole batches at once.',
   cardDescription: 'Convert JPG photos to smaller WebP files.',
   icon: 'convert',
   handlesFiles: true,
@@ -31,7 +31,7 @@ export const jpgToWebp: Tool = {
     {
       heading: 'Why convert JPG to WebP?',
       kind: 'concept',
-      body: `JPG has been the standard photo format for decades, but its compression method dates from the early 1990s. WebP uses newer compression techniques derived from video coding and, according to Google's published comparison, produces files 25–34% smaller than JPG at equivalent visual quality. For a page with a dozen photos, that difference translates directly into faster loading, lower bandwidth costs and better Largest Contentful Paint scores, one of Google's Core Web Vitals.
+      body: `JPG has been the standard photo format for decades, but its compression method dates from the early 1990s. WebP uses newer compression techniques derived from video coding and, according to Google’s published comparison, produces files 25–34% smaller than JPG at equivalent visual quality. For a page with a dozen photos, that difference translates directly into faster loading, lower bandwidth costs and better Largest Contentful Paint scores, one of Google’s Core Web Vitals.
 
 Typical reasons to convert JPG to WebP:
 

@@ -18,7 +18,7 @@ export const cronExpressionGenerator: Tool = {
     'crontab guru',
   ],
   intro:
-    'Build a cron schedule with a visual editor or paste an existing expression to have it explained in plain English. The next 10 run times are listed in your time zone or UTC.',
+    'This cron expression generator builds schedules with a visual editor and explains existing expressions in plain English. The next 10 run times are listed in your time zone or UTC.',
   cardDescription: 'Build, explain and preview cron schedules.',
   icon: 'calendar',
   howToSteps: [
@@ -137,7 +137,13 @@ spec:
         'No. It supports the standard five-field format used by crontab, Kubernetes and GitHub Actions. Six- and seven-field expressions are rejected with an explanation.',
     },
   ],
-  relatedSlugs: ['unix-timestamp-converter', 'regex-tester', 'chmod-calculator', 'json-to-yaml'],
+  relatedSlugs: [
+    'unix-timestamp-converter',
+    'regex-tester',
+    'chmod-calculator',
+    'subnet-calculator',
+    'json-to-yaml',
+  ],
   schemaCategory: 'DeveloperApplication',
   lastUpdated: '2026-11-25',
 };

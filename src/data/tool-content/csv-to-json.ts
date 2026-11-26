@@ -18,7 +18,7 @@ export const csvToJson: Tool = {
     'spreadsheet to json',
   ],
   intro:
-    'Convert spreadsheet data exported as CSV or TSV into a JSON array. The delimiter is detected automatically, the header row becomes object keys, and numbers and booleans are typed for you.',
+    'Convert CSV to JSON from any spreadsheet export, including tab-separated files. The delimiter is detected automatically, the header row becomes object keys, and numbers and booleans are typed for you.',
   cardDescription: 'Parse CSV or TSV into a JSON array of objects.',
   icon: 'table',
   howToSteps: [
@@ -121,7 +121,13 @@ Output:
         'No. The file is read and parsed in your browser. Its contents never leave your device.',
     },
   ],
-  relatedSlugs: ['json-to-csv', 'json-formatter', 'yaml-to-json', 'json-to-typescript'],
+  relatedSlugs: [
+    'json-to-csv',
+    'json-formatter',
+    'yaml-to-json',
+    'sql-formatter',
+    'json-to-typescript',
+  ],
   schemaCategory: 'DeveloperApplication',
   lastUpdated: '2026-11-25',
 };

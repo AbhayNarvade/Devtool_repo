@@ -19,7 +19,7 @@ const body = `These Terms of Use ("Terms") govern your use of ${SITE_NAME} at ${
 
 ## 1. The service
 
-${SITE_NAME} provides free online tools that run in your web browser, including developer, image, PDF, CSS and text utilities. The tools process your files and text locally on your device; they are not uploaded to us. No account is required.
+${SITE_NAME} provides free online tools that run in your web browser, including developer and image utilities. The tools process your files and text locally on your device; they are not uploaded to us. No account is required.
 
 ## 2. Free use and changes
 
@@ -37,7 +37,7 @@ Because processing happens on your device, results can depend on your browser, d
 
 ## 4. Output and ownership
 
-You keep all rights to your content. Output you create with the tools (for example formatted code, converted images, generated CSS, palettes or QR codes) is yours to use without attribution. We claim no ownership of it.
+You keep all rights to your content. Output you create with the tools (for example formatted code, converted or compressed images, or generated TypeScript types) is yours to use without attribution. We claim no ownership of it.
 
 ## 5. Acceptable use
 
@@ -45,7 +45,7 @@ You agree not to:
 
 - use the Site for any unlawful purpose or to process content you have no right to process;
 - attempt to disrupt, overload or gain unauthorised access to the Site or its infrastructure;
-- copy and republish the Site's written content or design as your own;
+- copy and republish the Site’s written content or design as your own;
 - use automated means to scrape the Site at a rate that degrades it for other visitors.
 
 ## 6. No warranty
@@ -62,7 +62,7 @@ The Site shows advertising from Google and may link to third-party websites. We 
 
 ## 9. Intellectual property
 
-The Site's design, logo, text and code are owned by ${OWNER_NAME} unless stated otherwise. Open-source libraries used by the tools remain under their own licences.
+The Site’s design, logo, text and code are owned by ${OWNER_NAME} unless stated otherwise. Open-source libraries used by the tools remain under their own licenses.
 
 ## 10. Changes to these Terms
 

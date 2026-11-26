@@ -2,12 +2,12 @@ import { SITE_NAME, brandTitle } from '@/config/site';
 import type { Faq } from './types';
 
 export const home = {
-  metaTitle: brandTitle('Free Online Tools for Developers, Images & PDFs'),
+  metaTitle: brandTitle('Free Online Developer and Image Tools, No Upload'),
   metaDescription:
-    'Free online tools that run in your browser: JSON formatter, image compressor, PDF merger, CSS generators and more. No sign-up, no upload, fast and private.',
+    'Free online tools that run in your browser: JSON formatter, regex tester, JWT decoder, image compressor, resizer and converters. No sign-up, no upload, private.',
   h1: 'Free online tools that run in your browser',
   intro:
-    'Format code, convert data, compress images, merge PDFs and generate CSS with fast, free tools. Everything happens on your device: nothing you paste or upload is sent to a server.',
+    'Format and convert data, decode tokens, test regular expressions, and compress, resize, crop or convert images with fast, free tools. Everything happens on your device: nothing you paste or upload is sent to a server.',
   whyHeading: `Why use ${SITE_NAME}?`,
   why: [
     {
@@ -32,7 +32,7 @@ export const home = {
     },
   ] as const,
   howHeading: 'How in-browser tools work',
-  how: `When you open a tool page, your browser downloads the page and the small amount of code the tool needs. From that moment the work is done locally. A JSON document is parsed by your browser's own JSON engine, an image is decoded and re-encoded with the HTML canvas, and a PDF is rebuilt with a JavaScript PDF library running in the tab. The result is created on your device and saved straight to your downloads folder.
+  how: `When you open a tool page, your browser downloads the page and the small amount of code the tool needs. From that moment the work is done locally. A JSON document is parsed by your browser’s own JSON engine, an image is decoded and re-encoded with the HTML canvas, and a file checksum is calculated with the browser’s built-in Web Crypto API. The result is created on your device and saved straight to your downloads folder.
 
 This approach has practical benefits beyond privacy. There is no upload or download wait for large files, the tools keep working on a slow or unreliable connection once the page has loaded, and there is no server-side limit on how many files you can process. The trade-off is that very large jobs depend on the memory and speed of your own device, so a phone may take longer than a laptop.`,
   faqHeading: 'Frequently asked questions',

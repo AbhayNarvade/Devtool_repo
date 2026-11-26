@@ -18,7 +18,7 @@ export const compressImage: Tool = {
     'shrink photo',
   ],
   intro:
-    'Make photos and graphics smaller for email, websites and upload limits. Choose a quality level, compare the size before and after, and download one image or a whole batch as a ZIP.',
+    'Compress image files for email, websites and upload limits. Choose a quality level, compare the size before and after, and download one image or a whole batch as a ZIP.',
   cardDescription: 'Shrink JPG, PNG and WebP files with a quality slider.',
   icon: 'compress',
   handlesFiles: true,
@@ -38,15 +38,15 @@ export const compressImage: Tool = {
 
 There are three levers, and this tool gives you all of them:
 
-1. **Quality (lossy re-encoding).** JPG and WebP throw away detail that the eye barely notices, mostly fine texture and subtle colour variation. The quality setting controls how much is discarded. Between 70% and 85%, most photos look identical to the original at normal viewing size, yet the file can be several times smaller.
+1. **Quality (lossy re-encoding).** JPG and WebP throw away detail that the eye barely notices, mostly fine texture and subtle color variation. The quality setting controls how much is discarded. Between 70% and 85%, most photos look identical to the original at normal viewing size, yet the file can be several times smaller.
 2. **Format.** WebP usually produces smaller files than JPG at similar visual quality, and it supports transparency. Converting a large PNG photo to WebP or JPG can cut its size by 80% or more.
 3. **Dimensions.** A 6000-pixel-wide image displayed in an 800-pixel column wastes most of its pixels. Setting a maximum width or height removes them, which is often the biggest saving of all.
 
-Compression runs in a background thread using the browser-image-compression library, so the page stays responsive even with dozens of large photos. If re-encoding would make an image bigger in its original format, which happens with files that are already well optimised, the tool keeps the original instead.
+Compression runs in a background thread using the browser-image-compression library, so the page stays responsive even with dozens of large photos. If re-encoding would make an image bigger in its original format, which happens with files that are already well optimized, the tool keeps the original instead.
 
 ### What about PNG?
 
-PNG is **lossless**: it never discards detail, so a quality slider has nothing to adjust. A PNG gets smaller here only if you reduce its dimensions or convert it to WebP or JPG. For screenshots, logos and graphics with sharp edges and few colours, PNG is often already compact and the right format to keep.`,
+PNG is **lossless**: it never discards detail, so a quality slider has nothing to adjust. A PNG gets smaller here only if you reduce its dimensions or convert it to WebP or JPG. For screenshots, logos and graphics with sharp edges and few colors, PNG is often already compact and the right format to keep.`,
     },
     {
       heading: 'Image compression examples',
@@ -56,7 +56,7 @@ PNG is **lossless**: it never discards detail, so a quality slider has nothing t
 | Change | Effect on the data |
 | --- | --- |
 | Quality 100% → 80% (JPG or WebP) | Fine texture is simplified; for most photos this alone shrinks the file several times over |
-| JPG → WebP at similar quality | Google's published comparison found WebP files 25–34% smaller than JPG at equivalent visual quality |
+| JPG → WebP at similar quality | Google’s published comparison found WebP files 25–34% smaller than JPG at equivalent visual quality |
 | Max size 1920 px (1920 × 1440) | 2.8 million instead of 12.2 million pixels: 77% fewer pixels to store |
 
 The exact result depends on the picture itself, which is why the tool shows the real before and after size of every file. A busy photo with foliage, gravel or noise compresses less than a clear sky or a studio product shot, because there is more detail to describe. Screenshots of text compress best as PNG; heavy JPG compression creates visible smudges ("artifacts") around letters.
@@ -70,11 +70,11 @@ The exact result depends on the picture itself, which is why the tool shows the 
     {
       heading: 'Tips for the best compression results',
       kind: 'tips',
-      body: `- **Start at 75–80% quality** and lower it only if the file is still too big. Below about 50%, blockiness and colour banding become visible.
+      body: `- **Start at 75–80% quality** and lower it only if the file is still too big. Below about 50%, blockiness and color banding become visible.
 - **Resize first, then compress.** Halving the width and height removes three quarters of the pixels; no quality setting comes close to that saving.
 - **Keep your originals.** Every lossy re-save loses a little more detail, so compress copies, not the master files.
 - **Metadata is removed.** Re-encoding drops EXIF data such as camera model and GPS location, which also protects your privacy when sharing photos.
-- **Colour profiles**: images are converted to the standard sRGB colour space. Photos taken in wide-gamut Display P3 may look very slightly less saturated on high-end screens.
+- **Color profiles**: images are converted to the standard sRGB color space. Photos taken in wide-gamut Display P3 may look very slightly less saturated on high-end screens.
 - **Safari cannot create WebP files.** Safari opens WebP images but cannot encode them; choose JPG output there, or use Chrome, Edge or Firefox.
 - To change dimensions precisely, use the [image resizer](/image-tools/resize-image).`,
     },

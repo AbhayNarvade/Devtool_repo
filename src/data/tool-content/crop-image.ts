@@ -18,7 +18,7 @@ export const cropImage: Tool = {
     'flip image',
   ],
   intro:
-    'Cut away unwanted edges, crop to a square or a widescreen ratio, and rotate or mirror the picture. Drag the crop box freely or enter exact pixel values.',
+    'Crop image files to remove unwanted edges or fit a square or widescreen ratio, then rotate or mirror the picture. Drag the crop box freely or enter exact pixel values.',
   cardDescription: 'Crop freely or to 1:1, 16:9, 4:3 or 9:16; rotate and flip.',
   icon: 'crop',
   handlesFiles: true,
@@ -39,7 +39,7 @@ export const cropImage: Tool = {
 - **Fitting a required shape**: profile pictures are square, video thumbnails are 16:9 and stories are 9:16. Platforms that receive a different shape crop the image themselves, often cutting off heads or text.
 - **Removing private details**: a house number, a notification on a screenshot or a person in the background.
 
-With **Free** the box can take any shape. With a preset ratio the box keeps its proportions while you move and resize it, so the result always has exactly that shape. The grid lines inside the box divide it into thirds, a classic composition guide: placing the horizon or the subject's eyes on a line usually looks more natural than centring them.
+With **Free** the box can take any shape. With a preset ratio the box keeps its proportions while you move and resize it, so the result always has exactly that shape. The grid lines inside the box divide it into thirds, a classic composition guide: placing the horizon or the subject’s eyes on a line usually looks more natural than centring them.
 
 ### Rotate and flip
 

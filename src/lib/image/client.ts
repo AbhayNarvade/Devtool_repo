@@ -105,7 +105,7 @@ export async function imageSize(file: Blob): Promise<{ width: number; height: nu
 }
 
 /**
- * A generated sample image for "Load sample" (no network request needed): a colourful scene,
+ * A generated sample image for "Load sample" (no network request needed): a colorful scene,
  * with a transparent border when `transparent` is true so PNG → JPG background handling is visible.
  */
 export async function makeSampleImage(

@@ -17,7 +17,7 @@ export const jpgToPng: Tool = {
     'change jpg to png',
   ],
   intro:
-    'Convert JPG photos into lossless PNG files, ready for editing without further quality loss or for websites and apps that ask for PNG. Works for single images and batches.',
+    'Convert JPG to PNG for lossless files you can edit without further quality loss, or for websites and apps that ask for PNG. Works for single images and batches.',
   cardDescription: 'Convert JPG photos to lossless PNG files.',
   icon: 'convert',
   handlesFiles: true,
@@ -40,7 +40,7 @@ export const jpgToPng: Tool = {
 
 ### What conversion cannot do
 
-Converting does not undo the compression that already happened when the JPG was created. Blockiness, colour banding and smudges in a low-quality JPG are copied into the PNG pixel for pixel. The PNG simply stops them from getting worse.`,
+Converting does not undo the compression that already happened when the JPG was created. Blockiness, color banding and smudges in a low-quality JPG are copied into the PNG pixel for pixel. The PNG simply stops them from getting worse.`,
     },
     {
       heading: 'JPG to PNG: what to expect',

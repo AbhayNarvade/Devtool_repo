@@ -18,7 +18,7 @@ export const base64Encode: Tool = {
     'data url generator',
   ],
   intro:
-    'Encode text or any file to Base64. Text is encoded as UTF-8, so accents and emoji work correctly, and files can be output as a data URL ready for HTML or CSS.',
+    'Base64 encode text or any file. Text is encoded as UTF-8, so accents and emoji work correctly, and files can be output as a data URL ready for HTML or CSS.',
   cardDescription: 'Encode text or files to Base64 or data URLs.',
   icon: 'binary',
   handlesFiles: true,
@@ -42,7 +42,7 @@ Base64 exists because many systems were built to carry text, not arbitrary bytes
 
 ### Text must be turned into bytes first
 
-Base64 works on bytes, but text is made of characters. This tool converts your text to bytes using **UTF-8**, the encoding used by the web, before encoding it. The browser's built-in \`btoa\` function, by contrast, fails on characters such as \`é\` or emoji. Encoding \`é\` here produces \`w6k=\`, the Base64 of its two UTF-8 bytes.`,
+Base64 works on bytes, but text is made of characters. This tool converts your text to bytes using **UTF-8**, the encoding used by the web, before encoding it. The browser’s built-in \`btoa\` function, by contrast, fails on characters such as \`é\` or emoji. Encoding \`é\` here produces \`w6k=\`, the Base64 of its two UTF-8 bytes.`,
     },
     {
       heading: 'Base64 encoding examples',

@@ -13,7 +13,7 @@ export const LOGO_PATHS = {
   cursor: { x: 28, y: 38, width: 8, height: 6, rx: 1.5 },
 } as const;
 
-/** Colours used by the generated Open Graph images (dark, on-brand card). */
+/** Colors used by the generated Open Graph images (dark, on-brand card). */
 export const OG_THEME = {
   background: THEME_COLOR_DARK,
   glowPrimary: `${BRAND_COLOR}66`,
