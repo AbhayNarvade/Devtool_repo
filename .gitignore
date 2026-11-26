@@ -15,6 +15,7 @@ next-env.d.ts
 /public/icon-192.png
 /public/icon-512.png
 /public/site.webmanifest
+/public/vendor/
 
 # env files (keep .env.example)
 .env

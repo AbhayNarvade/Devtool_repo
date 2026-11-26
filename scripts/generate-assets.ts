@@ -7,10 +7,11 @@
  * Uses satori (layout -> SVG) and @resvg/resvg-js (SVG -> PNG). No network access needed.
  */
 import { Resvg } from '@resvg/resvg-js';
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import satori from 'satori';
+import { BROWSER_IMAGE_COMPRESSION_URL } from '../src/config/vendor';
 import { LOGO_PATHS, LOGO_VIEWBOX, OG_THEME, logoSvg } from '../src/config/brand';
 import {
   BRAND_COLOR,
@@ -229,6 +230,14 @@ async function main() {
   writeFileSync(
     path.join(PUBLIC, 'favicon.ico'),
     buildIco([16, 32, 48].map((size) => ({ size, data: svgToPng(logoSvg(size), size) }))),
+  );
+
+  // Self-hosted third-party scripts (so tools never load code from a CDN).
+  const vendorDir = path.join(PUBLIC, 'vendor');
+  mkdirSync(vendorDir, { recursive: true });
+  copyFileSync(
+    require.resolve('browser-image-compression/dist/browser-image-compression.js'),
+    path.join(PUBLIC, BROWSER_IMAGE_COMPRESSION_URL),
   );
 
   // Web app manifest

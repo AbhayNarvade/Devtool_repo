@@ -18,6 +18,16 @@ import { sqlFormatter } from './tool-content/sql-formatter';
 import { subnetCalculator } from './tool-content/subnet-calculator';
 import { unixTimestampConverter } from './tool-content/unix-timestamp-converter';
 import { uuidGenerator } from './tool-content/uuid-generator';
+import { compressImage } from './tool-content/compress-image';
+import { resizeImage } from './tool-content/resize-image';
+import { cropImage } from './tool-content/crop-image';
+import { imageConverter } from './tool-content/image-converter';
+import { pngToJpg } from './tool-content/png-to-jpg';
+import { jpgToPng } from './tool-content/jpg-to-png';
+import { pngToWebp } from './tool-content/png-to-webp';
+import { webpToPng } from './tool-content/webp-to-png';
+import { jpgToWebp } from './tool-content/jpg-to-webp';
+import { webpToJpg } from './tool-content/webp-to-jpg';
 import type { Tool } from './types';
 
 /**
@@ -50,4 +60,15 @@ export const tools: Tool[] = [
   sqlFormatter,
   chmodCalculator,
   subnetCalculator,
+  // Image tools
+  compressImage,
+  resizeImage,
+  cropImage,
+  imageConverter,
+  pngToJpg,
+  jpgToPng,
+  pngToWebp,
+  webpToPng,
+  jpgToWebp,
+  webpToJpg,
 ];

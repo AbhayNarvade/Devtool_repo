@@ -374,3 +374,80 @@ export function ToolPanel({
     </div>
   );
 }
+
+/** Labelled range slider showing its current value. */
+export function Slider({
+  label,
+  value,
+  onChange,
+  min,
+  max,
+  step = 1,
+  suffix = '',
+  disabled,
+  className = '',
+}: {
+  label: string;
+  value: number;
+  onChange: (value: number) => void;
+  min: number;
+  max: number;
+  step?: number;
+  suffix?: string;
+  disabled?: boolean;
+  className?: string;
+}) {
+  const id = useId();
+  return (
+    <div className={`flex min-w-48 flex-col ${disabled ? 'opacity-50' : ''} ${className}`}>
+      <label htmlFor={id} className="mb-1 flex justify-between text-sm font-medium text-fg">
+        <span>{label}</span>
+        <output htmlFor={id} className="font-mono tabular-nums">
+          {value}
+          {suffix}
+        </output>
+      </label>
+      <input
+        id={id}
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        disabled={disabled}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="h-10 accent-[var(--accent)]"
+      />
+    </div>
+  );
+}
+
+/** Labelled colour picker with its hex value. */
+export function ColorInput({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const id = useId();
+  return (
+    <div className="flex flex-col">
+      <label htmlFor={id} className="mb-1 text-sm font-medium text-fg">
+        {label}
+      </label>
+      <div className="flex h-10 items-center gap-2">
+        <input
+          id={id}
+          type="color"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-10 w-12 cursor-pointer rounded-lg border border-border-strong bg-card p-1"
+        />
+        <span className="font-mono text-sm text-fg-muted">{value}</span>
+      </div>
+    </div>
+  );
+}

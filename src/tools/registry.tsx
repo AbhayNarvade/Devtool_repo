@@ -44,6 +44,16 @@ const TOOL_COMPONENTS: Record<string, ComponentType> = {
   'sql-formatter': load(() => import('./sql-formatter/Tool')),
   'chmod-calculator': load(() => import('./chmod-calculator/Tool')),
   'subnet-calculator': load(() => import('./subnet-calculator/Tool')),
+  'compress-image': load(() => import('./compress-image/Tool')),
+  'resize-image': load(() => import('./resize-image/Tool')),
+  'crop-image': load(() => import('./crop-image/Tool')),
+  'image-converter': load(() => import('./image-converter/Tool')),
+  'png-to-jpg': load(() => import('./png-to-jpg/Tool')),
+  'jpg-to-png': load(() => import('./jpg-to-png/Tool')),
+  'png-to-webp': load(() => import('./png-to-webp/Tool')),
+  'webp-to-png': load(() => import('./webp-to-png/Tool')),
+  'jpg-to-webp': load(() => import('./jpg-to-webp/Tool')),
+  'webp-to-jpg': load(() => import('./webp-to-jpg/Tool')),
 };
 
 export function ToolMount({ slug }: { slug: string }) {
