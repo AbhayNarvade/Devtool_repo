@@ -171,7 +171,7 @@ export default function ChmodCalculatorTool() {
         ) : null}
       </div>
 
-      <div className="mt-5 space-y-3">
+      <div className="mt-5 space-y-3" data-tool-output="">
         {[numericCmd, symbolicCmd].map((cmd) => (
           <div key={cmd} className="flex flex-wrap items-center gap-3">
             <code className="min-w-0 flex-1 rounded-lg border border-border bg-code-bg px-3 py-2 font-mono text-sm break-all">
@@ -185,6 +185,30 @@ export default function ChmodCalculatorTool() {
           <span className="font-mono">d{toSymbolic(perms)}</span> (directory)
         </p>
       </div>
+
+      <ActionBar className="mt-5">
+        <Button
+          icon="file"
+          size="sm"
+          onClick={() => {
+            apply(fromOctal('750')!);
+            setFileName('deploy.sh');
+          }}
+        >
+          Load sample
+        </Button>
+        <Button
+          icon="trash"
+          size="sm"
+          variant="ghost"
+          onClick={() => {
+            apply(fromOctal('000')!);
+            setFileName('file');
+          }}
+        >
+          Clear
+        </Button>
+      </ActionBar>
 
       <div className="mt-6">
         <p className="mb-2 text-sm font-semibold">Common permissions</p>

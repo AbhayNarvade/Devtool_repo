@@ -1,9 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Checkbox, NumberInput, Segmented, Select, Slider } from '@/components/tool/controls';
 import { ImageBatch, type BatchOutput } from '@/components/tool/ImageBatch';
-import { ImageProcessor, makeSampleImage } from '@/lib/image/client';
+import { makeSampleImage, useImageProcessor } from '@/lib/image/client';
 import {
   ACCEPT_COMMON,
   IMAGE_FORMATS,
@@ -24,12 +24,7 @@ export default function ResizeImageTool() {
   const [keepAspect, setKeepAspect] = useState(true);
   const [output, setOutput] = useState<OutputChoice>('same');
   const [quality, setQuality] = useState(90);
-  const processor = useRef<ImageProcessor | null>(null);
-
-  useEffect(() => {
-    processor.current = new ImageProcessor();
-    return () => processor.current?.dispose();
-  }, []);
+  const getProcessor = useImageProcessor();
 
   const spec: ResizeSpec =
     mode === 'percent'
@@ -48,7 +43,7 @@ export default function ResizeImageTool() {
       if (!source) throw new Error('Unsupported file type. Use PNG, JPG or WebP.');
       const target = output === 'same' ? source : output;
       const resize = JSON.parse(specKey) as ResizeSpec;
-      const result = await (processor.current ?? new ImageProcessor()).run(file, {
+      const result = await getProcessor().run(file, {
         to: target,
         quality: quality / 100,
         resize,
@@ -59,7 +54,7 @@ export default function ResizeImageTool() {
       );
       return { ...result, name };
     },
-    [specKey, output, quality],
+    [specKey, output, quality, getProcessor],
   );
 
   const lossyOutput = output === 'jpg' || output === 'webp' || output === 'same';

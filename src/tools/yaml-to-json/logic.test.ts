@@ -98,6 +98,27 @@ describe('yamlToJson', () => {
     expect(r.ok).toBe(false);
     if (!r.ok) expect(r.error.line).toBe(3);
   });
+  it('stops alias bombs instead of exhausting memory', () => {
+    const levels = 'bcdefghi'.split('');
+    const bomb = [
+      'a: &a [x, x, x, x, x, x, x, x, x, x]',
+      ...levels.map(
+        (k, i) =>
+          `${k}: &${k} [${Array(10)
+            .fill('*' + 'abcdefghi'[i])
+            .join(', ')}]`,
+      ),
+    ].join('\n');
+    const started = Date.now();
+    const r = yamlToJson(bomb, { indent: 'minify', multiDocument: false });
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.error.title).toMatch(/too much data/);
+    expect(Date.now() - started).toBeLessThan(5000);
+  });
+  it('still expands normal aliases', () => {
+    const r = yamlToJson('base: &b [1, 2]\ncopy: *b', { indent: 'minify', multiDocument: false });
+    expect(r.ok && r.output).toBe('{"base":[1,2],"copy":[1,2]}');
+  });
   it('rejects .inf which JSON cannot represent', () => {
     const r = yamlToJson('x: .inf', { indent: '2', multiDocument: false });
     expect(r.ok).toBe(false);

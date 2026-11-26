@@ -1,10 +1,16 @@
 import { CORE_SCHEMA, YAMLException, load, loadAll, mergeTag } from 'js-yaml';
-
-/** YAML 1.2 core schema plus the widely used "<<" merge key (Docker Compose, CI files). */
-const SCHEMA = CORE_SCHEMA.withTags(mergeTag);
 import { fail, ok, type ConvertResult } from '@/lib/convert';
 import { indentValue, type Indent } from '@/lib/json';
 import { setOwn } from '@/lib/object';
+
+/** YAML 1.2 core schema plus the widely used "<<" merge key (Docker Compose, CI files). */
+const SCHEMA = CORE_SCHEMA.withTags(mergeTag);
+
+/**
+ * Upper bound on values produced while expanding aliases. Without it, a few lines of nested
+ * aliases ("billion laughs") expand to billions of values and crash the browser tab.
+ */
+export const MAX_EXPANDED_VALUES = 1_000_000;
 
 export interface YamlToJsonOptions {
   indent: Indent | 'minify';
@@ -12,23 +18,28 @@ export interface YamlToJsonOptions {
   multiDocument: boolean;
 }
 
-function toJsonSafe(value: unknown, path = '$'): unknown {
+class ExpansionLimitError extends Error {}
+
+function toJsonSafe(value: unknown, budget: { left: number }, path = '$'): unknown {
+  if (--budget.left < 0) throw new ExpansionLimitError();
   if (value instanceof Date) return value.toISOString();
   if (value instanceof Uint8Array)
     throw new Error(`Binary value at ${path} cannot be represented in JSON`);
   if (value instanceof Map) {
     const out: Record<string, unknown> = {};
-    for (const [k, v] of value) setOwn(out, String(k), toJsonSafe(v, `${path}.${String(k)}`));
+    for (const [k, v] of value)
+      setOwn(out, String(k), toJsonSafe(v, budget, `${path}.${String(k)}`));
     return out;
   }
-  if (value instanceof Set) return [...value].map((v, i) => toJsonSafe(v, `${path}[${i}]`));
-  if (Array.isArray(value)) return value.map((v, i) => toJsonSafe(v, `${path}[${i}]`));
+  if (value instanceof Set) return [...value].map((v, i) => toJsonSafe(v, budget, `${path}[${i}]`));
+  if (Array.isArray(value)) return value.map((v, i) => toJsonSafe(v, budget, `${path}[${i}]`));
   if (typeof value === 'number' && !Number.isFinite(value)) {
     throw new Error(`The value at ${path} is ${String(value)}, which JSON cannot represent`);
   }
   if (value && typeof value === 'object') {
     const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(value)) setOwn(out, k, toJsonSafe(v, `${path}.${k}`));
+    for (const [k, v] of Object.entries(value))
+      setOwn(out, k, toJsonSafe(v, budget, `${path}.${k}`));
     return out;
   }
   return value;
@@ -55,8 +66,14 @@ export function yamlToJson(input: string, options: YamlToJsonOptions): ConvertRe
   }
   let safe: unknown;
   try {
-    safe = toJsonSafe(data);
+    safe = toJsonSafe(data, { left: MAX_EXPANDED_VALUES });
   } catch (e) {
+    if (e instanceof ExpansionLimitError) {
+      return fail(
+        'YAML expands to too much data',
+        `The anchors and aliases in this YAML expand to more than ${MAX_EXPANDED_VALUES.toLocaleString('en-US')} values, which would freeze your browser. This usually means aliases are nested inside each other many times.`,
+      );
+    }
     return fail('Cannot convert to JSON', (e as Error).message);
   }
   if (safe === undefined) safe = null;

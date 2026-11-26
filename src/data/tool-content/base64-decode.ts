@@ -66,7 +66,7 @@ data:
   DB_USER: YXBwX3VzZXI=
 \`\`\`
 
-Decoding \`YXBwX3VzZXI=\` gives \`app_user\`. Remember that anyone with access to the manifest can do the same, which is why Kubernetes recommends encrypting Secrets at rest rather than relying on Base64.`,
+Decoding \`YXBwX3VzZXI=\` gives \`app_user\`. Remember that anyone with access to the manifest can do the same, which is why Kubernetes recommends encrypting Secrets at rest rather than relying on Base64. If the value you are decoding is a token with three dot-separated parts, use the [JWT decoder](/developer-tools/jwt-decoder), which decodes the header and payload and shows the expiry.`,
     },
     {
       heading: 'Fixing "invalid Base64" errors',

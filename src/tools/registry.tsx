@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import type { ComponentType } from 'react';
+import { useEffect, type ComponentType } from 'react';
 
 /** Placeholder with reserved height while a tool chunk loads (prevents layout shift). */
 function ToolLoading() {
@@ -56,7 +56,33 @@ const TOOL_COMPONENTS: Record<string, ComponentType> = {
   'webp-to-jpg': load(() => import('./webp-to-jpg/Tool')),
 };
 
+/**
+ * Browsers open a file dropped anywhere on the page, navigating away and losing the user's
+ * work. Ignore drops that no drop zone handled.
+ */
+function useIgnoreStrayFileDrops() {
+  useEffect(() => {
+    const isFileDrag = (e: DragEvent) => Array.from(e.dataTransfer?.types ?? []).includes('Files');
+    const onDragOver = (e: DragEvent) => {
+      if (isFileDrag(e) && !e.defaultPrevented) {
+        e.preventDefault();
+        if (e.dataTransfer) e.dataTransfer.dropEffect = 'none';
+      }
+    };
+    const onDrop = (e: DragEvent) => {
+      if (isFileDrag(e) && !e.defaultPrevented) e.preventDefault();
+    };
+    window.addEventListener('dragover', onDragOver);
+    window.addEventListener('drop', onDrop);
+    return () => {
+      window.removeEventListener('dragover', onDragOver);
+      window.removeEventListener('drop', onDrop);
+    };
+  }, []);
+}
+
 export function ToolMount({ slug }: { slug: string }) {
+  useIgnoreStrayFileDrops();
   const Tool = TOOL_COMPONENTS[slug];
   if (!Tool) return null;
   return <Tool />;

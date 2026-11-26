@@ -25,6 +25,8 @@ import {
   type ImageFormatKey,
 } from '@/lib/image/formats';
 import {
+  adjustPixelCrop,
+  canvasSizeProblem,
   centeredAspectCrop,
   percentToPixelCrop,
   rotatedSize,
@@ -61,6 +63,8 @@ async function buildWorking(
   const bitmap = await decode(file);
   try {
     const size = rotatedSize({ width: bitmap.width, height: bitmap.height }, rotation);
+    const problem = canvasSizeProblem(size);
+    if (problem) throw new Error(problem);
     const canvas = createCanvas(size.width, size.height);
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     ctx.translate(size.width / 2, size.height / 2);
@@ -147,13 +151,7 @@ export default function CropImageTool() {
 
   function setPixel(field: 'x' | 'y' | 'width' | 'height', value: number) {
     if (!pixels || !working || !Number.isFinite(value)) return;
-    const next = { ...pixels, [field]: Math.round(value) };
-    if (aspect && field === 'width') next.height = Math.round(next.width / aspect);
-    if (aspect && field === 'height') next.width = Math.round(next.height * aspect);
-    next.width = Math.max(1, Math.min(working.size.width, next.width));
-    next.height = Math.max(1, Math.min(working.size.height, next.height));
-    next.x = Math.max(0, Math.min(working.size.width - next.width, next.x));
-    next.y = Math.max(0, Math.min(working.size.height - next.height, next.y));
+    const next = adjustPixelCrop(pixels, field, value, working.size, aspect);
     setCrop({
       unit: '%',
       x: (next.x / working.size.width) * 100,

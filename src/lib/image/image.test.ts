@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { addSuffix, formatOf, replaceExtension, savingsPercent, uniqueNames } from './formats';
 import {
+  adjustPixelCrop,
   canvasSizeProblem,
   centeredAspectCrop,
   computeResize,
@@ -106,5 +107,44 @@ describe('geometry helpers', () => {
     const w = centeredAspectCrop(16 / 9, { width: 1000, height: 1000 }, 100);
     expect(w.width).toBe(100);
     expect(w.height).toBeCloseTo(56.25);
+  });
+});
+
+describe('adjustPixelCrop', () => {
+  const image = { width: 1600, height: 1000 };
+  const box = { x: 100, y: 100, width: 400, height: 400 };
+  it('keeps a fixed ratio and shrinks to fit the image', () => {
+    expect(adjustPixelCrop(box, 'width', 3000, image, 1)).toEqual({
+      x: 100,
+      y: 0,
+      width: 1000,
+      height: 1000,
+    });
+    expect(adjustPixelCrop(box, 'height', 300, image, 16 / 9)).toEqual({
+      x: 100,
+      y: 100,
+      width: 533,
+      height: 300,
+    });
+  });
+  it('clamps free crops and positions inside the image', () => {
+    expect(adjustPixelCrop(box, 'width', 5000, image)).toEqual({
+      x: 0,
+      y: 100,
+      width: 1600,
+      height: 400,
+    });
+    expect(adjustPixelCrop(box, 'x', 1500, image)).toEqual({
+      x: 1200,
+      y: 100,
+      width: 400,
+      height: 400,
+    });
+    expect(adjustPixelCrop(box, 'height', 0, image)).toEqual({
+      x: 100,
+      y: 100,
+      width: 400,
+      height: 1,
+    });
   });
 });

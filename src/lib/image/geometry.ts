@@ -96,3 +96,38 @@ export function centeredAspectCrop(aspect: number, image: Size, coverage = 90): 
   else width = (coverage * aspect) / imageAspect;
   return { x: (100 - width) / 2, y: (100 - height) / 2, width, height };
 }
+
+export interface PixelRect {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+/**
+ * Apply a typed value (x, y, width or height) to a pixel crop. With a fixed aspect ratio the
+ * other dimension follows, and when the box would exceed the image it is shrunk while keeping
+ * the ratio. The box is always kept inside the image.
+ */
+export function adjustPixelCrop(
+  current: PixelRect,
+  field: keyof PixelRect,
+  value: number,
+  image: Size,
+  aspect?: number,
+): PixelRect {
+  const next = { ...current, [field]: Math.round(value) };
+  if (aspect && field === 'width') next.height = next.width / aspect;
+  if (aspect && field === 'height') next.width = next.height * aspect;
+  if (aspect) {
+    // Shrink uniformly until the box fits, preserving the ratio.
+    const scale = Math.min(1, image.width / next.width, image.height / next.height);
+    next.width *= scale;
+    next.height *= scale;
+  }
+  next.width = Math.max(1, Math.min(image.width, Math.round(next.width)));
+  next.height = Math.max(1, Math.min(image.height, Math.round(next.height)));
+  next.x = Math.max(0, Math.min(image.width - next.width, Math.round(next.x)));
+  next.y = Math.max(0, Math.min(image.height - next.height, Math.round(next.y)));
+  return next;
+}

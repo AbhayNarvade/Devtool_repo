@@ -25,7 +25,7 @@ That matters most for the data developers handle every day: API responses that c
         heading: 'What you can do here',
         body: `The collection covers the tasks that come up again and again during development and debugging:
 
-- **Data formats**: format, validate and minify JSON; convert between JSON, YAML and CSV; generate TypeScript interfaces from a JSON sample.
+- **Data formats**: format, validate and minify JSON; compare two JSON documents; convert between JSON, YAML and CSV; generate TypeScript interfaces from a JSON sample.
 - **Encoding**: Base64 and URL encoding and decoding that handle Unicode correctly, plus a JWT decoder that shows the header, payload and expiry in readable form.
 - **Identifiers and hashes**: generate UUID v4 and v7 values in bulk and calculate MD5 and SHA checksums for text or files.
 - **Time and scheduling**: convert Unix timestamps to dates in UTC and your local time zone, and build or explain cron expressions with a preview of the next run times.

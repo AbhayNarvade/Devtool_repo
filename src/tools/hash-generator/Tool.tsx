@@ -33,6 +33,7 @@ export default function HashGeneratorTool() {
   const [progress, setProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const workerRef = useRef<Worker | null>(null);
+  const fileRef = useRef<File | null>(null);
   const jobRef = useRef(0);
 
   useEffect(() => () => workerRef.current?.terminate(), []);
@@ -51,6 +52,7 @@ export default function HashGeneratorTool() {
   }, [text, algorithms, source]);
 
   function hashFile(f: File) {
+    fileRef.current = f;
     workerRef.current?.terminate();
     const worker = new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' });
     workerRef.current = worker;
@@ -82,6 +84,19 @@ export default function HashGeneratorTool() {
     };
     worker.postMessage({ id, file: f, algorithms });
   }
+
+  // Re-hash the current file when the algorithm selection changes (otherwise newly ticked
+  // algorithms would show nothing until the file is chosen again).
+  const algorithmsKey = algorithms.join(',');
+  const hashFileRef = useRef(hashFile);
+  useEffect(() => {
+    hashFileRef.current = hashFile;
+  });
+  useEffect(() => {
+    if (source !== 'file' || !fileRef.current || !algorithmsKey) return;
+    const handle = setTimeout(() => fileRef.current && hashFileRef.current(fileRef.current), 150);
+    return () => clearTimeout(handle);
+  }, [algorithmsKey, source]);
 
   const results = source === 'text' ? textResults : fileResults;
   const shown = algorithms.filter((a) => results[a]);

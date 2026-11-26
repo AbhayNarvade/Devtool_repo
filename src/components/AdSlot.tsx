@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useSyncExternalStore } from 'react';
 import { AD_PLACEMENTS, type AdFormat, type AdPlacementKey } from '@/config/ads';
 import { ADSENSE_CLIENT } from '@/config/site';
 
@@ -53,6 +53,24 @@ function AdUnit({
   );
 }
 
+/** Same breakpoint as Tailwind's `xl`, where the tool-page sidebar is shown. */
+const DESKTOP_QUERY = '(min-width: 1280px)';
+
+function subscribeDesktop(callback: () => void) {
+  const mq = window.matchMedia(DESKTOP_QUERY);
+  mq.addEventListener('change', callback);
+  return () => mq.removeEventListener('change', callback);
+}
+
+/** True on wide screens; false during server rendering and on phones and tablets. */
+function useIsDesktop(): boolean {
+  return useSyncExternalStore(
+    subscribeDesktop,
+    () => window.matchMedia(DESKTOP_QUERY).matches,
+    () => false,
+  );
+}
+
 /**
  * Renders a single AdSense unit with reserved space and an "Advertisement" label.
  * Renders nothing when NEXT_PUBLIC_ADSENSE_CLIENT or the slot ID is empty.
@@ -66,12 +84,13 @@ export function AdSlot({
   className = 'my-10',
 }: AdSlotProps) {
   const pathname = usePathname();
+  const isDesktop = useIsDesktop();
   if (!ADSENSE_CLIENT || !slot) return null;
+  // Never create a desktop-only unit on smaller screens: AdSense reports an error for
+  // hidden (zero-width) units, and an unseen ad should not be requested at all.
+  if (desktopOnly && !isDesktop) return null;
   return (
-    <aside
-      aria-label="Advertisement"
-      className={`${desktopOnly ? 'hidden xl:block' : 'block'} ${className}`}
-    >
+    <aside aria-label="Advertisement" className={`block ${className}`}>
       <p className="mb-1 text-center text-xs tracking-wide text-fg-muted uppercase">
         Advertisement
       </p>

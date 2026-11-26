@@ -49,19 +49,44 @@ const CHEAT_SHEET: [string, string][] = [
   ['$1 $<name> $&', 'In the replacement: group 1, named group, whole match'],
 ];
 
-type Outcome = RegexResult | { ok: false; error: string; timeout: true };
+type Outcome =
+  | RegexResult
+  | { ok: false; error: string; timeout: true }
+  | { ok: false; error: string; cancelled: true };
 
+/**
+ * Runs regexes in a Web Worker. Only one request is in flight: starting a new one cancels the
+ * previous one (terminating the worker if it may be stuck), so a slow pattern can never delay
+ * or time out the next, unrelated request.
+ */
 class RegexRunner {
   private worker: Worker | null = null;
   private nextId = 0;
+  private inflight: { timer: ReturnType<typeof setTimeout>; resolve: (o: Outcome) => void } | null =
+    null;
+
+  private spawn(): Worker {
+    this.worker ??= new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' });
+    return this.worker;
+  }
+
+  private cancelInflight() {
+    if (!this.inflight) return;
+    clearTimeout(this.inflight.timer);
+    this.inflight.resolve({ ok: false, error: 'Cancelled', cancelled: true });
+    this.inflight = null;
+    // The worker may be busy with a slow match; replace it rather than wait.
+    this.worker?.terminate();
+    this.worker = null;
+  }
 
   run(request: RegexRequest): Promise<Outcome> {
-    this.worker ??= new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' });
-    const worker = this.worker;
+    this.cancelInflight();
+    const worker = this.spawn();
     const id = ++this.nextId;
     return new Promise((resolve) => {
       const timer = setTimeout(() => {
-        // Kill the stuck worker; a fresh one is created for the next request.
+        this.inflight = null;
         worker.terminate();
         if (this.worker === worker) this.worker = null;
         resolve({
@@ -70,9 +95,11 @@ class RegexRunner {
           error: `Matching took longer than ${TIMEOUT_MS / 1000} seconds and was stopped. The pattern probably causes catastrophic backtracking (nested quantifiers such as (a+)+). Make the pattern more specific.`,
         });
       }, TIMEOUT_MS);
+      this.inflight = { timer, resolve };
       worker.onmessage = (e: MessageEvent<{ id: number; result: RegexResult }>) => {
         if (e.data.id !== id) return;
         clearTimeout(timer);
+        this.inflight = null;
         resolve(e.data.result);
       };
       worker.postMessage({ id, request });
@@ -80,6 +107,7 @@ class RegexRunner {
   }
 
   dispose() {
+    this.cancelInflight();
     this.worker?.terminate();
     this.worker = null;
   }
@@ -107,7 +135,7 @@ export default function RegexTesterTool() {
         return;
       }
       const r = await runner.current?.run({ pattern, flags: flags.join(''), text, replacement });
-      if (!cancelled && r) setResult(r);
+      if (!cancelled && r && !('cancelled' in r)) setResult(r);
     }, 200);
     return () => {
       cancelled = true;

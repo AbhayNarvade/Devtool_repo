@@ -1,9 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { ColorInput, InfoNote, Select, Slider } from './controls';
 import { ImageBatch, type BatchOutput } from './ImageBatch';
-import { ImageProcessor, makeSampleImage } from '@/lib/image/client';
+import { makeSampleImage, useImageProcessor } from '@/lib/image/client';
 import {
   ACCEPT_COMMON,
   IMAGE_FORMATS,
@@ -27,12 +27,7 @@ export function ImageConvert({ from, to }: ImageConvertProps) {
   const [background, setBackground] = useState('#ffffff');
   const target = to ?? chosen;
   const lossy = IMAGE_FORMATS[target].lossy;
-  const processor = useRef<ImageProcessor | null>(null);
-
-  useEffect(() => {
-    processor.current = new ImageProcessor();
-    return () => processor.current?.dispose();
-  }, []);
+  const getProcessor = useImageProcessor();
 
   const process = useCallback(
     async (file: File): Promise<BatchOutput> => {
@@ -44,15 +39,14 @@ export function ImageConvert({ from, to }: ImageConvertProps) {
             : 'Unsupported file type. Use PNG, JPG or WebP.',
         );
       }
-      const proc = processor.current ?? new ImageProcessor();
-      const result = await proc.run(file, {
+      const result = await getProcessor().run(file, {
         to: target,
         quality: quality / 100,
         background: target === 'jpg' ? background : undefined,
       });
       return { ...result, name: replaceExtension(file.name, IMAGE_FORMATS[target].ext) };
     },
-    [from, target, quality, background],
+    [from, target, quality, background, getProcessor],
   );
 
   const sampleFormat = from ?? (target === 'png' ? 'jpg' : 'png');

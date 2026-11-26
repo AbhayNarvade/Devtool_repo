@@ -1,8 +1,14 @@
 'use client';
 
+import { useCallback, useEffect, useRef } from 'react';
 import { render, type RenderTask } from './render';
 
-type Pending = { resolve: (r: RenderResult) => void; reject: (e: Error) => void };
+type Pending = {
+  file: Blob;
+  task: RenderTask;
+  resolve: (r: RenderResult) => void;
+  reject: (e: Error) => void;
+};
 export interface RenderResult {
   blob: Blob;
   width: number;
@@ -16,18 +22,20 @@ const workerSupported = () =>
 
 /**
  * Runs image jobs in a dedicated Web Worker so large batches never block the page.
- * Falls back to the main thread in browsers without OffscreenCanvas in workers.
+ * Falls back to the main thread when workers with OffscreenCanvas are unavailable, or if the
+ * worker fails to start (jobs that were waiting are re-run on the main thread).
  */
 export class ImageProcessor {
   private worker: Worker | null = null;
+  private workerBroken = false;
   private nextId = 0;
   private pending = new Map<number, Pending>();
 
   private getWorker(): Worker | null {
-    if (!workerSupported()) return null;
+    if (this.workerBroken || !workerSupported()) return null;
     if (!this.worker) {
-      this.worker = new Worker(new URL('./image.worker.ts', import.meta.url), { type: 'module' });
-      this.worker.onmessage = (e: MessageEvent) => {
+      const worker = new Worker(new URL('./image.worker.ts', import.meta.url), { type: 'module' });
+      worker.onmessage = (e: MessageEvent) => {
         const msg = e.data as {
           id: number;
           ok: boolean;
@@ -43,13 +51,16 @@ export class ImageProcessor {
           p.resolve({ blob: msg.blob, width: msg.width ?? 0, height: msg.height ?? 0 });
         else p.reject(new Error(msg.message ?? 'The image could not be processed.'));
       };
-      this.worker.onerror = () => {
-        for (const p of this.pending.values())
-          p.reject(new Error('The image worker stopped unexpectedly (the file may be too large).'));
-        this.pending.clear();
-        this.worker?.terminate();
+      worker.onerror = (event) => {
+        event.preventDefault();
+        worker.terminate();
         this.worker = null;
+        this.workerBroken = true;
+        const waiting = [...this.pending.values()];
+        this.pending.clear();
+        for (const p of waiting) render(p.file, p.task).then(p.resolve, p.reject);
       };
+      this.worker = worker;
     }
     return this.worker;
   }
@@ -59,7 +70,7 @@ export class ImageProcessor {
     if (!worker) return render(file, task);
     const id = ++this.nextId;
     return new Promise((resolve, reject) => {
-      this.pending.set(id, { resolve, reject });
+      this.pending.set(id, { file, task, resolve, reject });
       worker.postMessage({ id, file, task });
     });
   }
@@ -67,8 +78,22 @@ export class ImageProcessor {
   dispose() {
     this.worker?.terminate();
     this.worker = null;
+    for (const p of this.pending.values()) p.reject(new Error('Cancelled'));
     this.pending.clear();
   }
+}
+
+/** Shared processor for a component: created on first use, disposed on unmount. */
+export function useImageProcessor(): () => ImageProcessor {
+  const ref = useRef<ImageProcessor | null>(null);
+  useEffect(
+    () => () => {
+      ref.current?.dispose();
+      ref.current = null;
+    },
+    [],
+  );
+  return useCallback(() => (ref.current ??= new ImageProcessor()), []);
 }
 
 /** Natural size of an image file (EXIF orientation applied). */
