@@ -15,10 +15,10 @@ import {
 import { FileDropzone } from '@/components/tool/FileDropzone';
 import { TextConverter } from '@/components/tool/TextConverter';
 import { formatBytes } from '@/lib/download';
+import { previewText } from '@/lib/preview';
 import { encodeBase64, fileToBase64Output } from './logic';
 
 const SAMPLE = 'Hello, world! Grüße aus München 👋';
-const PREVIEW_LIMIT = 200_000;
 
 function readAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -43,7 +43,7 @@ function FileMode({ urlSafe }: { urlSafe: boolean }) {
   const output = file
     ? fileToBase64Output(file.base64, file.type, asDataUrl, urlSafe && !asDataUrl)
     : '';
-  const preview = output.length > PREVIEW_LIMIT ? `${output.slice(0, PREVIEW_LIMIT)}…` : output;
+  const preview = previewText(output);
 
   return (
     <div className="space-y-4">
@@ -87,8 +87,8 @@ function FileMode({ urlSafe }: { urlSafe: boolean }) {
             checked={asDataUrl}
             onChange={setAsDataUrl}
           />
-          <TextArea label="Base64 output" value={preview} readOnly rows={10} />
-          {output.length > PREVIEW_LIMIT ? (
+          <TextArea label="Base64 output" value={preview.text} readOnly rows={10} />
+          {preview.truncated ? (
             <p className="text-sm text-fg-muted">
               Preview shortened to keep the page fast. Copy and Download include the full output.
             </p>

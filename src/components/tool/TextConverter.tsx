@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useId, useState, type ReactNode } from 'react';
+import { useEffect, useId, useMemo, useState, type ReactNode } from 'react';
 import type { ConvertResult } from '@/lib/convert';
 import { formatBytes, utf8Length } from '@/lib/download';
+import { previewText } from '@/lib/preview';
 import { CopyButton, DownloadButton } from './actions';
 import { ActionBar, Button, ErrorAlert, InfoNote, TextArea, ToolPanel } from './controls';
 import { FileDropzone } from './FileDropzone';
@@ -88,6 +89,7 @@ export function TextConverter({
   }, [input, convert, delay]);
 
   const output = result?.ok ? result.output : '';
+  const shown = useMemo(() => previewText(output), [output]);
   const errorId = `${id}-error`;
 
   return (
@@ -170,10 +172,16 @@ export function TextConverter({
           <TextArea
             id={`${id}-out`}
             label={outputLabel}
-            value={output}
+            value={shown.text}
             readOnly
             placeholder="Output appears here as you type."
           />
+          {shown.truncated ? (
+            <p className="text-sm text-fg-muted">
+              The output is large, so the box shows the beginning only to keep the page fast. Copy
+              and Download include the complete output.
+            </p>
+          ) : null}
           <ActionBar>
             <CopyButton text={output} size="sm" disabled={!output} label="Copy output" />
             <DownloadButton

@@ -14,6 +14,7 @@ import {
 import { FileDropzone } from '@/components/tool/FileDropzone';
 import { normalizeBase64 } from '@/lib/base64';
 import { formatBytes } from '@/lib/download';
+import { previewText } from '@/lib/preview';
 import { decodeBase64, suggestFilename } from './logic';
 
 const SAMPLE = 'eyJ1c2VyIjoibWFyaWEiLCJyb2xlIjoiZWRpdG9yIiwibm90ZSI6IkNhZsOpIOKYlSJ9';
@@ -79,7 +80,18 @@ export default function Base64DecodeTool() {
         <div className="flex min-w-0 flex-col gap-3" aria-live="polite">
           {result?.ok && result.text !== null ? (
             <>
-              <TextArea label="Decoded text (UTF-8)" value={result.text} readOnly mono />
+              <TextArea
+                label="Decoded text (UTF-8)"
+                value={previewText(result.text).text}
+                readOnly
+                mono
+              />
+              {previewText(result.text).truncated ? (
+                <p className="text-sm text-fg-muted">
+                  The text is large, so only the beginning is shown. Copy and Download include all
+                  of it.
+                </p>
+              ) : null}
               <ActionBar>
                 <CopyButton text={result.text} size="sm" label="Copy text" />
                 <DownloadButton
